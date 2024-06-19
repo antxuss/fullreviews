@@ -1,0 +1,917 @@
+body {
+  /*padding: 0px;*/
+  /*    margin: 0px;*/
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+/********************************INICIO INDEX.HTML**************************************/
+#navbarGeneral {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#navbarGeneral #navbarArriba {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 3px solid grey;
+}
+#navbarGeneral #navbarArriba #navbar-nombre-logo {
+  display: flex;
+  flex-direction: row;
+  width: 350px;
+  padding: 2px;
+  font-size: 18px;
+}
+#navbarGeneral #navbarArriba #navbar-nombre-logo h1 {
+  margin: auto;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+#navbarGeneral #navbarArriba #navbar-nombre-logo img {
+  width: 30%;
+}
+#navbarGeneral #navbarArriba #navbar-idiomas {
+  width: 130px;
+  margin-left: auto;
+}
+#navbarGeneral #navbarArriba #navbar-idiomas ul {
+  list-style: none;
+  margin-top: 40px;
+}
+#navbarGeneral #navbarArriba #navbar-idiomas ul li {
+  margin: auto;
+}
+#navbarGeneral #navbarArriba #navbar-idiomas ul li img {
+  width: 40px;
+}
+#navbarGeneral #navbarArriba #navbar-login {
+  width: 200px;
+}
+#navbarGeneral #navbarArriba #navbar-login ul {
+  display: flex;
+  list-style: none;
+  margin-top: 20px;
+}
+#navbarGeneral #navbarArriba #navbar-login ul li #botonInicioSesion .botonAcceder {
+  height: 70px;
+  background-color: blue;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+#navbarGeneral #navbar-menu {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+  background-color: green;
+}
+#navbarGeneral #navbar-menu ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: auto;
+}
+#navbarGeneral #navbar-menu ul li {
+  margin: 2%;
+}
+#navbarGeneral #navbar-menu ul li a {
+  text-decoration: none;
+}
+
+@media (max-width: 670px) {
+  #navbarArriba {
+    display: flex;
+  }
+  #navbarArriba #navbar-nombre-logo {
+    display: flex;
+    flex-direction: row;
+    width: 340px;
+    padding: 2px;
+    font-size: 15px;
+  }
+  #navbarArriba #navbar-nombre-logo h1 {
+    margin: auto;
+  }
+  #navbarArriba #navbar-nombre-logo img {
+    width: 20%;
+  }
+  #navbarArriba #navbar-idiomas {
+    width: 170px;
+  }
+  #navbarArriba #navbar-idiomas ul {
+    list-style: none;
+    margin-top: 30px;
+  }
+  #navbarArriba #navbar-idiomas ul li {
+    margin: auto;
+  }
+  #navbarArriba #navbar-idiomas ul li img {
+    width: 40px;
+  }
+  #navbarArriba #navbar-login {
+    width: 200px;
+  }
+  #navbarArriba #navbar-login ul {
+    display: flex;
+    list-style: none;
+    margin-top: 20px;
+  }
+  #navbarArriba #navbar-login ul li #botonInicioSesion .botonAcceder {
+    height: 70px;
+    background-color: blue;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+  }
+}
+/********************************FIN INDEX.HTML**************************************/
+/********************************INICIO LOGIN.HTML**************************************/
+#body-login {
+  background-color: grey;
+}
+
+.login-container {
+  width: 400px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  flex-direction: column;
+  border-radius: 5px;
+  height: auto;
+  padding: 10px;
+}
+
+.login-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.login-logo {
+  width: 40%;
+  margin-bottom: -30px;
+}
+
+.login-message {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-button {
+  margin-top: 15px;
+  border-radius: 30px;
+  font-size: 20px;
+  padding: 10px;
+}
+
+.login-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.login-bottom {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-error-message {
+  margin-bottom: 5px;
+  color: red;
+  font-size: 20px;
+  display: none;
+}
+
+.login-not-registered {
+  margin-top: 15px;
+  color: blue;
+  cursor: pointer;
+}
+
+.login-register-container {
+  width: 400px;
+  background-color: white;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  flex-direction: column;
+  border-radius: 5px;
+  height: auto;
+  padding: 10px;
+}
+
+.login-register-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-back {
+  margin-top: 15px;
+  color: blue;
+  cursor: pointer;
+}
+
+/********************************FIN LOGIN.HTML**************************************/
+/********************************INICIO ADMINCONTROLPANEL.HTML**************************************/
+#body-admin-control-panel {
+  background-color: #606060;
+}
+
+.control-panel-sidebar {
+  position: fixed;
+  /* top: 50px;*/
+  left: 0;
+  top: 100px;
+  width: 250px;
+  height: 100%;
+  background-color: #606060;
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(0px);
+}
+
+.control-panel-topbar {
+  position: fixed;
+  top: 0;
+  left: 250px;
+  width: calc(100% - 200px);
+  height: 100px;
+  background-color: #606060;
+  color: #fff;
+  display: flex;
+  flex-direction: row-reverse;
+  padding-right: 65px;
+  padding-top: 35px;
+  padding-bottom: 35px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+#topbar-bars-icon {
+  display: none;
+}
+
+.topbar-menu-container {
+  width: 30px;
+  margin-left: auto;
+}
+
+.sidebar-menu {
+  list-style: none;
+}
+
+.profile-container {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  margin-top: -17px;
+}
+
+.profile-container:hover {
+  text-align: center;
+  margin-bottom: 20px;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  background-color: rgb(148, 145, 145);
+}
+
+.profile-container img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.profile-container h1 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.control-panel-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#bars-icon-sidebar {
+  display: none;
+}
+
+.sidebar-menu {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 4px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-menu-next-menu-click-menu {
+  position: relative;
+  margin-top: 5px;
+  display: none;
+}
+
+.slidebar-menu-next-menu {
+  display: block;
+  width: 7%;
+  margin-left: 170px;
+  margin-top: -23px;
+}
+
+.sidebar-menu-expand {
+  display: none;
+  margin: 10px;
+}
+
+.sidebar-menu:hover {
+  color: white;
+  background-color: rgb(148, 145, 145);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.sidebar-menu:hover .slidebar-menu-next-menu {
+  display: block;
+  width: 7%;
+  fill: white;
+  margin-left: 170px;
+  margin-top: -23px;
+}
+
+.control-panel-content {
+  margin-top: 100px;
+  margin-left: 250px;
+  padding: 20px;
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.control-panel-content-title {
+  font-size: 45px;
+}
+
+.control-panel-content-search-filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.control-panel-content-search {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.control-panel-content-input {
+  border-radius: 10px;
+  width: 50%;
+  height: 40px;
+  padding: 10px;
+}
+
+.control-panel-content-filter {
+  align-items: center;
+  display: flex;
+  background: grey;
+  width: 300px;
+  height: 350px;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+/****.control-panel-content-filter-form ( SECOND FORM ) ***/
+#checkbox-form2 {
+  margin-left: 10px;
+}
+
+/****----------------------------------------****/
+.control-panel-content-checkbox-title {
+  margin: auto;
+}
+
+.control-panel-content-checkbox {
+  width: 15px;
+  height: 15px;
+}
+
+.control-panel-content-checkbox-title {
+  font-size: 20px;
+}
+
+.control-panel-content-list {
+  display: flex;
+  width: 82%;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 655px;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 300px;
+  height: 400px;
+  overflow: hidden;
+  background-color: rgb(148, 145, 145);
+  margin: 5px auto 5px auto;
+}
+
+.card:hover {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 300px;
+  height: 400px;
+  overflow: hidden;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  fill: white;
+}
+
+.suspended {
+  border: 2px solid red; /* Borde rojo */
+}
+
+.card img {
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  height: 60%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  border-radius: 50%;
+}
+
+.card p {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.card-info {
+  text-align: center;
+  font-size: 25px;
+}
+
+#card-subname {
+  margin-left: 3%;
+}
+
+.card-username {
+  text-align: center;
+}
+
+.card-hr {
+  margin-top: 8px;
+}
+
+.card-icons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.card-icons {
+  height: 30px;
+}
+
+.card-icons:hover {
+  cursor: pointer;
+}
+
+.card-add-user-icon {
+  border: 1px solid black;
+  pointer-events: auto;
+  border-radius: 2%;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  margin: auto;
+  cursor: pointer;
+}
+
+#card-add-user:hover .card-add-user-icon-icons {
+  border: 1px solid white;
+  border-radius: 2%;
+  cursor: pointer;
+}
+
+.card-add-user-title {
+  position: absolute;
+  display: flex;
+  right: auto;
+  left: auto;
+  transform: translate(95%, 1439%);
+}
+
+@keyframes loadingAnimation {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+.card-info-loading label, .card-username-loading, .card-icons-container-loading, .card-icons-loading {
+  animation: loadingAnimation 1s infinite;
+}
+
+.input-icon {
+  margin: 4px;
+  width: 35px;
+  padding: 4px;
+  height: 35px;
+}
+
+#logout {
+  cursor: pointer;
+}
+
+@media (max-width: 950px) {
+  .control-panel-sidebar {
+    transform: translateX(0px);
+  }
+  .control-panel-content-input {
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+  }
+  .control-panel-content-search-filter {
+    flex-direction: column;
+  }
+  .control-panel-content-filter {
+    width: 100%;
+    height: 155px;
+  }
+  .control-panel-content-list {
+    width: 100%;
+    margin-top: 20px;
+    height: 480px;
+  }
+}
+@media (max-width: 621px) {
+  .control-panel-content-list {
+    width: 100%;
+    margin-top: 20px;
+    height: 480px;
+  }
+}
+.control-panel-content-tasks {
+  /*background-color: rgb(189, 185, 1805);*/
+  width: auto;
+  /*height: 595px;*/
+  margin-top: 100px;
+  margin-left: 250px;
+  padding: 20px;
+  background-color: white;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  position: fixed;
+}
+
+.control-panel-content-tasks-pending {
+  background-color: rgb(189, 185, 185);
+  width: 100%;
+  height: 355px;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 5px;
+}
+
+.control-panel-content-tasks-complete {
+  background-color: rgb(189, 185, 185);
+  width: 100%;
+  height: 355px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1%;
+  border-radius: 5px;
+}
+
+.control-panel-content-tasks-title {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 1.9%;
+}
+
+.control-panel-content-tasks-scroll {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 280px;
+}
+
+.control-panel-content-tasks-scroll-card {
+  border: 2px solid white;
+  margin: 1.8%;
+  width: 29.7%;
+  height: 25px;
+  padding: 2%;
+  padding-bottom: 4.5%;
+  border-radius: 2%;
+  background-color: white;
+}
+
+.control-panel-content-tasks-scroll-card:hover {
+  border: 2px solid black;
+  margin: 1.8%;
+  width: 29.7%;
+  height: 25px;
+  padding: 2%;
+  padding-bottom: 4.5%;
+  border-radius: 2%;
+  background-color: white;
+}
+
+.control-panel-content-tasks-scroll-card-container {
+  display: flex;
+  width: 75%;
+  height: auto;
+  text-overflow: ellipsis;
+  float: left;
+}
+
+.control-panel-content-tasks-scroll-card-container-edit-icon {
+  display: flex;
+  width: 7%;
+  height: 25px;
+  justify-content: right;
+  align-items: center;
+  cursor: pointer;
+  float: left;
+  margin: auto 10px auto 15px;
+}
+
+.control-panel-content-tasks-scroll-card-container-delete-icon {
+  display: flex;
+  width: 7%;
+  height: 25px;
+  justify-content: right;
+  align-items: center;
+  cursor: pointer;
+  margin: auto;
+}
+
+.control-panel-content-tasks-scroll-card-container-checkbox {
+  transform: scale(4);
+  margin-right: 5%;
+  display: flex;
+  height: 5px;
+  margin-top: 5%;
+}
+
+#control-panel-content-tasks-scroll-card-container-label {
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 2%;
+  margin-top: 0.5%;
+}
+
+.control-panel-content-tasks-button-add-tasks {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 2.5%;
+  top: 1.5%;
+  margin: 1%;
+}
+
+@media (max-width: 370px) {
+  .control-panel-content-list {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    height: 430px;
+  }
+}
+@media (max-width: 1250px) {
+  .control-panel-content-tasks-scroll-card {
+    width: 46.4%;
+  }
+  .control-panel-content-tasks-scroll-card:hover {
+    border: 2px solid black;
+    margin: 1.8%;
+    width: 46.4%;
+    height: 25px;
+    padding: 2%;
+    padding-bottom: 4.5%;
+    border-radius: 2%;
+    background-color: white;
+  }
+}
+@media (max-width: 950px) {
+  .control-panel-content-tasks {
+    width: auto;
+  }
+  .control-panel-content-tasks-scroll-card {
+    width: 100%;
+    height: 60px;
+  }
+  .control-panel-content-tasks-scroll-card-container-checkbox {
+    transform: scale(4);
+    margin-right: 5%;
+    display: flex;
+    height: 5px;
+    margin-top: 3%;
+  }
+  .control-panel-content-tasks-button-add-tasks {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    right: 1.5%;
+    top: 2.5%;
+    margin: 1%;
+  }
+  .control-panel-content-tasks-scroll-card:hover {
+    border: 2px solid black;
+    margin: 1.8%;
+    width: 100%;
+    height: 60px;
+    padding: 2%;
+    padding-bottom: 4.5%;
+    border-radius: 2%;
+    background-color: white;
+  }
+}
+@media (max-width: 550px) {
+  .control-panel-content-tasks-button-add-tasks {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    right: 1.5%;
+    top: 3.5%;
+    margin: 1%;
+  }
+  .control-panel-content-tasks-scroll-card {
+    width: 100%;
+    height: 60px;
+  }
+  .control-panel-content-tasks-scroll-card:hover {
+    border: 2px solid black;
+    width: 100%;
+    height: 60px;
+  }
+}
+/********MODAL CONTROL PANEL*************/
+.modal-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.modal-button {
+  border-radius: 10px;
+  width: 25%;
+  color: white;
+}
+
+#modal-delete-button-yes {
+  background-color: green;
+  transition: 0.2s;
+}
+
+#modal-delete-button-yes:hover {
+  padding-left: 50px;
+  width: 35%;
+}
+
+#modal-delete-button-no {
+  background-color: red;
+  transition: 0.2s;
+}
+
+#modal-delete-button-no:hover {
+  padding-right: 50px;
+  width: 35%;
+}
+
+#modal-delete-user-button-yes {
+  background-color: green;
+  transition: 0.2s;
+}
+
+#modal-delete-user-button-yes:hover {
+  padding-left: 50px;
+  width: 35%;
+}
+
+#modal-delete-user-button-no {
+  background-color: red;
+  transition: 0.2s;
+}
+
+#modal-delete-user-button-no:hover {
+  padding-right: 50px;
+  width: 35%;
+}
+
+#modal-ban-user-button-yes {
+  background-color: green;
+  transition: 0.2s;
+}
+
+#modal-ban-user-button-yes:hover {
+  padding-left: 50px;
+  width: 35%;
+}
+
+#modal-ban-user-button-no {
+  background-color: red;
+  transition: 0.2s;
+}
+
+#modal-ban-user-button-no:hover {
+  padding-right: 50px;
+  width: 35%;
+}
+
+/********FIN MODAL CONTROL PANEL*************/
+@media (max-width: 650px) {
+  .control-panel-sidebar {
+    position: fixed;
+    /* top: 50px;*/
+    left: 0;
+    width: 250px;
+    height: 100%;
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-300px);
+  }
+  .control-panel-content {
+    margin-left: 0px;
+  }
+  .control-panel-content-tasks {
+    margin-left: 0px;
+  }
+  .control-panel-topbar {
+    width: 100%;
+    margin-left: 35px;
+    left: 0px;
+  }
+  #topbar-bars-icon {
+    display: flex;
+    margin-right: auto;
+    width: 100%;
+    cursor: pointer;
+  }
+  .topbar-menu-container {
+    width: 30px;
+    margin-left: auto;
+  }
+  #bars-icon-sidebar {
+    display: block;
+    width: 20%;
+  }
+  .profile-container {
+    margin-top: -68px;
+  }
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../view/css/style.css">
+
+    <title>FullRewiews</title>
+  </head>
+  <body id="body-login">
+
+    <div class="first-container">
+
+    <!---------------Login----------------------->
+
+
+
+        <div class="login-container">
+
+        <div class="login-img">
+
+            <img class="login-logo" src="../view/img/logoProvisional.jpg">
+            <label class="login-message">Iniciar sesion</label>
+
+        </div>
+
+        <div class="login-form">
+
+            <input class="login-input" placeholder="Usuario">
+            <input class="login-input" placeholder="Contraseña">
+            <button class="login-button">Iniciar sesion</button>
+
+        </div>
+
+        <div class="login-bottom">
+            <label class="login-error-message">Usuario incorrecto</label>
+            <label class="login-register-ok">Registrado correctamente</label>
+            <a id="login-go" class="login-not-registered">¿Todavia no estas registrado?</a>
+
+        </div>
+
+        </div>
+
+    
+
+    <!---------------Register-------------------->
+
+
+    <div class="login-register-container">
+        <div class="login-img">
+
+            <img class="login-logo" src="../view/img/logoProvisional.jpg">
+            <label class="login-message">Registrate</label>
+
+        </div>
+
+        <div class="login-register-form">
+
+            <input id="login-register-input-name" class="login-input" placeholder="Nombre">
+            <input id="login-register-input-first-last-name" class="login-input" placeholder="Primer apellido">
+            <input id="login-register-input-second-last-name" class="login-input" placeholder="Segundo apellido">
+            <input id="login-register-input-mail" class="login-input" placeholder="Correo">
+            <div class="modal-add-user-content-form-column-2-column-tlf">
+                <select class="countryCodesSelect"></select>
+                <input id="login-register-input-tlf" type="text" placeholder="Telefono" data-phone-value="" oninput="addUserTlfCheck(this)">
+            </div>
+            <input id="login-register-input-address" class="login-input" placeholder="Dirección">
+            <input id="login-register-input-username" class="login-input" placeholder="Nombre de usuario">
+            <input id="login-register-input-password" class="login-input" placeholder="Contraseña">
+            <input id="login-register-input-passoword-confirm" class="login-input" placeholder="Confirmar contraseña">
+            <button id="login-register-button" class="login-button">Registrarse</button>
+
+        </div>
+
+        <div class="login-bottom">
+            <label class="login-error-message">Usuario incorrecto</label>
+            <a id="registered-back" class="login-back" >Volver</a>
+
+        </div>
+
+    </div>
+
+    </div>
+
+    <!--REGISTER ERROR ALERT-->
+  <div id="alert" class="hidden"></div>
+
+    <script src="../view/js/login.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,671 @@
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    align-items: center;
+  }
+  
+  #modal-logout {
+      display: none;
+      align-items: center;
+      align-items: center;
+      justify-content: center;
+  }
+    
+  .modal-close-button {
+    margin-left: auto;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 66px;
+    cursor: pointer;
+    padding: 3px 10px 3px 10px;
+  }
+  
+  /* .modal-content-form {
+    margin: auto auto 15px auto;
+    padding:3%;
+  } */
+
+  .modal-content-form {
+    margin: auto;
+    padding:3%;
+  }
+
+  #profileImageContainer {
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .modal-add-user-content {
+    text-align: center;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: 9% auto;
+    border: 1px solid #888;
+    width: 760px;
+    height: 615px; /*570*/
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-edit-user-content {
+    text-align: center;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: 9% auto;
+    border: 1px solid #888;
+    width: 760px;
+    height: 615px; /*570*/
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-add-user-content-form {
+    margin: auto;
+    padding:3%;
+  }
+
+  .modal-info-user-content-form {
+    margin: auto;
+    padding:3%;
+  }
+  
+  .modal-edit-user-content-form {
+    margin: auto;
+    padding:3%;
+  }
+
+  .modal-add-user-content-form-columns {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-info-user-content-form-columns {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-edit-user-content-form-columns {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-add-user-content-form-column-1 {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-info-user-content-form-column-1 {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-edit-user-content-form-column-1 {
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .modal-add-user-content-form-column-1-input-file-image-container {
+    width: 250px;
+    position: relative;
+    display: inline-block; /* Ajusta según sea necesario */
+  }
+
+  .modal-info-user-content-form-column-1-input-file-image-container {
+    width: 250px;
+    position: relative;
+    display: inline-block; /* Ajusta según sea necesario */
+  }
+
+  .modal-edit-user-content-form-column-1-input-file-image-container {
+    width: 250px;
+    position: relative;
+    display: inline-block; /* Ajusta según sea necesario */
+  }
+
+  .modal-add-user-content-form-column-1-input-file-footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-info-user-content-form-column-1-input-file-footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-edit-user-content-form-column-1-input-file-footer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.212); /* Fondo gris semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Inicialmente invisible */
+    transition: opacity 0.3s ease; /* Agrega una transición suave */
+    border-radius: 50%;
+  }
+  
+  .overlay:hover {
+    opacity: 1; /* Hace visible en el hover */
+  }
+  
+  .overlay span {
+    color: white; /* Color del icono */
+    font-size: 2em; /* Ajusta según sea necesario */
+  }
+
+  .remove-icon {
+    position: relative; /* Cambiado a relativo para posicionar el nuevo icono */
+    cursor: pointer;
+    color: red; /* Color del nuevo icono */
+}
+
+.removeImageIcon {
+    display: none;
+}
+
+.remove-icon svg {
+    height: 32px;
+    width: 32px;
+    fill: white;
+    stroke: white;
+    stroke-width: 2;
+    margin-left: 10px; /* Espacio entre los dos iconos */
+}
+
+.edit-icon {
+    margin-left: 5px; /* Ajusta el valor según sea necesario */
+}
+
+.icon-separator {
+    width: 10px; /* Ajusta el ancho del espacio entre los iconos según sea necesario */
+    height: 32px; /* Ajusta la altura del espacio entre los iconos según sea necesario */
+}  
+
+  .modal-add-user-content-form-column-1-img {
+    width: 100%;
+    height: 80%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    margin: auto;
+  }
+
+  .modal-info-user-content-form-column-1-img {
+    width: 100%;
+    height: 80%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    margin: auto;
+  }
+
+  .modal-edit-user-content-form-column-1-img {
+    width: 100%;
+    height: 80%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    margin: auto;
+  }
+
+  .modal-add-user-content-form-column-2 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-info-user-content-form-column-2 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-edit-user-content-form-column-2 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-add-user-content-form-column-2-column-tlf {
+    display: flex;
+  }
+
+  .modal-info-user-content-form-column-2-column-tlf {
+    display: flex;
+  }
+
+  .modal-edit-user-content-form-column-2-column-tlf {
+    display: flex;
+  }
+
+  .modal-add-user-content-form-column-2-input {
+    margin: 5%;
+    width: 100%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-info-user-content-form-column-2-input {
+    margin: 5%;
+    width: 100%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-info-user-content-form-column-2-input {
+    margin: 5%;
+    width: 100%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-edit-user-content-form-column-2-input {
+    margin: 5%;
+    width: 100%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-add-edit-user-content-form-column-2-input-tlf {
+    margin: 5%;
+    width: 100%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-add-user-content-form-column-2-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-info-user-content-form-column-2-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-edit-user-content-form-column-2-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-add-user-content-form-column-3 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-info-user-content-form-column-3 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-edit-user-content-form-column-3 {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin: 5%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-add-user-content-form-column-3-input {
+    margin: 5%;
+    width: 110%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-info-user-content-form-column-3-input {
+    margin: 5%;
+    width: 110%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-info-user-content-form-column-3-input-icon-password-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .modal-info-user-content-form-column-3-input {
+    width: 100%;
+    padding-right: 30px; 
+  }
+  
+  .modal-info-user-content-form-column-3-input-password-icon {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translateY(-50%);
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .modal-edit-user-content-form-column-3-input {
+    margin: 5%;
+    width: 110%;
+    /* border-radius: 5px; */
+    border: none;
+    outline: none;
+    border-bottom: 1px solid gray;
+  }
+
+  .modal-add-user-content-form-column-3-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-info-user-content-form-column-3-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-edit-user-content-form-column-3-input:focus {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .modal-add-user-content-form-column-3-select {
+    margin: 5%;
+    width: 110%;
+    border-radius: 5px;
+  }
+
+  .modal-info-user-content-form-column-3-select {
+    margin: 5%;
+    width: 110%;
+    border-radius: 5px;
+  }
+
+  .modal-info-user-content-form-column-3-select-a {
+    margin: 5%;
+    width: 110%;
+    border-radius: 5px;
+  }
+
+  .modal-edit-user-content-form-column-3-select {
+    margin: 5%;
+    width: 110%;
+    border-radius: 5px;
+  }
+
+  #modal-add-user-content-form-button {
+    width: 100%;
+    background-color: green;
+  }
+
+  #modal-info-user-content-form-button {
+    width: 100%;
+    background-color: green;
+  }
+
+  #modal-edit-user-content-form-button-edit {
+    width: 100%;
+    background-color: green;
+  }
+  
+  #modal-edit-user-content-form-button-save-changes {
+    width: 100%;
+    background-color: green;
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    text-align: center;
+    display: flex;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: 9% auto;
+    border: 1px solid #888;
+    width: 500px;
+    height: auto;
+  }
+
+  .modal-delete-user {
+    z-index: 2;
+    display: none;
+  }
+
+  .modal-info-user {
+    z-index: 2;
+    display: none;
+  }
+
+  .modal-ban-user {
+    z-index: 2;
+    display: none;
+  }
+
+  .modal-ban-user-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 500px;
+    height: 25%;
+  }
+
+  .modal-ban-user-close-button {
+    margin-left: auto;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 66px;
+    cursor: pointer;
+    padding: 3px 10px 3px 10px;
+  }
+
+  .modal-delete-user-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 500px;
+    height: 25%;
+  }
+
+  .modal-info-user-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 760px;
+    height: 615px;
+  }
+
+  .modal-delete-user-close-button {
+    margin-left: auto;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 66px;
+    cursor: pointer;
+    padding: 3px 10px 3px 10px;
+  }
+
+  .modal-info-user-close-button {
+    margin-left: auto;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 66px;
+    cursor: pointer;
+    padding: 3px 10px 3px 10px;
+  }
+  
+  .modal-user-profile-content {
+    text-align: center;
+    padding-top: 10px;
+    background-color: #fefefe;
+    margin: 9% auto;
+    border: 1px solid #888;
+    width: 760px;
+    height: 585px;
+    display: flex;
+    flex-direction: column;
+}
+
+  .modal-user-profile-content-form {
+    margin: auto;
+    padding:3%;
+  }
+
+  /* .modal-user-profile-content-close-button {
+    margin-left: auto;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 66px;
+    cursor: pointer;
+    padding: 3px 10px 3px 10px;
+  } */
+
+  /* .modal-user-profile-content-form {
+
+  } */
+
+  .modal-user-profile-content-form-container-1 {
+    display: flex;
+    width: 98%;
+    margin-left: 2%;
+  }
+
+  .modal-user-profile-content-form-container-2 {
+    display: flex;
+    width: 100%;
+  }
+
+  .modal-user-profile-content-form-container-2-img {
+    width: 35%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 60%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+
+  .modal-user-profile-content-form-container-2-info {
+    display: flex;
+    width: 65%;
+    margin: auto auto auto 15px;
+    justify-content: space-between
+  }
+
+  .modal-user-profile-content-form-container-2-info-column-1 {
+    text-align: left;
+  }
+
+  .modal-user-profile-content-form-container-2-info-column-2 {
+    text-align: left;
+  }
+
+
+  .modal-user-profile-content-form-container-2-info-column-label {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  #alert {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: red;
+    color: #fff;
+    border-radius: 5px;
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+    z-index: 2;
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+
+  
+  /****************************/
