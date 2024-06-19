@@ -1009,7 +1009,6 @@ function showEditUser(userId) {
       }
     })
     .catch(error => console.error('Error status:', error));
-  //document.getElementById("ConfirmarEditarUsuario").addEventListener("click", execUpdate);
 
 
 }
