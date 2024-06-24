@@ -74,6 +74,10 @@
     padding:3%;
   }
 
+  .disabled {
+    pointer-events: none;
+  }
+
   .modal-info-user-content-form {
     margin: auto;
     padding:3%;
