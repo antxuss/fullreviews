@@ -971,8 +971,8 @@
                     <input id="modal-info-user-content-form-column-2-input-second-last-name" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Segundo apellido" value="Segundo Apellido" readonly>
                     <input id="modal-info-user-content-form-column-2-input-mail" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Correo" value="Correo" readonly>
                     <div class="modal-info-user-content-form-column-2-column-tlf">
-                        <select class="countryCodesSelect" style="display: none;"></select>
-                        <input id="modal-info-user-content-form-column-2-input-tlf" class="modal-info-user-content-form-column-2-input" value="Telefono" type="text" placeholder="Telefono" oninput="addUserTlfCheck(this)" readonly>
+                        <select class="countryCodesSelect1" style="display: none;"></select>
+                        <input id="modal-info-user-content-form-column-2-input-tlf" class="modal-info-user-content-form-column-2-input" value="Telefono" type="text" placeholder="Telefono" oninput="infoUserTlfCheck(this)" readonly>
                     </div>
                 </div>
 
@@ -1008,6 +1008,8 @@
 
     <!--MODAL ADD USER ALERT-->
     <div id="alert" class="hidden"></div>
+    <!--MODAL INFO USER ALERT-->
+    <div id="notification" class="notification"></div>
 
 
   <script src="../view/js/adminControlPanel.js"></script>

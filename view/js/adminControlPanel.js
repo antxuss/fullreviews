@@ -22,17 +22,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
   usersList();
   addUserProfileImage(); //HACE QUE addUserFirstLetter DEJE DE FUNCIONAR NO SE PORQUE
-  editUserProfileImage();
   var nameInput = document.getElementById('modal-add-user-content-form-column-2-input-name');
   var firstLastNameInput = document.getElementById('modal-add-user-content-form-column-2-input-first-last-name');
   var secondLastNameInput = document.getElementById('modal-add-user-content-form-column-2-input-second-last-name');
+  var addressInput = document.getElementById('modal-add-user-content-form-column-3-input-address');
   nameInput.addEventListener('input', addUserFirstLetter);
   firstLastNameInput.addEventListener('input', addUserFirstLetter);
   secondLastNameInput.addEventListener('input', addUserFirstLetter);
+  addressInput.addEventListener('input', addUserAddressCheck);
+  var infonameInput = document.getElementById('modal-info-user-content-form-column-2-input-name');
+  var infofirstLastNameInput = document.getElementById('modal-info-user-content-form-column-2-input-first-last-name');
+  var infosecondLastNameInput = document.getElementById('modal-info-user-content-form-column-2-input-second-last-name');
+  var infoaddressInput = document.getElementById('modal-info-user-content-form-column-3-input-address');
+  infonameInput.addEventListener('input', addUserFirstLetter);
+  infofirstLastNameInput.addEventListener('input', addUserFirstLetter);
+  infosecondLastNameInput.addEventListener('input', addUserFirstLetter);
+  infoaddressInput.addEventListener('input', addUserAddressCheck);
+
   addUserTlf();
-
-  
-
+  infoUserFixErrorTlf();
 
 })
 // Obtén los elementos del menú superior y lateral
@@ -538,6 +546,13 @@ inputCorreo.addEventListener('blur', function () {
   }
 });
 
+const infoinputCorreo = document.getElementById('modal-info-user-content-form-column-2-input-mail');
+
+infoinputCorreo.addEventListener('input', function () {
+  const correo = infoinputCorreo.value;
+  addUserMailCheck(correo);
+});
+
 function addUserMailCheck(correo, validarDominio = false) {
   const sintaxisValida = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
 
@@ -578,6 +593,7 @@ async function addUserMailCheckMXRegister(dominio) {
 
 
 function addUserTlf() {
+  console.log("addtlgf");
   const countryCodes = [
     { code: '+1', country: 'Estados Unidos' },
     { code: '+44', country: 'Reino Unido' },
@@ -605,6 +621,7 @@ function addUserTlf() {
 
     selectElement.addEventListener('change', function () {
       const selectedOption = this.options[this.selectedIndex];
+      console.log('Selected option changed to:', selectedOption.value); // Verifica que el evento change funciona
       this.previousElementSibling.textContent = selectedOption.value;
     });
   });
@@ -628,6 +645,7 @@ function updateUserTlf(input) {
 
 
 function addUserTlfCheck(tlfElement) {
+  console.log("aadd");
   if (tlfElement) {
     if (tlfElement.value !== undefined && tlfElement.value !== null) {
       var telefonoCompleto = tlfElement.value;
@@ -663,6 +681,56 @@ function addUserTlfCheck(tlfElement) {
   }
 }
 
+function infoUserTlfCheck(tlfElement) {
+  if (tlfElement) {
+    if (tlfElement.value !== undefined && tlfElement.value !== null) {
+      var telefonoCompleto = tlfElement.value.trim();
+
+      var filteredValue = telefonoCompleto.replace(/[^+\d\s]/g, '');
+
+      if (filteredValue.length > 13) {
+        filteredValue = filteredValue.slice(0, 13);
+      }
+
+      tlfElement.value = filteredValue;
+
+      var telefonoSoloNumeros = filteredValue.replace(/[+\s]/g, '');
+
+      updateUserTlf(tlfElement);
+
+      if (telefonoSoloNumeros.length < 9) {
+        console.log('El número de teléfono debe tener al menos 9 dígitos.');
+        return false;
+      } else {
+        console.log('');
+        return true;
+      }
+    } else {
+      tlfElement.value = "";
+      return false;
+    }
+  } else {
+    console.error("El elemento de entrada de teléfono no está definido.");
+    return false;
+  }
+}
+
+function addUserAddressCheck(event) {
+  var input = event.target;
+  var validCharacters = /^[a-zA-Z0-9.,\s]*$/;
+
+  if (!validCharacters.test(input.value)) {
+    input.value = input.value.replace(/[^a-zA-Z0-9.,\s]/g, '');
+  }
+
+  input.value = capitalizeFirstLetterOfEachWord(input.value);
+}
+
+function capitalizeFirstLetterOfEachWord(text) {
+  return text.replace(/\b\w/g, function (char) {
+    return char.toUpperCase();
+  });
+}
 
 
 function addUserUsernameCheck(input) {
@@ -677,6 +745,20 @@ const inputNombreUsuario = document.getElementById('modal-add-user-content-form-
 
 inputNombreUsuario.addEventListener('input', function () {
   addUserUsernameCheck(inputNombreUsuario);
+});
+
+function infoUserUsernameCheck(input) {
+  const valorOriginal = input.value.trim();
+
+  const valorLimpio = valorOriginal.replace(/[^a-zA-Z0-9áéíóúüÁÉÍÓÚÜñÑ]/g, '');
+
+  input.value = valorLimpio;
+}
+
+const infoinputNombreUsuario = document.getElementById('modal-info-user-content-form-column-3-input-username');
+
+infoinputNombreUsuario.addEventListener('input', function () {
+  infoUserUsernameCheck(infoinputNombreUsuario);
 });
 
 function addUserPasswordCheck() {
@@ -710,6 +792,16 @@ function showAlert(message, duration) {
   setTimeout(function () {
     alertElement.classList.add('hidden');
   }, duration + 500);
+}
+
+function showNotification(message, duration) {
+  var notification = document.getElementById('notification');
+  notification.innerText = message;
+  notification.classList.add('show');
+
+  setTimeout(function() {
+    notification.classList.remove('show');
+  }, duration);
 }
 
 
@@ -865,70 +957,79 @@ btnEditUser.addEventListener('click', actionEditUser);
 var originalValues = {};
 
 function actionEditUser() {
-    console.log("editando user");
+  console.log("editando user");
 
-    var overlay = document.querySelector('#overlay-edit');
-    overlay.style.display = "flex";
+  var overlay = document.querySelector('#overlay-edit');
+  overlay.style.display = "flex";
 
-    var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
-    inputs1.forEach(function (input) {
-        originalValues[input.id] = input.value; // Almacenar el valor original
-        input.removeAttribute('readonly');
-    });
+  var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
+  inputs1.forEach(function (input) {
+    originalValues[input.id] = input.value; // Almacenar el valor original
+    input.removeAttribute('readonly');
+  });
 
-    var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
-    inputs2.forEach(function (input) {
-        originalValues[input.id] = input.value; // Almacenar el valor original
-        input.removeAttribute('readonly');
-    });
+  var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
+  inputs2.forEach(function (input) {
+    originalValues[input.id] = input.value; // Almacenar el valor original
+    input.removeAttribute('readonly');
+  });
 
-    var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
-    inputType.style.display = "none";
+  var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
+  inputType.style.display = "none";
 
-    var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
-    selectType.style.display = "flex";
+  var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
+  selectType.style.display = "flex";
 
-    var profileImage = document.querySelector('.profileImage-edit');
-    var removeImageIcon = document.querySelector('.removeImageIcon-edit');
+  var profileImage = document.querySelector('.profileImage-edit');
+  var removeImageIcon = document.querySelector('.removeImageIcon-edit');
 
-    console.log("Profile Image src:", profileImage.src);
-    if (profileImage.src.includes('perfil-de-usuario-provisional.webp')) {
-        removeImageIcon.style.display = 'none';
+  console.log("Profile Image src:", profileImage.src);
+  if (profileImage.src.includes('perfil-de-usuario-provisional.webp')) {
+    removeImageIcon.style.display = 'none';
+  } else {
+    removeImageIcon.style.display = 'inline';
+  }
+
+  // Almacenar el valor original de la imagen de perfil al entrar en el modo de edición
+  editoriginalImageSrc = profileImage.src;
+  editoriginalImageDataValue = profileImage.getAttribute('data-value'); // Asegurar que obtenga el data-value actualizado
+
+  // Establecer el nombre de la foto actual en el data-value
+  profileImage.setAttribute('data-value', editoriginalImageDataValue);
+
+  var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
+  var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
+
+  // Obtener el valor inicial del campo de contraseña al cargar la página o abrir el modal
+  var initialPasswordValue = passwordInput.value.trim();
+  originalValues[passwordInput.id] = initialPasswordValue; // Almacenar el valor original del password
+
+  // Función para mostrar u ocultar el input de confirmar contraseña
+  function toggleConfirmPasswordInput() {
+    var newPassword = passwordInput.value.trim();
+
+    if (newPassword !== initialPasswordValue) {
+      confirmPasswordInput.style.display = 'block';  // Mostrar el input de confirmar contraseña
     } else {
-        removeImageIcon.style.display = 'inline';
+      confirmPasswordInput.style.display = 'none';   // Ocultar el input de confirmar contraseña
     }
+  }
 
-    var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
-    var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
+  // Escuchar cambios en el input de contraseña
+  passwordInput.addEventListener('input', toggleConfirmPasswordInput);
 
-    // Obtener el valor inicial del campo de contraseña al cargar la página o abrir el modal
-    var initialPasswordValue = passwordInput.value.trim();
-    originalValues[passwordInput.id] = initialPasswordValue; // Almacenar el valor original del password
+  // Verificar el estado inicial del input de contraseña al abrir la edición
+  toggleConfirmPasswordInput();
 
-    // Función para mostrar u ocultar el input de confirmar contraseña
-    function toggleConfirmPasswordInput() {
-        var newPassword = passwordInput.value.trim();
-
-        if (newPassword !== initialPasswordValue) {
-            confirmPasswordInput.style.display = 'block';  // Mostrar el input de confirmar contraseña
-        } else {
-            confirmPasswordInput.style.display = 'none';   // Ocultar el input de confirmar contraseña
-        }
-    }
-
-    // Escuchar cambios en el input de contraseña
-    passwordInput.addEventListener('input', toggleConfirmPasswordInput);
-
-    // Verificar el estado inicial del input de contraseña al abrir la edición
-    toggleConfirmPasswordInput();
-
-    var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
-    btnEdit.style.display = "none";
-    var btnSave = document.querySelector('#modal-info-user-content-form-button-save');
-    btnSave.style.display = "flex";
-    var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
-    btnExit.style.display = "flex";
+  var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
+  btnEdit.style.display = "none";
+  var btnSave = document.querySelector('#modal-info-user-content-form-button-save');
+  btnSave.style.display = "flex";
+  var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
+  btnExit.style.display = "flex";
 }
+
+
 
 var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
 btnExit.addEventListener('click', actionExitEdit);
@@ -940,15 +1041,15 @@ function actionExitEdit() {
   overlay.style.display = "none";
 
   var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
-  inputs1.forEach(function(input) {
-      input.setAttribute('readonly', 'readonly');
-      input.value = originalValues[input.id]; // Restablecer el valor original
+  inputs1.forEach(function (input) {
+    input.setAttribute('readonly', 'readonly');
+    input.value = originalValues[input.id]; // Restablecer el valor original
   });
 
   var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
-  inputs2.forEach(function(input) {
-      input.setAttribute('readonly', 'readonly');
-      input.value = originalValues[input.id]; // Restablecer el valor original
+  inputs2.forEach(function (input) {
+    input.setAttribute('readonly', 'readonly');
+    input.value = originalValues[input.id]; // Restablecer el valor original
   });
 
   var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
@@ -956,6 +1057,11 @@ function actionExitEdit() {
 
   var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
   selectType.style.display = "none";
+
+  // Restablecer la contraseña al valor original
+  var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
+  passwordInput.value = originalValues[passwordInput.id];
+  passwordInput.setAttribute('readonly', 'readonly');
 
   var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
   confirmPasswordInput.style.display = "none";
@@ -969,20 +1075,25 @@ function actionExitEdit() {
   btnExit.style.display = "none";
 
   // Restablecer la imagen de perfil a su estado original
+  var editprofileImage = document.querySelector('.profileImage-edit');
+  var editremoveImageIcon = document.querySelector('.removeImageIcon-edit');
+
   editprofileImage.src = editoriginalImageSrc;
   editprofileImage.setAttribute('data-value', editoriginalImageDataValue);
+
   if (editoriginalImageSrc.includes('perfil-de-usuario-provisional.webp')) {
-      editremoveImageIcon.style.display = 'none';
+    editremoveImageIcon.style.display = 'none';
   } else {
-      editremoveImageIcon.style.display = 'block';
+    editremoveImageIcon.style.display = 'block';
   }
 
   if (editcropper) {
-      editcropper.destroy();
-      editcropper = null;
+    editcropper.destroy();
+    editcropper = null;
   }
   resetFileInput();
 }
+
 
 
 function showEditUser(userId) {
@@ -1016,14 +1127,10 @@ function showEditUser(userId) {
         document.getElementById("modal-info-user-content-form-column-3-input-username").value = result.usuario.nombre_usuario;
         document.getElementById("modal-info-user-content-form-column-3-input-password").value = result.usuario.contrasena;
         document.getElementById("modal-info-user-content-form-column-3-select-a").value = result.usuario.tipo_usuario;
-        //document.getElementsByClassName("modal-info-user-content-form-column-1-img").src = result.usuario.foto_perfil;
 
-        var profileImages = document.getElementsByClassName("modal-info-user-content-form-column-1-img");
-        if (profileImages.length > 0) {
-          profileImages[0].src = result.usuario.foto_perfil;
-        } else {
-          profileImages[0].src = "../view/img/img-users/user_photo_error_profile.webp";
-        }
+        var profileImage = document.querySelector('.modal-info-user-content-form-column-1-img');
+        profileImage.src = result.usuario.foto_perfil;
+        profileImage.setAttribute('data-value', result.usuario.foto_perfil);
 
       }
     })
@@ -1035,9 +1142,215 @@ function showEditUser(userId) {
 var btnSaveChanges = document.querySelector('#modal-info-user-content-form-button-save');
 btnSaveChanges.addEventListener('click', saveChangesEdit);
 
+var initialPassword = "";
+
+function initializePassword() {
+  var passwordInput = document.getElementById("modal-info-user-content-form-column-3-input-password");
+  initialPassword = passwordInput.value;
+}
+
 function saveChangesEdit() {
   console.log("guardando edit");
-  EdithandleAddUserButtonClick();
+
+  var nombre = document.getElementById("modal-info-user-content-form-column-2-input-name").value;
+  var primerApellido = document.getElementById("modal-info-user-content-form-column-2-input-first-last-name").value;
+  var segundoApellido = document.getElementById("modal-info-user-content-form-column-2-input-second-last-name").value;
+  var correo = document.getElementById("modal-info-user-content-form-column-2-input-mail").value;
+  var telefono = document.getElementById("modal-info-user-content-form-column-2-input-tlf").value;
+  var direccion = document.getElementById("modal-info-user-content-form-column-3-input-address").value;
+  var usuario = document.getElementById("modal-info-user-content-form-column-3-input-username").value;
+  var password = document.getElementById("modal-info-user-content-form-column-3-input-password").value;
+  var tipo = document.querySelector(".modal-info-user-content-form-column-3-select").value;
+
+  var confirmPasswordInput = document.getElementById("modal-info-user-content-form-column-3-input-password-confirm");
+  var confirmPassword = confirmPasswordInput.value;
+
+  var initialPasswordValue = originalValues["modal-info-user-content-form-column-3-input-password"];
+  if (password !== initialPasswordValue && (confirmPassword.trim() === "" || password !== confirmPassword)) {
+    console.error('Las contraseñas no coinciden.');
+    showAlert('Las contraseñas no coinciden.', 5000);
+    return;
+  }
+
+  var dataModified = false;
+  var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
+  inputs1.forEach(function (input) {
+    if (input.value !== originalValues[input.id]) {
+      dataModified = true;
+    }
+  });
+
+  var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
+  inputs2.forEach(function (input) {
+    if (input.value !== originalValues[input.id]) {
+      dataModified = true;
+    }
+  });
+
+  var profileImage = document.querySelector('.profileImage-edit');
+  var imageDataValue = profileImage.getAttribute('data-value');
+  if (imageDataValue !== editoriginalImageDataValue) {
+    dataModified = true;
+  }
+
+  if (!dataModified) {
+    showAlert('No se ha modificado ningún dato.', 5000);
+    return;
+  }
+
+  var imageName = '';
+  if (profileImage.src.includes('perfil-de-usuario-provisional.webp')) {
+    imageName = editoriginalImageDataValue;
+  } else {
+    var imageNameParts = imageDataValue.split('/');
+    imageName = imageNameParts[imageNameParts.length - 1];
+  }
+
+  var userId = currentUserIdsavechangesedit;
+
+  var previousImageName = editoriginalImageDataValue;
+
+  var data = {
+    'id': userId,
+    'nombre': nombre,
+    'primerApellido': primerApellido,
+    'segundoApellido': segundoApellido,
+    'correo': correo,
+    'telefono': telefono,
+    'direccion': direccion,
+    'nombre_usuario': usuario,
+    'password': password,
+    'tipo': tipo,
+    'foto_perfil': imageName
+  };
+
+  console.log("Datos a guardar:", data);
+
+  var url = "../controller/es/es_update_user.php";
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(result => {
+      console.log("Resultado completo:", result.error);
+      showNotification('Usuario actualizado correctamente', 5000);
+      EdithandleAddUserButtonClick();
+
+      var newImageDataValue = profileImage.getAttribute('data-value');
+      var imageChanged = newImageDataValue !== previousImageName;
+
+      console.log("imageChanged:", imageChanged);
+      console.log("Nueva imagen:", newImageDataValue);
+      console.log("Imagen anterior:", previousImageName);
+
+      if (imageChanged && previousImageName !== 'perfil-de-usuario-provisional.webp') {
+        deletePreviousImageInfoUser(previousImageName);
+      }
+
+      if (imageDataValue === 'perfil-de-usuario-provisional.webp') {
+        profileImage.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
+        profileImage.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
+
+        if (editoriginalImageDataValue !== 'perfil-de-usuario-provisional.webp') {
+          checkFixNoImageUser();
+        }
+      }
+
+      var userListContainer = document.getElementById("control-panel-content-list");
+      userListContainer.innerHTML = '';
+      usersList();
+
+      var overlay = document.querySelector('#overlay-edit');
+      overlay.style.display = "none";
+
+      var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
+      inputs1.forEach(function (input) {
+        input.setAttribute('readonly', 'readonly');
+      });
+
+      var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
+      inputs2.forEach(function (input) {
+        input.setAttribute('readonly', 'readonly');
+      });
+
+      var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
+      inputType.style.display = "flex";
+
+      var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
+      selectType.style.display = "none";
+
+      var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
+      if (password === initialPasswordValue) {
+        passwordInput.value = initialPasswordValue;
+      }
+      passwordInput.setAttribute('readonly', 'readonly');
+
+      var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
+      confirmPasswordInput.style.display = "none";
+      confirmPasswordInput.value = "";
+
+      var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
+      btnEdit.style.display = "flex";
+      var btnSave = document.querySelector('#modal-info-user-content-form-button-save');
+      btnSave.style.display = "none";
+      var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
+      btnExit.style.display = "none";
+
+    })
+    .catch(error => console.error('Error status:', error));
+}
+
+
+
+function deletePreviousImageInfoUser(imageName) {
+  var defaultImageName = "perfil-de-usuario-provisional.webp";
+
+  var imageNameParts = imageName.split('/');
+  var cleanImageName = imageNameParts[imageNameParts.length - 1];
+
+  console.log("Nombre de la imagen a eliminar: " + cleanImageName);
+
+  var deleteImageUrl = "../controller/info_user_delete_previous_image.php";
+  fetch(deleteImageUrl, {
+    method: 'POST',
+    body: JSON.stringify({ imageName: cleanImageName }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(deleteResult => {
+      console.log('Imagen anterior eliminada:', deleteResult);
+    })
+    .catch(error => console.error('Error al eliminar imagen anterior:', error));
+}
+
+function checkFixNoImageUser() {
+  var userId = currentUserIdsavechangesedit;
+
+
+  var url = "../controller/update_user_no_image.php";
+  var data = {
+    'id': userId,
+    'foto_perfil': 'perfil-de-usuario-provisional.webp'
+  };
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(result => {
+      console.log('Resultado de la actualización de la imagen:', result);
+      if (result.success) {
+        console.log('Imagen de perfil actualizada a la predeterminada en la base de datos.');
+      } else {
+        console.error('Error al actualizar la imagen de perfil en la base de datos:', result.error);
+      }
+    })
+    .catch(error => console.error('Error en la solicitud para actualizar la imagen de perfil:', error));
 }
 
 
@@ -1268,128 +1581,128 @@ var editoriginalImageDataValue = editprofileImage.getAttribute('data-value');
 
 // Función para restablecer la entrada de archivo
 function resetFileInput() {
-    editinputFile.value = null;
-    editinputFile.disabled = false;
+  editinputFile.value = null;
+  editinputFile.disabled = false;
 }
 
 // Manejo del click en el label para abrir el explorador de archivos o manejar los iconos
-document.getElementById('fileLabel').addEventListener('click', function(event) {
-    var editIcon = event.target.closest('label[for="editImageInputEdit"]');
-    var removeIcon = event.target.closest('label[onclick="EditdeleteUserProfileImage()"]');
+document.getElementById('fileLabel').addEventListener('click', function (event) {
+  var editIcon = event.target.closest('label[for="editImageInputEdit"]');
+  var removeIcon = event.target.closest('label[onclick="EditdeleteUserProfileImage()"]');
 
-    if (editIcon) {
-        editinputFile.click();
-    } else if (removeIcon) {
-        EditdeleteUserProfileImage();
-    } else {
-        event.preventDefault(); // Evitar abrir el explorador de archivos si se hace clic en otra parte
-    }
+  if (editIcon) {
+    editinputFile.click();
+  } else if (removeIcon) {
+    EditdeleteUserProfileImage();
+  } else {
+    event.preventDefault(); // Evitar abrir el explorador de archivos si se hace clic en otra parte
+  }
 });
 
 // Evitar propagación del evento en el input de archivo
-editinputFile.addEventListener('click', function(event) {
-    event.stopPropagation();
+editinputFile.addEventListener('click', function (event) {
+  event.stopPropagation();
 });
 
-editinputFile.addEventListener('change', function(event) {
-    var file = event.target.files[0];
+editinputFile.addEventListener('change', function (event) {
+  var file = event.target.files[0];
 
-    if (file) {
-        editconfirmCropButton.style.display = 'block';
-        editcancelCropButton.style.display = 'block';
-        editinputFile.disabled = true;
+  if (file) {
+    editconfirmCropButton.style.display = 'block';
+    editcancelCropButton.style.display = 'block';
+    editinputFile.disabled = true;
 
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            editoriginalImageSrc = editprofileImage.src;
-            editprofileImage.src = e.target.result;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      editoriginalImageSrc = editprofileImage.src;
+      editprofileImage.src = e.target.result;
 
-            if (editcropper) {
-                editcropper.destroy();
-            }
-
-            editcropper = new Cropper(editprofileImage, {
-                aspectRatio: 1,
-                viewMode: 2,
-                autoCrop: true,
-                dragMode: 'move',
-                crop: function(event) {}
-            });
-            editremoveImageIcon.style.display = 'block';
-        };
-
-        reader.readAsDataURL(file);
-    }
-});
-
-editconfirmCropButton.addEventListener('click', function() {
-    if (editcropper) {
-        editconfirmCropButton.style.display = 'none';
-        editcancelCropButton.style.display = 'none';
-        var croppedCanvas = editcropper.getCroppedCanvas();
-
-        var maxWidth = 500;
-        var maxHeight = 500;
-
-        if (croppedCanvas.width > maxWidth || croppedCanvas.height > maxHeight) {
-            var aspectRatio = croppedCanvas.width / croppedCanvas.height;
-            var newWidth = Math.min(maxWidth, croppedCanvas.width);
-            var newHeight = Math.min(maxHeight, newWidth / aspectRatio);
-            var resizedCanvas = document.createElement('canvas');
-            resizedCanvas.width = newWidth;
-            resizedCanvas.height = newHeight;
-            var ctx = resizedCanvas.getContext('2d');
-            ctx.drawImage(croppedCanvas, 0, 0, newWidth, newHeight);
-            croppedCanvas = resizedCanvas;
-        }
-
-        editprofileImage.src = croppedCanvas.toDataURL();
-
+      if (editcropper) {
         editcropper.destroy();
-        editcropper = null;
+      }
 
-        resetFileInput();
+      editcropper = new Cropper(editprofileImage, {
+        aspectRatio: 1,
+        viewMode: 2,
+        autoCrop: true,
+        dragMode: 'move',
+        crop: function (event) { }
+      });
+      editremoveImageIcon.style.display = 'block';
+    };
 
-        croppedCanvas.toBlob(function(blob) {
-            var formData = new FormData();
-            formData.append('file', blob);
-
-            fetch('../controller/generate_unique_file_name.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.status === 'success') {
-                    editprofileImage.setAttribute('data-value', data.uniqueFileName + '.jpg');
-                } else {
-                    console.error('Error:', data.message);
-                }
-            })
-            .catch(error => console.error('Error en la solicitud Fetch:', error));
-        }, 'image/jpeg');
-    }
+    reader.readAsDataURL(file);
+  }
 });
 
-editcancelCropButton.addEventListener('click', function() {
-    editprofileImage.src = editoriginalImageSrc;
-    if (editoriginalImageSrc.includes('perfil-de-usuario-provisional.webp')) {
-        editremoveImageIcon.style.display = 'none';
-    } else {
-        editremoveImageIcon.style.display = 'block';
-    }
-    if (editcropper) {
-        editcropper.destroy();
-        editcropper = null;
-    }
-    resetFileInput();
+editconfirmCropButton.addEventListener('click', function () {
+  if (editcropper) {
     editconfirmCropButton.style.display = 'none';
     editcancelCropButton.style.display = 'none';
+    var croppedCanvas = editcropper.getCroppedCanvas();
+
+    var maxWidth = 500;
+    var maxHeight = 500;
+
+    if (croppedCanvas.width > maxWidth || croppedCanvas.height > maxHeight) {
+      var aspectRatio = croppedCanvas.width / croppedCanvas.height;
+      var newWidth = Math.min(maxWidth, croppedCanvas.width);
+      var newHeight = Math.min(maxHeight, newWidth / aspectRatio);
+      var resizedCanvas = document.createElement('canvas');
+      resizedCanvas.width = newWidth;
+      resizedCanvas.height = newHeight;
+      var ctx = resizedCanvas.getContext('2d');
+      ctx.drawImage(croppedCanvas, 0, 0, newWidth, newHeight);
+      croppedCanvas = resizedCanvas;
+    }
+
+    editprofileImage.src = croppedCanvas.toDataURL();
+
+    editcropper.destroy();
+    editcropper = null;
+
+    resetFileInput();
+
+    croppedCanvas.toBlob(function (blob) {
+      var formData = new FormData();
+      formData.append('file', blob);
+
+      fetch('../controller/generate_unique_file_name.php', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.status === 'success') {
+            editprofileImage.setAttribute('data-value', data.uniqueFileName + '.jpg');
+          } else {
+            console.error('Error:', data.message);
+          }
+        })
+        .catch(error => console.error('Error en la solicitud Fetch:', error));
+    }, 'image/jpeg');
+  }
+});
+
+editcancelCropButton.addEventListener('click', function () {
+  editprofileImage.src = editoriginalImageSrc;
+  if (editoriginalImageSrc.includes('perfil-de-usuario-provisional.webp')) {
+    editremoveImageIcon.style.display = 'none';
+  } else {
+    editremoveImageIcon.style.display = 'block';
+  }
+  if (editcropper) {
+    editcropper.destroy();
+    editcropper = null;
+  }
+  resetFileInput();
+  editconfirmCropButton.style.display = 'none';
+  editcancelCropButton.style.display = 'none';
 });
 
 editprofileImage.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
@@ -1397,16 +1710,17 @@ editprofileImage.setAttribute('data-value', 'perfil-de-usuario-provisional.webp'
 
 
 
-function EdithandleAddUserButtonClick() {
+var currentImageFileName = '';
 
+function EdithandleAddUserButtonClick() {
   var edituserImgElement = document.getElementById('profileImageEdit');
-  var edituserImgSrc = edituserImgElement.src;
   var edituserImgDataValue = edituserImgElement.getAttribute('data-value');
-  console.log(edituserImgDataValue);
+  currentImageFileName = edituserImgDataValue;
 
   console.log("111111111111111 handleAddUserButtonClick ejecutada.");
   console.log("Función handleAddUserButtonClick ejecutada.");
 
+  var edituserImgSrc = edituserImgElement.src;
   var editoriginalImageBase64 = edituserImgSrc.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
   console.log("editoriginalImageBase644444444444" + editoriginalImageBase64);
 
@@ -1415,9 +1729,7 @@ function EdithandleAddUserButtonClick() {
     console.log("editblobbbbbbbbbbbb" + editblob);
 
     var editformData = new FormData();
-
     var edituniqueFileName = edituserImgDataValue;
-
     editformData.append('file', editblob, edituniqueFileName);
     console.log("formmmmmmm" + editformData);
 
@@ -1435,16 +1747,14 @@ function EdithandleAddUserButtonClick() {
       .then(data => {
         if (data.status === 'success') {
           console.log('Imagen añadida exitosamente:', data);
-
-          edituserImgElement.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
-          edituserImgElement.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
+          // edituserImgElement.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
+          // edituserImgElement.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
         } else {
           console.error('Error:', data.message);
         }
       })
       .catch(error => {
         console.error('Error en la solicitud Fetch:', error);
-
         if (error instanceof Response) {
           error.text().then(errorMessage => {
             console.error('Error en el servidor:', errorMessage);
@@ -1457,7 +1767,6 @@ function EdithandleAddUserButtonClick() {
   } else {
     console.error('La cadena no es una cadena base64 válida');
   }
-
 }
 
 function editbase64ToBlob(editbase64) {
@@ -1474,7 +1783,7 @@ function editbase64ToBlob(editbase64) {
 
 function EditdeleteUserProfileImage() {
   console.log("Eliminando imagen de perfil");
-  var modalInfoUser = document.getElementById('modal-info-user'); // Asegurémonos de que estamos apuntando al modal correcto
+  var modalInfoUser = document.getElementById('modal-info-user');
   var editprofileImage = modalInfoUser.querySelector('#profileImageEdit');
   var editremoveImageIcon = modalInfoUser.querySelector('#removeImageIconEdit');
 
@@ -1671,9 +1980,12 @@ function ModalAddUser() {
 
 }
 
+var currentUserIdsavechangesedit = null;
+
 function ModalInfoUser() {
 
   var userId = event.currentTarget.dataset.userId;
+  currentUserIdsavechangesedit = event.currentTarget.dataset.userId;
   console.log("ID de usuario:", userId);
 
   showEditUser(userId);
