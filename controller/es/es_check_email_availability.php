@@ -6,14 +6,16 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 $users = new es_usersModel();
 
-$id = $data['id_usuario'];
+$email = $data['email'];
 $response = array();
 
-$users->setId_usuario($id);
-$imageDeletionResult = $users->imgDeleteUser();
+$users->setCorreo($email);
 
-$response['message'] = $imageDeletionResult;
-$response['error'] = false;
+if ($users->checkEmailAvailability()) {
+    $response['exists'] = true;
+} else {
+    $response['exists'] = false;
+}
 
 echo json_encode($response);
 ?>

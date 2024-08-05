@@ -362,10 +362,10 @@ body {
   margin-left: 250px;
   padding: 20px;
   background-color: white;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  position: fixed;
+  min-height: calc(104.2vh - 140px);
+  box-sizing: border-box;
 }
 
 .control-panel-content-title {
@@ -389,6 +389,11 @@ body {
   width: 50%;
   height: 40px;
   padding: 10px;
+}
+
+.control-panel-content-input[disabled] {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
 }
 
 .control-panel-content-filter {
@@ -426,7 +431,7 @@ body {
   width: 82%;
   flex-wrap: wrap;
   overflow-y: scroll;
-  height: 655px;
+  height: 641px;
 }
 
 .card {

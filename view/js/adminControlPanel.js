@@ -22,6 +22,29 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
   usersList();
   addUserProfileImage(); //HACE QUE addUserFirstLetter DEJE DE FUNCIONAR NO SE PORQUE
+  filterChechboxUsersAdmin();
+
+  // Add event listeners to ensure "Usuarios" and "Administradores" cannot be selected at the same time
+  var usersCheckbox = document.getElementById('filter-users');
+  var adminsCheckbox = document.getElementById('filter-admins');
+
+  usersCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+      adminsCheckbox.disabled = true;
+    } else {
+      adminsCheckbox.disabled = false;
+    }
+  });
+
+  adminsCheckbox.addEventListener('change', function () {
+    if (this.checked) {
+      usersCheckbox.disabled = true;
+    } else {
+      usersCheckbox.disabled = false;
+    }
+  });
+
+
   var nameInput = document.getElementById('modal-add-user-content-form-column-2-input-name');
   var firstLastNameInput = document.getElementById('modal-add-user-content-form-column-2-input-first-last-name');
   var secondLastNameInput = document.getElementById('modal-add-user-content-form-column-2-input-second-last-name');
@@ -143,6 +166,90 @@ function Sidebarmenuicon() {
 /************************USERS LIST*********************************** */
 
 
+let isFavorite = false;
+let isSuspended = false;
+let userType = '';
+
+function filterChechboxUsersAdmin() {
+  const favoriteCheckbox = document.getElementById('filter-favorites');
+  const suspendedCheckbox = document.getElementById('filter-suspended');
+  const userCheckbox = document.getElementById('filter-users');
+  const adminCheckbox = document.getElementById('filter-admins');
+
+  function handleCheckboxChange() {
+    isFavorite = favoriteCheckbox.checked ? 'Si' : '';
+    isSuspended = suspendedCheckbox.checked ? 'Si' : '';
+
+    if (userCheckbox.checked) {
+      userType = 'Usuario';
+    } else if (adminCheckbox.checked) {
+      userType = 'Administrador';
+    } else {
+      userType = '';
+    }
+
+    displayUsers();
+  }
+
+  favoriteCheckbox.addEventListener('change', handleCheckboxChange);
+  suspendedCheckbox.addEventListener('change', handleCheckboxChange);
+  userCheckbox.addEventListener('change', function () {
+    if (userCheckbox.checked) {
+      adminCheckbox.checked = false;
+      adminCheckbox.disabled = true;
+    } else {
+      adminCheckbox.disabled = false;
+    }
+    handleCheckboxChange();
+  });
+
+  adminCheckbox.addEventListener('change', function () {
+    if (adminCheckbox.checked) {
+      userCheckbox.checked = false;
+      userCheckbox.disabled = true;
+    } else {
+      userCheckbox.disabled = false;
+    }
+    handleCheckboxChange();
+  });
+}
+
+
+function filterUsers() {
+  var input = document.getElementById("search-user-input").value;
+  var userListContainer = document.getElementById("control-panel-content-list");
+  userListContainer.innerHTML = '';
+
+  if (input.trim() === "") {
+    console.log("ejecuta userlist");
+    var userListContainer = document.getElementById("control-panel-content-list");
+    userListContainer.innerHTML = '';
+    usersList();
+  } else {
+    console.log("ejecuta el otro list");
+    var userListContainer = document.getElementById("control-panel-content-list");
+    userListContainer.innerHTML = '';
+    inputSearchUsersList(input);
+  }
+}
+
+function validateInput(input) {
+  const validCharacters = /[^a-zA-Z0-9\s]/g;
+  return input.replace(validCharacters, '');
+}
+
+function handleInputChange(event) {
+  const searchInput = event.target;
+  const inputValue = searchInput.value;
+
+  if (!validateInput(inputValue)) {
+    searchInput.value = inputValue.replace(/[^a-zA-Z0-9\s]/g, '');
+    return;
+  }
+
+  filterUsers();
+}
+
 let conexionExitosa;
 
 async function checkConexion() {
@@ -167,8 +274,6 @@ async function checkConexion() {
   }
 }
 
-
-
 function usersList() {
 
   var url = "../controller/es/es_userList.php";
@@ -182,52 +287,15 @@ function usersList() {
           if (conexionExitosa === false) {
             console.log("La conexión fue exitosa");
 
+            var userListContainer = document.getElementById("control-panel-content-list");
+            userListContainer.innerHTML = '';
+
             if (Usuarios.length === 0) {
               showAlert("No hay usuarios, crea uno", 5000);
+              document.getElementById("search-user-input").disabled = false;
               document.getElementById("control-panel-content-list").style.display = "none";
               document.getElementById("control-panel-content-list-no-user").style.display = "flex";
               document.getElementById("control-panel-content-list-no-user").style.overflowY = "hidden";
-
-              var newRow1 = "";
-              newRow1 += "<div id='card-add-user' class='card'>";
-              newRow1 += "<div class='card-add-user-icon'>";
-              newRow1 += "<svg class='card-add-user-icon-icons' viewBox='0 0 448 512'>";
-              newRow1 += "<path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />";
-              newRow1 += "</svg>";
-              newRow1 += "</div>";
-              newRow1 += "<div class='card-add-user-title'>";
-              newRow1 += "<label>Añadir usuario</label>";
-              newRow1 += "</div>";
-              newRow1 += "</div>";
-
-              for (let i = 0; i < 4; i++) {
-                newRow1 += "<div class='card' style='display: block; visibility: hidden;'>"
-                  + "<img src=>"
-                  + "<div class='card-info'>"
-                  + "<label class='card-name'></label>"
-                  + "<label id='card-subname' class='card-name'></label>"
-                  + "</div>"
-                  + "<label class='card-username'>Usuario:</label>"
-                  + "<hr class='card-hr'>"
-                  + "<div class='card-icons-container'>"
-                  + "<div class='card-icons-container-user-delete'>"
-                  + "<svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>"
-                  + "<path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z'/>"
-                  + "</svg>"
-                  + "</div>"
-                  + "<div class='card-icons-container-info'>"
-                  + "<svg class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>"
-                  + "<path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z'/>"
-                  + "</svg>"
-                  + "</div>"
-                  + "<div class='card-icons-container-info'>"
-                  + "<svg class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>"
-                  + "<path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/>"
-                  + "</svg>"
-                  + "</div>"
-                  + "</div>"
-                  + "</div>";
-              }
 
               document.getElementById("control-panel-content-list-no-user").insertAdjacentHTML('afterbegin', newRow1);
               document.getElementById("control-panel-content-list").innerHTML += newRow1;
@@ -240,6 +308,7 @@ function usersList() {
 
 
             } else {
+              document.getElementById("search-user-input").disabled = false;
               document.getElementById("control-panel-content-list-no-user").style.display = "none";
               var cardLoadingElements = document.getElementsByClassName("card-loading");
               for (var i = 0; i < cardLoadingElements.length; i++) {
@@ -262,7 +331,7 @@ function usersList() {
 
               for (let i = 0; i < Usuarios.length; i++) {
                 newRow += "<div class='card' id='main-card' >"
-                  + "<img src=" + Usuarios[i].foto_perfil + ">"
+                  + "<img id='" + Usuarios[i].id_usuario + "' src=" + Usuarios[i].foto_perfil + ">"
                   + "<div class='card-info'>"
                   + "<label class='card-name'>" + Usuarios[i].nombre + "</label>"
                   + "<label id='card-subname' class='card-name'> " + Usuarios[i].apellido_1 + "</label>"
@@ -363,15 +432,319 @@ function usersList() {
     });
 }
 
-function deleteUser() {
+function inputSearchUsersList(input) {
+  var url = "../controller/es/es_input_search_users_list.php";
+  var data = { 'username': input };
 
-  console.log("hhhhhh");
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(result => {
+      var Usuarios = result.list;
+      checkConexion()
+        .then(() => {
+          if (conexionExitosa === false) {
+            console.log("La conexión fue exitosa");
+
+            var userListContainer = document.getElementById("control-panel-content-list");
+            userListContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos
+
+            if (Usuarios.length === 0 && input.trim() === "") {
+              showAlert("No hay usuarios, crea uno", 5000);
+              document.getElementById("control-panel-content-list").style.display = "none";
+              document.getElementById("control-panel-content-list-no-user").style.display = "flex";
+              document.getElementById("control-panel-content-list-no-user").style.overflowY = "hidden";
+            } else {
+              document.getElementById("control-panel-content-list-no-user").style.display = "none";
+              document.getElementById("control-panel-content-list").style.display = "flex";
+
+              var newRow = "";
+
+              // Asegurarse de que el card de "Añadir usuario" esté al principio
+              newRow += "<div id='card-add-user' class='card'>";
+              newRow += "<div class='card-add-user-icon'>";
+              newRow += "<svg class='card-add-user-icon-icons' viewBox='0 0 448 512'>";
+              newRow += "<path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />";
+              newRow += "</svg>";
+              newRow += "</div>";
+              newRow += "<div class='card-add-user-title'>";
+              newRow += "<label>Añadir usuario</label>";
+              newRow += "</div>";
+              newRow += "</div>";
+
+              for (let i = 0; i < Usuarios.length; i++) {
+                newRow += "<div class='card' id='main-card'>"
+                  + "<img id='" + Usuarios[i].id_usuario + "' src=" + Usuarios[i].foto_perfil + ">"
+                  + "<div class='card-info'>"
+                  + "<label class='card-name'>" + Usuarios[i].nombre + "</label>"
+                  + "<label id='card-subname' class='card-name'> " + Usuarios[i].apellido_1 + "</label>"
+                  + "</div>"
+                  + "<label class='card-username'>Usuario: " + Usuarios[i].nombre_usuario + "</label>"
+                  + "<hr class='card-hr'>"
+                  + "<div class='card-icons-container'>"
+                  + "<div class='card-icons-container-user-delete' data-user-id='" + Usuarios[i].id_usuario + "'>"
+                  + "<svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>"
+                  + "<path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-user-ban' data-user-id='" + Usuarios[i].id_usuario + "' data-ban-info='" + Usuarios[i].suspendido + "'>"
+                  + "<svg id='card-ban-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>"
+                  + "<path d='M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-user-favorite' data-user-id='" + Usuarios[i].id_usuario + "' data-favorite-info='" + Usuarios[i].favorito + "'>"
+                  + "<svg id='card-favorite-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>"
+                  + "<path id='acard-favorite-user-path' d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-info' data-user-id='" + Usuarios[i].id_usuario + "'>"
+                  + "<svg class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>"
+                  + "<path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "</div>"
+                  + "</div>";
+              }
+
+              userListContainer.innerHTML = newRow;
+
+              var addUserModals = document.querySelectorAll('.card-add-user-icon');
+              addUserModals.forEach(function (addUserModal) {
+                addUserModal.addEventListener("click", ModalAddUser);
+              });
+
+              var deleteUserModal = document.querySelectorAll('.card-icons-container-user-delete');
+              var banUserModal = document.querySelectorAll('.card-icons-container-user-ban');
+              var favoriteUserModal = document.querySelectorAll('.card-icons-container-user-favorite');
+              var infoUserModal = document.querySelectorAll('.card-icons-container-info');
+
+              deleteUserModal.forEach(function (container) {
+                container.addEventListener("click", ModalDeleteUser);
+              });
+
+              banUserModal.forEach(function (container) {
+                if (container.getAttribute('data-ban-info') === 'Si') {
+                  container.style.background = 'red';
+                }
+                container.addEventListener('click', function () {
+                  var idValue = this.getAttribute('data-user-id');
+                  banUser(idValue);
+                });
+              });
+
+              favoriteUserModal.forEach(function (container) {
+                if (container.getAttribute('data-favorite-info') === 'Si') {
+                  container.style.background = 'yellow';
+                }
+                container.addEventListener('click', function () {
+                  var idValue = this.getAttribute('data-user-id');
+                  favoriteUser(idValue);
+                });
+              });
+
+              infoUserModal.forEach(function (container) {
+                container.addEventListener('click', ModalInfoUser);
+              });
+            }
+          } else {
+            console.log("La conexión falló");
+            showAlert("Error con la conexión a la base de datos", 5000);
+          }
+        })
+        .catch(error => console.error('Error status:', error));
+    });
+}
+
+//ERROR Uncaught (in promise) SyntaxError: Unexpected token 'E', "Error ejec"... is not valid JSON
+
+function displayUsers() {
+  console.log("displayUsersss");
+  console.log("favorito " + isFavorite);
+  console.log("suispendido " + isSuspended);
+  console.log("tipo us " + userType);
+  var url = "../controller/es/es_checkbox_filter.php";
+  var data = { 'favorito': isFavorite, 'suspendido': isSuspended, 'tipo_usuario': userType };
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(result => {
+      var Usuarios = result.list;
+      checkConexion()
+        .then(() => {
+          if (conexionExitosa == false) {
+            console.log("La conexión fue exitosa");
+
+            var userListContainer = document.getElementById("control-panel-content-list");
+            userListContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos elementos
+
+            if (Usuarios.length === 0) {
+              showAlert("No hay usuarios que coincidan con los filtros seleccionados", 5000);
+              usersList(); // Cargar la lista completa de usuarios si no hay coincidencias
+            } else {
+              document.getElementById("control-panel-content-list-no-user").style.display = "none";
+              document.getElementById("control-panel-content-list").style.display = "flex";
+
+              var newRow = "";
+
+              // Asegurarse de que el card de "Añadir usuario" esté al principio
+              newRow += "<div id='card-add-user' class='card'>";
+              newRow += "<div class='card-add-user-icon'>";
+              newRow += "<svg class='card-add-user-icon-icons' viewBox='0 0 448 512'>";
+              newRow += "<path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />";
+              newRow += "</svg>";
+              newRow += "</div>";
+              newRow += "<div class='card-add-user-title'>";
+              newRow += "<label>Añadir usuario</label>";
+              newRow += "</div>";
+              newRow += "</div>";
+
+              for (let i = 0; i < Usuarios.length; i++) {
+                newRow += "<div class='card' id='main-card'>"
+                  + "<img id='" + Usuarios[i].id_usuario + "' src=" + Usuarios[i].foto_perfil + ">"
+                  + "<div class='card-info'>"
+                  + "<label class='card-name'>" + Usuarios[i].nombre + "</label>"
+                  + "<label id='card-subname' class='card-name'> " + Usuarios[i].apellido_1 + "</label>"
+                  + "</div>"
+                  + "<label class='card-username'>Usuario: " + Usuarios[i].nombre_usuario + "</label>"
+                  + "<hr class='card-hr'>"
+                  + "<div class='card-icons-container'>"
+                  + "<div class='card-icons-container-user-delete' data-user-id='" + Usuarios[i].id_usuario + "'>"
+                  + "<svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>"
+                  + "<path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-user-ban' data-user-id='" + Usuarios[i].id_usuario + "' data-ban-info='" + Usuarios[i].suspendido + "'>"
+                  + "<svg id='card-ban-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>"
+                  + "<path d='M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-user-favorite' data-user-id='" + Usuarios[i].id_usuario + "' data-favorite-info='" + Usuarios[i].favorito + "'>"
+                  + "<svg id='card-favorite-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>"
+                  + "<path id='acard-favorite-user-path' d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "<div class='card-icons-container-info' data-user-id='" + Usuarios[i].id_usuario + "'>"
+                  + "<svg class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>"
+                  + "<path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/>"
+                  + "</svg>"
+                  + "</div>"
+                  + "</div>"
+                  + "</div>";
+              }
+
+              userListContainer.innerHTML = newRow;
+
+              var addUserModals = document.querySelectorAll('.card-add-user-icon');
+              addUserModals.forEach(function (addUserModal) {
+                addUserModal.addEventListener("click", ModalAddUser);
+              });
+
+              var deleteUserModal = document.querySelectorAll('.card-icons-container-user-delete');
+              var banUserModal = document.querySelectorAll('.card-icons-container-user-ban');
+              var favoriteUserModal = document.querySelectorAll('.card-icons-container-user-favorite');
+              var infoUserModal = document.querySelectorAll('.card-icons-container-info');
+
+              deleteUserModal.forEach(function (container) {
+                container.addEventListener("click", ModalDeleteUser);
+              });
+
+              banUserModal.forEach(function (container) {
+                if (container.getAttribute('data-ban-info') === 'Si') {
+                  container.style.background = 'red';
+                }
+                container.addEventListener('click', function () {
+                  var idValue = this.getAttribute('data-user-id');
+                  banUser(idValue);
+                });
+              });
+
+              favoriteUserModal.forEach(function (container) {
+                if (container.getAttribute('data-favorite-info') === 'Si') {
+                  container.style.background = 'yellow';
+                }
+                container.addEventListener('click', function () {
+                  var idValue = this.getAttribute('data-user-id');
+                  favoriteUser(idValue);
+                });
+              });
+
+              infoUserModal.forEach(function (container) {
+                container.addEventListener('click', ModalInfoUser);
+              });
+            }
+          } else {
+            console.log("La conexión falló");
+            showAlert("Error con la conexión a la base de datos", 5000);
+          }
+        })
+        .catch(error => console.error('Error status:', error));
+    });
+}
+
+
+function imgDeleteUser() {
+  console.log("Iniciando la eliminación de imagen y usuario");
 
   var idValue = document.querySelector('#modal-delete-user-button-yes').value;
-  console.log("idvalueee" + idValue);
+  console.log("idValue: " + idValue);
 
   var id = idValue;
-  console.log("id::" + id);
+
+  var userImage = document.getElementById(id);
+  var imageSrc = userImage ? userImage.src : '';
+
+  console.log("Image source: " + imageSrc);
+
+  var imageName = imageSrc.split('/').pop();
+  console.log("Image name: " + imageName);
+  if (imageName === 'perfil-de-usuario-provisional.webp') {
+    console.log("Imagen predeterminada, solo se eliminará el usuario");
+    deleteUser();
+  } else {
+    console.log("Eliminando imagen personalizada");
+
+    var urlDeleteImage = "../controller/es/es_img_delete_user.php";
+    var data = { 'id_usuario': id };
+
+    fetch(urlDeleteImage, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud para eliminar la imagen');
+        }
+        return response.json();
+      })
+      .then(result => {
+        if (result.error) {
+          console.error('Error al eliminar la imagen del usuario:', result.message);
+        } else {
+          console.log("Resultado de la eliminación de la imagen: ", result.message);
+        }
+        deleteUser();
+      })
+      .catch(error => console.error('Error al eliminar la imagen del usuario:', error));
+  }
+}
+
+
+function deleteUser() {
+  console.log("Iniciando la eliminación del usuario");
+
+  var idValue = document.querySelector('#modal-delete-user-button-yes').value;
+  console.log("idValue: " + idValue);
+
+  var id = idValue;
+  console.log("id: " + id);
   var url = "../controller/es/es_delete_user.php";
 
   var data = { 'id_usuario': id };
@@ -381,9 +754,7 @@ function deleteUser() {
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json' }
   })
-
     .then(res => res.json()).then(result => {
-
       console.log(result.error);
       var userListContainer = document.getElementById("control-panel-content-list");
       userListContainer.innerHTML = '';
@@ -391,45 +762,10 @@ function deleteUser() {
 
       var modal = document.getElementById("modal-delete-user");
       modal.style.zIndex = "2";
-
       modal.style.display = "none";
-
     })
     .catch(error => console.error('Error status:', error));
-
-};
-
-function imgDeleteUser() {
-  console.log("ttyytytyt");
-
-  var idValue = document.querySelector('#modal-delete-user-button-yes').value;
-  console.log("idvalueee11" + idValue);
-
-  var id = idValue;
-  console.log("id111::" + id);
-  var url = "../controller/es/es_img_delete_user.php";
-
-  var data = { 'id_usuario': id };
-
-  fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' }
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Error en la solicitud');
-      }
-      return response.text();
-    })
-    .then(result => {
-
-      console.log(result.error);
-      deleteUser();
-    })
-    .catch(error => console.error('Error:', error));
 }
-
 
 //FALTA QUE EL ICONO DE FAVORITO CAMBIE https://jsfiddle.net/f9c5kqm6/
 function favoriteUser(idValue) {
@@ -799,14 +1135,91 @@ function showNotification(message, duration) {
   notification.innerText = message;
   notification.classList.add('show');
 
-  setTimeout(function() {
+  setTimeout(function () {
     notification.classList.remove('show');
   }, duration);
 }
 
+var btnAddUser = document.querySelector('#modal-add-user-content-form-button');
+btnAddUser.addEventListener('click', checkUsernameAvailability);
+
+var usernameExist = true;
+
+function checkUsernameAvailability() {
+  return new Promise((resolve, reject) => {
+    var username = document.getElementById("modal-add-user-content-form-column-3-input-username").value;
+    console.log("usrnameee" + username);
+
+    var url = "../controller/es/es_check_username_availability.php";
+    var data = { 'username': username };
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log("Server response:", result);
+        if (result.exists) {
+          console.log("existe");
+          showAlert('El nombre de usuario ya existe. Por favor elige otro.', 5000);
+          resolve(false);
+        } else {
+          console.log("no existe");
+          resolve(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showAlert("Error al verificar el nombre de usuario.", 5000);
+        resolve(false);
+      });
+  });
+}
+
+var btnAddUser = document.querySelector('#modal-add-user-content-form-button');
+btnAddUser.addEventListener('click', checkEmailAvailability);
+
+function checkEmailAvailability() {
+  return new Promise((resolve, reject) => {
+    var email = document.getElementById("modal-add-user-content-form-column-2-input-mail").value;
+    console.log("email: " + email);
+
+    var url = "../controller/es/es_check_email_availability.php";
+    var data = { 'email': email };
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log("Server response:", result);
+        if (result.exists) {
+          console.log("Correo ya existe");
+          showAlert('El correo electrónico ya existe. Por favor elige otro.', 5000);
+          resolve(false);
+        } else {
+          console.log("Correo no existe");
+          resolve(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showAlert("Error al verificar el correo electrónico.", 5000);
+        resolve(false);
+      });
+  });
+}
+
+
 
 var btnAddUser = document.querySelector('#modal-add-user-content-form-button');
 btnAddUser.addEventListener('click', addUser);
+
+//COMPROBAR CORREO AL AÑADIR USUARIO????
 
 function addUser() {
   console.log("auyrghnveh");
@@ -875,63 +1288,89 @@ function addUser() {
     const isPasswordValid = addUserPasswordCheck();
     const isCorreoValid = addUserMailCheck(mail);
 
-    // Verificar condiciones adicionales
-    if (name != "" || firstLastName != "" || secondLastName != "" || mail != "" || tlf != "" || username != "" || password != "" || passwordConfirm != "" || userImg != "" || userType != "" || address != "") {
-      // Resto del código para enviar el formulario
-      if (isTlfValid && isPasswordValid && isCorreoValid) {
-        // Habilitar la función handleAddUserButtonClick
-        console.log("Función handleAddUserButtonClick habilitada.");
+    checkUsernameAvailability().then(isUsernameValid => {
+      console.log("usernameExistj " + usernameExist);
+      checkEmailAvailability().then(isEmailValid => {
+        // Verificar condiciones adicionales
+        if (name != "" || firstLastName != "" || secondLastName != "" || mail != "" || tlf != "" || username != "" || password != "" || passwordConfirm != "" || userImg != "" || userType != "" || address != "") {
+          // Resto del código para enviar el formulario
+          if (isTlfValid && isPasswordValid && isCorreoValid && isUsernameValid && isEmailValid) {
+            // Habilitar la función handleAddUserButtonClick
+            console.log("Función handleAddUserButtonClick habilitada.");
 
-        handleAddUserButtonClick();
+            handleAddUserButtonClick();
 
-        // document.getElementById("errorInsertarUsuarios").style.display="block";
-        // document.getElementById("errorInsertarUsuarios").innerHTML="<p id='errorInsertarUsuarios' style='color:red;margin:3%;' >EREMU GUZTIAK BETETA EGON BEHAR DIRA</p>";
+            // document.getElementById("errorInsertarUsuarios").style.display="block";
+            // document.getElementById("errorInsertarUsuarios").innerHTML="<p id='errorInsertarUsuarios' style='color:red;margin:3%;' >EREMU GUZTIAK BETETA EGON BEHAR DIRA</p>";
 
-        //document.getElementById("errorInsertarUsuarios").style.display="block";
+            //document.getElementById("errorInsertarUsuarios").style.display="block";
 
-        var url = "../controller/es/es_add_user.php";
-        var data = { 'name': name, 'firstLastName': firstLastName, 'secondLastName': secondLastName, 'mail': mail, 'tlf': tlf, 'username': username, 'password': password, 'userType': userType, 'userImg': userImg, 'address': address };
-        console.log(data);
-        fetch(url, {
-          method: 'POST', // or 'POST'
-          body: JSON.stringify(data), // data can be `string` or {object}!
-          headers: { 'Content-Type': 'application/json' }  //input data
-        })
-          .then(res => res.json()).then(result => {
+            var url = "../controller/es/es_add_user.php";
+            var data = { 'name': name, 'firstLastName': firstLastName, 'secondLastName': secondLastName, 'mail': mail, 'tlf': tlf, 'username': username, 'password': password, 'userType': userType, 'userImg': userImg, 'address': address };
+            console.log(data);
+            fetch(url, {
+              method: 'POST', // or 'POST'
+              body: JSON.stringify(data), // data can be `string` or {object}!
+              headers: { 'Content-Type': 'application/json' }  //input data
+            })
+              .then(res => res.json()).then(result => {
 
-            console.log(result.error);
-            //alert(result.error);
+                console.log(result.error);
+                //alert(result.error);
 
-            // document.getElementById("errorInsertarUsuarios").innerHTML="<p id='errorInsertarUsuarios' style='color:green;margin:3%;' >DATUAK SARTU EGIN DIRA</p>";
-            // document.getElementById("errorInsertarUsuarios").style.display="none";
+                // document.getElementById("errorInsertarUsuarios").innerHTML="<p id='errorInsertarUsuarios' style='color:green;margin:3%;' >DATUAK SARTU EGIN DIRA</p>";
+                // document.getElementById("errorInsertarUsuarios").style.display="none";
 
-            var userListContainer = document.getElementById("control-panel-content-list");
-            userListContainer.innerHTML = '';
+                var searchInputValue = document.getElementById("search-user-input");
+                searchInputValue.value = '';
 
-            usersList(); //EL PROBLEMA DE ESTO ES QUE SUMA LO QUE TENIA MAS TODO MAS EL NUEVO USUARIO
-            document.getElementById("modal-add-user-content-form-column-2-input-name").value = "";
-            document.getElementById("modal-add-user-content-form-column-2-input-first-last-name").value = "";
-            document.getElementById("modal-add-user-content-form-column-2-input-second-last-name").value = "";
-            document.getElementById("modal-add-user-content-form-column-2-input-mail").value = "";
-            document.getElementById("modal-add-user-content-form-column-2-input-tlf").value = "";
-            document.getElementById("modal-add-user-content-form-column-3-input-username").value = "";
-            document.getElementById("modal-add-user-content-form-column-3-input-password").value = "";
-            document.getElementById("modal-add-user-content-form-column-3-input-password-confirm").value = "";
-            document.getElementById("modal-add-user-content-form-column-3-input-address").value = "";
-            userImgElement.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
+                var userListContainer = document.getElementById("control-panel-content-list");
+                userListContainer.innerHTML = '';
 
-          })
-          .catch(error => console.error('Error status:', error));
+                usersList(); //EL PROBLEMA DE ESTO ES QUE SUMA LO QUE TENIA MAS TODO MAS EL NUEVO USUARIO
+                document.getElementById("modal-add-user-content-form-column-2-input-name").value = "";
+                document.getElementById("modal-add-user-content-form-column-2-input-first-last-name").value = "";
+                document.getElementById("modal-add-user-content-form-column-2-input-second-last-name").value = "";
+                document.getElementById("modal-add-user-content-form-column-2-input-mail").value = "";
+                document.getElementById("modal-add-user-content-form-column-2-input-tlf").value = "";
+                document.getElementById("modal-add-user-content-form-column-3-input-username").value = "";
+                document.getElementById("modal-add-user-content-form-column-3-input-password").value = "";
+                document.getElementById("modal-add-user-content-form-column-3-input-password-confirm").value = "";
+                document.getElementById("modal-add-user-content-form-column-3-input-address").value = "";
+                userImgElement.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
 
-      } else {
-        showAlert('Hay errores en los datos ingresados.', 5000);
-      }
+              })
+              .catch(error => console.error('Error status:', error));
 
-    } else {
-      //console.log("Hay errores en los datos ingresados.");  
-      // Muestra la alerta con el mensaje de error
-      showAlert('Faltan campos por rellenar.', 5000);
-    }
+          } else {
+            let errorMessage = 'Error: ';
+            if (!isTlfValid) {
+              errorMessage += 'Teléfono no válido. ';
+            }
+            if (!isPasswordValid) {
+              errorMessage += 'Contraseña no válida. ';
+            }
+            if (!isCorreoValid) {
+              errorMessage += 'Correo electrónico no válido. ';
+            }
+            if (!isUsernameValid) {
+              errorMessage += 'Nombre de usuario no válido o ya existe. ';
+            }
+            if (!isEmailValid) {
+              errorMessage += 'Correo electrónico ya existe. ';
+            }
+            showAlert(errorMessage, 5000);
+          }
+
+        } else {
+          //console.log("Hay errores en los datos ingresados.");  
+          // Muestra la alerta con el mensaje de error
+          showAlert('Faltan campos por rellenar.', 5000);
+        }
+
+      })
+    })
+
   }
 
 }
@@ -1139,6 +1578,58 @@ function showEditUser(userId) {
 
 }
 
+
+function checkUsernameAvailabilityEdit(username) {
+  return new Promise((resolve, reject) => {
+    var url = "../controller/es/es_check_username_availability.php";
+    var data = { 'username': username };
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.exists) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        resolve(false);
+      });
+  });
+}
+
+function checkEmailAvailabilityEdit(email) {
+  return new Promise((resolve, reject) => {
+    var url = "../controller/es/es_check_email_availability.php";
+    var data = { 'email': email };
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.exists) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        resolve(false);
+      });
+  });
+}
+
+
 var btnSaveChanges = document.querySelector('#modal-info-user-content-form-button-save');
 btnSaveChanges.addEventListener('click', saveChangesEdit);
 
@@ -1148,6 +1639,7 @@ function initializePassword() {
   var passwordInput = document.getElementById("modal-info-user-content-form-column-3-input-password");
   initialPassword = passwordInput.value;
 }
+
 
 function saveChangesEdit() {
   console.log("guardando edit");
@@ -1166,13 +1658,9 @@ function saveChangesEdit() {
   var confirmPassword = confirmPasswordInput.value;
 
   var initialPasswordValue = originalValues["modal-info-user-content-form-column-3-input-password"];
-  if (password !== initialPasswordValue && (confirmPassword.trim() === "" || password !== confirmPassword)) {
-    console.error('Las contraseñas no coinciden.');
-    showAlert('Las contraseñas no coinciden.', 5000);
-    return;
-  }
-
+  
   var dataModified = false;
+
   var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
   inputs1.forEach(function (input) {
     if (input.value !== originalValues[input.id]) {
@@ -1186,6 +1674,12 @@ function saveChangesEdit() {
       dataModified = true;
     }
   });
+
+  // Verificar también el cambio en el tipo de usuario
+  var selectTipo = document.querySelector('.modal-info-user-content-form-column-3-select');
+  if (selectTipo.value !== originalValues["modal-info-user-content-form-column-3-select"]) {
+    dataModified = true;
+  }
 
   var profileImage = document.querySelector('.profileImage-edit');
   var imageDataValue = profileImage.getAttribute('data-value');
@@ -1207,7 +1701,6 @@ function saveChangesEdit() {
   }
 
   var userId = currentUserIdsavechangesedit;
-
   var previousImageName = editoriginalImageDataValue;
 
   var data = {
@@ -1226,82 +1719,119 @@ function saveChangesEdit() {
 
   console.log("Datos a guardar:", data);
 
-  var url = "../controller/es/es_update_user.php";
+  // Verificar nombre de usuario y correo solo si han sido modificados
+  let usernameCheckPromise = Promise.resolve(true);
+  let emailCheckPromise = Promise.resolve(true);
 
-  fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' }
-  })
-    .then(res => res.json())
-    .then(result => {
-      console.log("Resultado completo:", result.error);
-      showNotification('Usuario actualizado correctamente', 5000);
-      EdithandleAddUserButtonClick();
+  if (usuario !== originalValues["modal-info-user-content-form-column-3-input-username"]) {
+    usernameCheckPromise = checkUsernameAvailabilityEdit(usuario);
+  }
 
-      var newImageDataValue = profileImage.getAttribute('data-value');
-      var imageChanged = newImageDataValue !== previousImageName;
+  if (correo !== originalValues["modal-info-user-content-form-column-2-input-mail"]) {
+    emailCheckPromise = checkEmailAvailabilityEdit(correo);
+  }
 
-      console.log("imageChanged:", imageChanged);
-      console.log("Nueva imagen:", newImageDataValue);
-      console.log("Imagen anterior:", previousImageName);
+  Promise.all([usernameCheckPromise, emailCheckPromise])
+    .then(results => {
+      const [isUsernameValid, isEmailValid] = results;
 
-      if (imageChanged && previousImageName !== 'perfil-de-usuario-provisional.webp') {
-        deletePreviousImageInfoUser(previousImageName);
+      let passwordsMatch = true;
+      if (password !== initialPasswordValue && (confirmPassword.trim() === "" || password !== confirmPassword)) {
+        passwordsMatch = false;
       }
 
-      if (imageDataValue === 'perfil-de-usuario-provisional.webp') {
-        profileImage.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
-        profileImage.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
-
-        if (editoriginalImageDataValue !== 'perfil-de-usuario-provisional.webp') {
-          checkFixNoImageUser();
+      if (!isUsernameValid || !isEmailValid || !passwordsMatch) {
+        let errorMessage = 'Error: ';
+        if (!isUsernameValid) {
+          errorMessage += 'Nombre de usuario ya existe. ';
         }
+        if (!isEmailValid) {
+          errorMessage += 'Correo electrónico ya existe. ';
+        }
+        if (!passwordsMatch) {
+          errorMessage += 'Las contraseñas no coinciden. ';
+        }
+        showAlert(errorMessage, 5000);
+        return;
       }
 
-      var userListContainer = document.getElementById("control-panel-content-list");
-      userListContainer.innerHTML = '';
-      usersList();
+      var url = "../controller/es/es_update_user.php";
 
-      var overlay = document.querySelector('#overlay-edit');
-      overlay.style.display = "none";
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(res => res.json())
+        .then(result => {
+          console.log("Resultado completo:", result.error);
+          showNotification('Usuario actualizado correctamente', 5000);
+          EdithandleAddUserButtonClick();
 
-      var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
-      inputs1.forEach(function (input) {
-        input.setAttribute('readonly', 'readonly');
-      });
+          var newImageDataValue = profileImage.getAttribute('data-value');
+          var imageChanged = newImageDataValue !== previousImageName;
 
-      var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
-      inputs2.forEach(function (input) {
-        input.setAttribute('readonly', 'readonly');
-      });
+          console.log("imageChanged:", imageChanged);
+          console.log("Nueva imagen:", newImageDataValue);
+          console.log("Imagen anterior:", previousImageName);
 
-      var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
-      inputType.style.display = "flex";
+          if (imageChanged && previousImageName !== 'perfil-de-usuario-provisional.webp') {
+            deletePreviousImageInfoUser(previousImageName);
+          }
 
-      var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
-      selectType.style.display = "none";
+          if (imageDataValue === 'perfil-de-usuario-provisional.webp') {
+            profileImage.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
+            profileImage.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
 
-      var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
-      if (password === initialPasswordValue) {
-        passwordInput.value = initialPasswordValue;
-      }
-      passwordInput.setAttribute('readonly', 'readonly');
+            if (editoriginalImageDataValue !== 'perfil-de-usuario-provisional.webp') {
+              checkFixNoImageUser();
+            }
+          }
 
-      var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
-      confirmPasswordInput.style.display = "none";
-      confirmPasswordInput.value = "";
+          var userListContainer = document.getElementById("control-panel-content-list");
+          userListContainer.innerHTML = '';
+          usersList();
 
-      var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
-      btnEdit.style.display = "flex";
-      var btnSave = document.querySelector('#modal-info-user-content-form-button-save');
-      btnSave.style.display = "none";
-      var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
-      btnExit.style.display = "none";
+          var overlay = document.querySelector('#overlay-edit');
+          overlay.style.display = "none";
 
-    })
-    .catch(error => console.error('Error status:', error));
+          var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
+          inputs1.forEach(function (input) {
+            input.setAttribute('readonly', 'readonly');
+          });
+
+          var inputs2 = document.querySelectorAll('.modal-info-user-content-form-column-3-input');
+          inputs2.forEach(function (input) {
+            input.setAttribute('readonly', 'readonly');
+          });
+
+          var inputType = document.querySelector('#modal-info-user-content-form-column-3-select-a');
+          inputType.style.display = "flex";
+
+          var selectType = document.querySelector('.modal-info-user-content-form-column-3-select');
+          selectType.style.display = "none";
+
+          var passwordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password');
+          if (password === initialPasswordValue) {
+            passwordInput.value = initialPasswordValue;
+          }
+          passwordInput.setAttribute('readonly', 'readonly');
+
+          var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
+          confirmPasswordInput.style.display = "none";
+          confirmPasswordInput.value = "";
+
+          var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
+          btnEdit.style.display = "flex";
+          var btnSave = document.querySelector('#modal-info-user-content-form-button-save');
+          btnSave.style.display = "none";
+          var btnExit = document.querySelector('#modal-info-user-content-form-button-exit');
+          btnExit.style.display = "none";
+        })
+        .catch(error => console.error('Error status:', error));
+    });
 }
+
 
 
 

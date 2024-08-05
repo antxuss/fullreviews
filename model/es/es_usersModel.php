@@ -60,6 +60,48 @@ class es_usersModel extends es_usersClass
         return $list;
     }
 
+    /************************************************************************************** */
+
+
+    public function inputSearchUsersList()
+    {
+        $this->OpenConnect();
+        $username = $this->getNombre_usuario();
+        $username = mysqli_real_escape_string($this->link, $username);
+
+        $sql = "SELECT * FROM usuarios WHERE nombre_usuario LIKE '$username%'";
+        $result = $this->link->query($sql);
+
+        if ($result === false) {
+            echo "Error ejecutando la consulta: " . $this->link->error;
+            return [];
+        }
+
+        $list = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $new = new es_usersClass();
+            $new->setId_usuario($row['id_usuario']);
+            $new->setNombre_usuario($row['nombre_usuario']);
+            $new->setNombre($row['nombre']);
+            $new->setContrasena($row['contrasena']);
+            $new->setApellido_1($row['apellido_1']);
+            $new->setApellido_2($row['apellido_2']);
+            $new->setCorreo($row['correo']);
+            $new->setTelefono($row['telefono']);
+            $new->setFoto_perfil($row['foto_perfil']);
+            $new->setTipo_usuario($row['tipo_usuario']);
+            $new->setDireccion($row['direccion']);
+            $new->setFavorito($row['favorito']);
+            $new->setSuspendido($row['suspendido']);
+
+            array_push($list, get_object_vars($new));
+        }
+
+        $result->free();
+        $this->CloseConnect();
+        return $list;
+    }
 
 
     /************************************************************************************** */
@@ -91,7 +133,6 @@ class es_usersModel extends es_usersClass
         $this->OpenConnect();
 
         $id = $this->getId_usuario();
-
         $sql = "SELECT foto_perfil FROM usuarios WHERE id_usuario = $id";
         $result = $this->link->query($sql);
 
@@ -99,23 +140,26 @@ class es_usersModel extends es_usersClass
             $row = $result->fetch_assoc();
             $foto_perfil_url = $row['foto_perfil'];
 
-            echo "Ruta de la imagen a eliminar: " . $foto_perfil_url;
-
             $foto_perfil_absoluta = realpath('../' . $foto_perfil_url);
 
             if ($foto_perfil_absoluta && file_exists($foto_perfil_absoluta)) {
-                unlink($foto_perfil_absoluta);
-                $this->CloseConnect();
-                return "Imagen del usuario eliminada correctamente";
+                if (unlink($foto_perfil_absoluta)) {
+                    $this->CloseConnect();
+                    return json_encode(['error' => false, 'message' => "Imagen del usuario eliminada correctamente"]);
+                } else {
+                    $this->CloseConnect();
+                    return json_encode(['error' => true, 'message' => "Error al eliminar la imagen del usuario"]);
+                }
             } else {
                 $this->CloseConnect();
-                return "La imagen de perfil del usuario no se encontró en el sistema de archivos";
+                return json_encode(['error' => true, 'message' => "La imagen de perfil del usuario no se encontró en el sistema de archivos"]);
             }
         } else {
             $this->CloseConnect();
-            return "No se pudo encontrar la URL de la foto de perfil del usuario";
+            return json_encode(['error' => true, 'message' => "No se pudo encontrar la URL de la foto de perfil del usuario"]);
         }
     }
+
 
 
 
@@ -146,6 +190,79 @@ class es_usersModel extends es_usersClass
 
     /************************************************************************************** */
 
+    public function checkboxFilterList()
+{
+    $this->OpenConnect();
+    $favorito = $this->getFavorito();
+    $suspendido = $this->getSuspendido();
+    $tipo_usuario = $this->getTipo_usuario();
+
+    $sql = "SELECT * FROM usuarios WHERE 1=1";
+    $params = [];
+    $types = ''; 
+
+    if (!empty($favorito)) {
+        $sql .= " AND favorito = ?";
+        $params[] = $favorito;
+        $types .= 's';
+    }
+
+    if (!empty($suspendido)) {
+        $sql .= " AND suspendido = ?";
+        $params[] = $suspendido;
+        $types .= 's';
+    }
+
+    if (!empty($tipo_usuario)) {
+        $sql .= " AND tipo_usuario = ?";
+        $params[] = $tipo_usuario;
+        $types .= 's';
+    }
+
+    $stmt = $this->link->prepare($sql);
+
+    if (!$stmt) {
+        echo "Error preparando la consulta: " . $this->link->error;
+        return [];
+    }
+
+    if ($params) {
+        $stmt->bind_param($types, ...$params);
+    }
+    
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $list = array();
+    while ($row = $result->fetch_assoc()) {
+        $new = new es_usersClass();
+        $new->setId_usuario($row['id_usuario']);
+        $new->setNombre_usuario($row['nombre_usuario']);
+        $new->setNombre($row['nombre']);
+        $new->setContrasena($row['contrasena']);
+        $new->setApellido_1($row['apellido_1']);
+        $new->setApellido_2($row['apellido_2']);
+        $new->setCorreo($row['correo']);
+        $new->setTelefono($row['telefono']);
+        $new->setFoto_perfil($row['foto_perfil']);
+        $new->setTipo_usuario($row['tipo_usuario']);
+        $new->setDireccion($row['direccion']);
+        $new->setFavorito($row['favorito']);
+        $new->setSuspendido($row['suspendido']);
+
+        array_push($list, get_object_vars($new));
+    }
+
+    $result->free();
+    $this->CloseConnect();
+
+    return $list;
+}
+
+
+
+    /************************************************************************************** */
+
     public function banUser()
     {
         $this->OpenConnect();
@@ -168,6 +285,53 @@ class es_usersModel extends es_usersClass
         }
     }
 
+
+    /************************************************************************************** */
+
+
+    public function checkUserAvailability()
+    {
+        $this->OpenConnect();
+        $username = $this->getNombre_usuario();
+
+        $sql = "SELECT COUNT(*) as count FROM usuarios WHERE nombre_usuario = ?";
+
+        if ($stmt = $this->link->prepare($sql)) {
+            // Enlazar el parámetro
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $count = $row['count'];
+
+            $stmt->close();
+            $this->CloseConnect();
+            return $count > 0;
+        } else {
+            $this->CloseConnect();
+            throw new Exception("Error al preparar la consulta: " . $this->link->error);
+        }
+    }
+
+    /************************************************************************************** */
+
+
+    public function checkEmailAvailability()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+        $sql = "SELECT COUNT(*) as count FROM usuarios WHERE correo = '$email'";
+        $result = $this->link->query($sql);
+
+        $row = $result->fetch_assoc();
+        $count = $row['count'];
+
+        $this->CloseConnect();
+
+        return $count > 0;
+    }
 
     /************************************************************************************** */
 
@@ -200,6 +364,7 @@ class es_usersModel extends es_usersClass
         $this->CloseConnect();
         return $msg;
     }
+
 
     /************************************************************************************** */
 
