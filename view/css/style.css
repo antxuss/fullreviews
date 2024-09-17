@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   /*padding: 0px;*/
   /*    margin: 0px;*/
@@ -128,19 +129,34 @@ body {
 /********************************INICIO LOGIN.HTML**************************************/
 #body-login {
   background-color: grey;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
 }
 
-.login-container {
+.login-container,
+.login-register-container {
   width: 400px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
   flex-direction: column;
   border-radius: 5px;
-  height: auto;
   padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container {
+  display: flex;
+  /* Visible por defecto */
+}
+
+.login-register-container {
+  display: none;
+  /* Oculto por defecto */
 }
 
 .login-img {
@@ -160,7 +176,8 @@ body {
   font-weight: bold;
 }
 
-.login-form {
+.login-form,
+.login-register-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -192,35 +209,346 @@ body {
   display: none;
 }
 
-.login-not-registered {
-  margin-top: 15px;
-  color: blue;
-  cursor: pointer;
-}
-
-.login-register-container {
-  width: 400px;
-  background-color: white;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  flex-direction: column;
-  border-radius: 5px;
-  height: auto;
-  padding: 10px;
-}
-
-.login-register-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
+.login-not-registered,
 .login-back {
   margin-top: 15px;
   color: blue;
   cursor: pointer;
+}
+
+#verification-code-section {
+  display: none;
+}
+
+#alert {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  padding: 15px;
+  z-index: 1000;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.5s;
+  width: auto;
+}
+
+#alert.show {
+  opacity: 1;
+}
+
+/* Tipos de alerta */
+.alert.error {
+  background-color: #f44336;
+  /* Rojo para errores */
+}
+
+.alert.success {
+  background-color: #4CAF50;
+  /* Verde para éxitos */
+}
+
+.alert.warning {
+  background-color: #ff9800;
+  /* Naranja para advertencias */
+}
+
+.alert.info {
+  background-color: #2196F3;
+  /* Azul para información */
+}
+
+.hidden {
+  display: none;
+}
+
+#verification-code-inputs {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.verification-input {
+  width: 40px;
+  height: 50px;
+  font-size: 24px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  margin: 0 5px;
+}
+
+.verification-input:focus {
+  border-color: black;
+}
+
+#resend-code {
+  display: none;
+}
+
+#user-forgotten {
+  cursor: pointer;
+}
+
+/* Estilo del botón de "Volver" */
+#forgot-back-button {
+  position: absolute;
+  margin-top: 43px;
+  margin-left: -55px;
+  background-color: #f5f5f5;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  z-index: 1000;
+  width: 40px;
+}
+
+#forgot-back-button svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+  /* Color del ícono SVG */
+}
+
+#forgot-back-button:hover {
+  background-color: #e0e0e0;
+  /* Color de fondo al hacer hover */
+}
+
+/* Estilo del contenedor de recuperación de contraseña */
+#forgot-password-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  /* Asegura que haya espacio suficiente entre el botón y el contenedor */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#change-username-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  /* Asegura que haya espacio suficiente entre el botón y el contenedor */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.account-problem-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  /* Asegura que haya espacio suficiente entre el botón y el contenedor */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.account-problem-container label {
+  margin-top: 10px;
+}
+
+.account-problem-container textarea {
+  margin-top: 10px;
+  width: 100%;
+  height: 100px;
+}
+
+.account-problem-container button {
+  margin-top: 15px;
+}
+
+#username-display {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  /* Asegura que haya espacio suficiente entre el botón y el contenedor */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.screen {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  /* Centrar horizontalmente */
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: none;
+  /* Oculto por defecto, se mostrará por JavaScript */
+}
+
+/* El botón de volver se alinea al principio */
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Oculte el formulario de login al cambiar a otro formulario */
+.hidden {
+  display: none;
+}
+
+#verify-recovery-code-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.code-inputs-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /* Ajusta según el diseño */
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.code-input {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.code-input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+#reset-password-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#forgot-username-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input[type=password] {
+  width: 100%;
+  padding-right: 30px; /* Espacio para el icono */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #888;
+}
+
+.help-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.help-dropdown {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.help-option {
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.help-option:hover {
+  color: #007BFF;
+}
+
+#close-help {
+  margin-top: 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#close-help:hover {
+  background-color: #0056b3;
+}
+
+#login-help {
+  cursor: pointer;
+}
+
+.help-dropdown {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  fill: #333;
+}
+
+.help-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 /********************************FIN LOGIN.HTML**************************************/
@@ -456,7 +784,8 @@ body {
 }
 
 .suspended {
-  border: 2px solid red; /* Borde rojo */
+  border: 2px solid red;
+  /* Borde rojo */
 }
 
 .card img {
@@ -545,7 +874,10 @@ body {
     opacity: 0.2;
   }
 }
-.card-info-loading label, .card-username-loading, .card-icons-container-loading, .card-icons-loading {
+.card-info-loading label,
+.card-username-loading,
+.card-icons-container-loading,
+.card-icons-loading {
   animation: loadingAnimation 1s infinite;
 }
 

@@ -1,5 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function (event) {
+
+  loggedVerify();
+  showUserModal();
+  document.querySelector('#modal-delete-button-yes').addEventListener('click', logOut);
   document.querySelector('#logout').addEventListener('click', ModalLogout);
   document.querySelector('#bars-icon').addEventListener('click', DeploySidebarMenu);
   document.querySelector('#bars-icon-sidebar').addEventListener('click', HideSidebarMenu);
@@ -43,6 +47,43 @@ document.addEventListener("DOMContentLoaded", function (event) {
       usersCheckbox.disabled = false;
     }
   });
+
+  function loggedVerify() {
+    var url = "../controller/es/es_logged_verify.php";
+
+    fetch(url, {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result);
+
+        if (result.error !== "logged") {
+          window.location.href = "../es/login.html"; // Redirige si no está logueado
+        } else {
+          console.log("tipoo " + result.tipo_usuario);
+          if (result.tipo_usuario !== "Administrador") {
+            window.location.href = "../es/index.html"; // Si no es administrador, redirige a la página principal
+          }
+        }
+      })
+      .catch(error => console.error('Error status:', error));
+  }
+
+  function logOut() {
+
+    var url = "../controller/es/es_log_out.php";
+
+    fetch(url, {
+      method: 'GET',
+    })
+      .then(res => res.json()).then(result => {
+
+        window.location.href = "../es/index.html";
+      })
+      .catch(error => console.error('Error status:', error));
+
+  }
 
 
   var nameInput = document.getElementById('modal-add-user-content-form-column-2-input-name');
@@ -164,6 +205,42 @@ function Sidebarmenuicon() {
 }
 
 /************************USERS LIST*********************************** */
+
+
+function showUserModal() {
+  fetch('../controller/es/es_logged_verify.php')
+  .then(res => res.json())
+  .then(result => {
+      if (result.error === "logged") {
+          document.getElementById("user-profile-info-img").src = result.foto_perfil || "../view/img/logoProvisional.jpg";
+          document.getElementById("user-profile-info-name").innerText = result.nombre_usuario;
+
+          document.getElementById("modal-user-profile-content-form-container-1-username").innerText = result.nombre_usuario;
+          document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src = result.foto_perfil;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").innerText = "Nombre: "+result.nombre;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").innerText = "Primer Apellido: "+result.apellido_1;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").innerText = "Segundo Apellido: "+result.apellido_2;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").innerText = "Correo: "+result.correo;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").innerText = "Tlf: "+result.telefono;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").innerText = "Dirección: "+result.direccion;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-password").innerText = "Contrasena: "+result.contrasena;
+          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").innerText = "Tipo usuario: "+result.tipo_usuario;
+          
+      } else {
+          window.location.href = "../es/index.html";
+      }
+  })
+  .catch(error => {
+      console.error('Error fetching user data:', error);
+  });
+}
+
+// Cerrar el modal cuando se haga clic en el botón de cierre
+document.getElementById("modal-user-profile-close-button").addEventListener("click", function() {
+  document.getElementById("modal-user-profile").style.display = "none";
+});
+
+
 
 
 let isFavorite = false;
@@ -1658,7 +1735,7 @@ function saveChangesEdit() {
   var confirmPassword = confirmPasswordInput.value;
 
   var initialPasswordValue = originalValues["modal-info-user-content-form-column-3-input-password"];
-  
+
   var dataModified = false;
 
   var inputs1 = document.querySelectorAll('.modal-info-user-content-form-column-2-input');
@@ -2458,6 +2535,7 @@ function ModalBanUser() {
 
 function ModalUserProfile() {
 
+  
   var modal = document.getElementById("modal-user-profile");
   modal.style.zIndex = "2";
 

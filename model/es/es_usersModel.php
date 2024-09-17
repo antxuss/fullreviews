@@ -191,73 +191,73 @@ class es_usersModel extends es_usersClass
     /************************************************************************************** */
 
     public function checkboxFilterList()
-{
-    $this->OpenConnect();
-    $favorito = $this->getFavorito();
-    $suspendido = $this->getSuspendido();
-    $tipo_usuario = $this->getTipo_usuario();
+    {
+        $this->OpenConnect();
+        $favorito = $this->getFavorito();
+        $suspendido = $this->getSuspendido();
+        $tipo_usuario = $this->getTipo_usuario();
 
-    $sql = "SELECT * FROM usuarios WHERE 1=1";
-    $params = [];
-    $types = ''; 
+        $sql = "SELECT * FROM usuarios WHERE 1=1";
+        $params = [];
+        $types = '';
 
-    if (!empty($favorito)) {
-        $sql .= " AND favorito = ?";
-        $params[] = $favorito;
-        $types .= 's';
+        if (!empty($favorito)) {
+            $sql .= " AND favorito = ?";
+            $params[] = $favorito;
+            $types .= 's';
+        }
+
+        if (!empty($suspendido)) {
+            $sql .= " AND suspendido = ?";
+            $params[] = $suspendido;
+            $types .= 's';
+        }
+
+        if (!empty($tipo_usuario)) {
+            $sql .= " AND tipo_usuario = ?";
+            $params[] = $tipo_usuario;
+            $types .= 's';
+        }
+
+        $stmt = $this->link->prepare($sql);
+
+        if (!$stmt) {
+            echo "Error preparando la consulta: " . $this->link->error;
+            return [];
+        }
+
+        if ($params) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $list = array();
+        while ($row = $result->fetch_assoc()) {
+            $new = new es_usersClass();
+            $new->setId_usuario($row['id_usuario']);
+            $new->setNombre_usuario($row['nombre_usuario']);
+            $new->setNombre($row['nombre']);
+            $new->setContrasena($row['contrasena']);
+            $new->setApellido_1($row['apellido_1']);
+            $new->setApellido_2($row['apellido_2']);
+            $new->setCorreo($row['correo']);
+            $new->setTelefono($row['telefono']);
+            $new->setFoto_perfil($row['foto_perfil']);
+            $new->setTipo_usuario($row['tipo_usuario']);
+            $new->setDireccion($row['direccion']);
+            $new->setFavorito($row['favorito']);
+            $new->setSuspendido($row['suspendido']);
+
+            array_push($list, get_object_vars($new));
+        }
+
+        $result->free();
+        $this->CloseConnect();
+
+        return $list;
     }
-
-    if (!empty($suspendido)) {
-        $sql .= " AND suspendido = ?";
-        $params[] = $suspendido;
-        $types .= 's';
-    }
-
-    if (!empty($tipo_usuario)) {
-        $sql .= " AND tipo_usuario = ?";
-        $params[] = $tipo_usuario;
-        $types .= 's';
-    }
-
-    $stmt = $this->link->prepare($sql);
-
-    if (!$stmt) {
-        echo "Error preparando la consulta: " . $this->link->error;
-        return [];
-    }
-
-    if ($params) {
-        $stmt->bind_param($types, ...$params);
-    }
-    
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $list = array();
-    while ($row = $result->fetch_assoc()) {
-        $new = new es_usersClass();
-        $new->setId_usuario($row['id_usuario']);
-        $new->setNombre_usuario($row['nombre_usuario']);
-        $new->setNombre($row['nombre']);
-        $new->setContrasena($row['contrasena']);
-        $new->setApellido_1($row['apellido_1']);
-        $new->setApellido_2($row['apellido_2']);
-        $new->setCorreo($row['correo']);
-        $new->setTelefono($row['telefono']);
-        $new->setFoto_perfil($row['foto_perfil']);
-        $new->setTipo_usuario($row['tipo_usuario']);
-        $new->setDireccion($row['direccion']);
-        $new->setFavorito($row['favorito']);
-        $new->setSuspendido($row['suspendido']);
-
-        array_push($list, get_object_vars($new));
-    }
-
-    $result->free();
-    $this->CloseConnect();
-
-    return $list;
-}
 
 
 
@@ -336,6 +336,369 @@ class es_usersModel extends es_usersClass
     /************************************************************************************** */
 
 
+    public function getPasswordHash()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+        $sql = "SELECT contrasena FROM usuarios WHERE correo = ?";
+
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return null;
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $passwordHash = $row['contrasena'];  // Cambiado de 'password' a 'contrasena'
+        } else {
+            $passwordHash = null;
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $passwordHash;
+    }
+
+
+    /************************************************************************************** */
+
+    public function updatePasswordPlain()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+        $newPassword = $this->getContrasena();
+
+        if ($this->link->connect_error) {
+            error_log("Error de conexión a la base de datos: " . $this->link->connect_error);
+            return false;
+        }
+
+        $sql = "UPDATE usuarios SET contrasena = ? WHERE correo = ?";
+        $stmt = $this->link->prepare($sql);
+
+        if (!$stmt) {
+            error_log("Error en la preparación de la consulta SQL: " . $this->link->error);
+            $this->CloseConnect();
+            return false;
+        }
+
+        $stmt->bind_param("ss", $newPassword, $email);
+
+        $success = $stmt->execute();
+
+        if (!$success) {
+            error_log("Error en la ejecución de la consulta SQL: " . $stmt->error);
+        } else {
+            error_log("Consulta ejecutada exitosamente. Contraseña actualizada para el correo: " . $email);
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $success;
+    }
+
+    /************************************************************************************** */
+
+    public function findUserLogin()
+    {
+        $this->OpenConnect();
+
+        $username = $this->getNombre_usuario();
+        $password = $this->getContrasena();
+
+        // Consulta SQL para verificar el usuario y la contraseña
+        $sql = "SELECT id_usuario FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?";
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return false;
+        }
+
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $userId = $row['id_usuario'];
+        } else {
+            $userId = false;
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $userId;
+    }
+
+
+    /************************************************************************************** */
+
+    public function findUserLoginStatus()
+    {
+        $this->OpenConnect();
+
+        $username = $this->getNombre_usuario();
+        $password = $this->getContrasena();
+
+        $sql = "SELECT suspendido FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?";
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return false;
+        }
+
+        $stmt->bind_param("ss", $username, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $status = true;
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+
+            if ($row['suspendido'] === 'Si') {
+                $status = false;
+            } else {
+                $status = true;
+            }
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $status;
+    }
+
+
+    /************************************************************************************** */
+
+
+    public function findUserLoginType()
+    {
+        $this->OpenConnect();
+
+        $username = $this->getNombre_usuario();
+
+        // Consulta SQL para verificar el tipo de usuario
+        $sql = "SELECT tipo_usuario FROM usuarios WHERE nombre_usuario = ?";
+
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return false;
+        }
+
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $isAdmin = $row['tipo_usuario'] === 'Administrador';
+        } else {
+            $isAdmin = false;
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $isAdmin;
+    }
+
+
+
+    /************************************************************************************** */
+
+    public function getUserProfileDetails()
+{
+    $this->OpenConnect();
+
+    $userId = $this->getId_usuario();
+
+    $sql = "SELECT nombre_usuario, nombre, apellido_1, apellido_2, correo, telefono, foto_perfil, tipo_usuario, contrasena, direccion, favorito, suspendido 
+            FROM usuarios 
+            WHERE id_usuario = ?";
+
+    $stmt = $this->link->prepare($sql);
+    if ($stmt === false) {
+        error_log("Error preparando la consulta: " . $this->link->error);
+        return false;
+    }
+
+    $stmt->bind_param("i", $userId);
+
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        // Se devuelven los datos del usuario
+        $userProfile = [
+            'nombre_usuario' => $row['nombre_usuario'],
+            'nombre' => $row['nombre'],
+            'apellido_1' => $row['apellido_1'],
+            'apellido_2' => $row['apellido_2'],
+            'correo' => $row['correo'],
+            'telefono' => $row['telefono'],
+            'foto_perfil' => $row['foto_perfil'],
+            'tipo_usuario' => $row['tipo_usuario'],
+            'contrasena' => $row['contrasena'],
+            'direccion' => $row['direccion'],
+            'favorito' => $row['favorito'],
+            'suspendido' => $row['suspendido'],
+        ];
+    } else {
+        $userProfile = false; // No se encontró el usuario
+    }
+
+    $stmt->close();
+    $this->CloseConnect();
+
+    return $userProfile;
+}
+
+
+
+
+    /************************************************************************************** */
+
+    public function getUsernameByEmail()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE correo = ?";
+
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return null;
+        }
+
+        $stmt->bind_param("s", $email);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $username = $row['nombre_usuario'];
+        } else {
+            $username = null;
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $username;
+    }
+
+
+    /************************************************************************************** */
+
+
+    public function getUserByEmailAndPassword()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+        $password = $this->getContrasena();
+
+        if ($this->link->connect_error) {
+            error_log("Error de conexión a la base de datos: " . $this->link->connect_error);
+            return null;
+        }
+
+        // Consulta SQL que selecciona nombre_usuario donde coincidan correo y contraseña
+        $sql = "SELECT nombre_usuario FROM usuarios WHERE correo = ? AND contrasena = ?";
+        $stmt = $this->link->prepare($sql);
+
+        if (!$stmt) {
+            error_log("Error en la preparación de la consulta SQL: " . $this->link->error);
+            $this->CloseConnect();
+            return null;
+        }
+
+        // Bindeo de parámetros: correo y contraseña
+        $stmt->bind_param("ss", $email, $password);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        error_log("Número de filas encontradas: " . $result->num_rows);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $username = $row['nombre_usuario'];
+            error_log("Nombre de usuario obtenido: " . $username);
+        } else {
+            error_log("No se encontró ningún usuario con esas credenciales: " . $email);
+            $username = null;
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $username;
+    }
+
+
+    /************************************************************************************** */
+
+    public function updateUsername()
+    {
+        $this->OpenConnect();
+
+        $email = $this->getCorreo();
+        $newUsername = $this->getNombre_Usuario();
+
+        if ($this->link->connect_error) {
+            error_log("Error de conexión a la base de datos: " . $this->link->connect_error);
+            return false;
+        }
+
+        $sql = "UPDATE usuarios SET nombre_usuario = ? WHERE correo = ?";
+        $stmt = $this->link->prepare($sql);
+
+        if (!$stmt) {
+            error_log("Error en la preparación de la consulta SQL: " . $this->link->error);
+            $this->CloseConnect();
+            return false;
+        }
+
+        $stmt->bind_param("ss", $newUsername, $email);
+
+        $success = $stmt->execute();
+
+        if (!$success) {
+            error_log("Error en la ejecución de la consulta SQL: " . $stmt->error);
+        } else {
+            error_log("Consulta ejecutada exitosamente. Nombre de usuario actualizado para el correo: " . $email);
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $success;
+    }
+
+
+    /************************************************************************************** */
+
     public function addUser()
     {
 
@@ -353,6 +716,34 @@ class es_usersModel extends es_usersClass
 
 
         $sql = "INSERT INTO usuarios(nombre_usuario,nombre,apellido_1,apellido_2,correo,telefono,foto_perfil,tipo_usuario,contrasena,direccion,favorito,suspendido) VALUES ('$username','$name','$firstLastName','$secondLastName','$mail','$tlf','../view/img/img-users/$userImg','$userType','$password','$address','No','No')";
+
+        $this->link->query($sql);
+
+        if ($this->link->affected_rows == 1) {
+            $msg = $sql . " El usuario se ha insertado con exito. Num de inserts: " . $this->link->affected_rows;
+        } else {
+            $msg = $sql . " Fallo al insertar un usuario nuevo: (" . $this->link->errno . ") " . $this->link->error;
+        }
+        $this->CloseConnect();
+        return $msg;
+    }
+
+
+    /************************************************************************************** */
+
+    public function registerUser()
+    {
+
+        $this->OpenConnect();
+        $name = $this->getNombre();
+        $firstLastName = $this->getApellido_1();
+        $secondLastName = $this->getApellido_2();
+        $email = $this->getCorreo();
+        $username = $this->getNombre_usuario();
+        $password = $this->getContrasena();
+
+
+        $sql = "INSERT INTO usuarios(nombre_usuario,nombre,apellido_1,apellido_2,correo,telefono,foto_perfil,tipo_usuario,contrasena,direccion,favorito,suspendido) VALUES ('$username','$name','$firstLastName','$secondLastName','$email','','../view/img/img-users/perfil-de-usuario-provisional.webp','Usuario','$password','','No','No')";
 
         $this->link->query($sql);
 
