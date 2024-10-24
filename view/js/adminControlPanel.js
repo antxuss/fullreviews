@@ -206,39 +206,1172 @@ function Sidebarmenuicon() {
 
 /************************USERS LIST*********************************** */
 
+//PROBLEMAS: CUANDO ACTUALIZO NOMBRE USUARIO DE ADMIN Y RECARGO LA PAGINA SE VUELVE USUARIO AUTOMATICAMENTE Y ENCIMA NO SE ACTUALIZA AUTOMARICAMENTE LA INFO EN EL PERFIL
+
+document.getElementById("modal-user-profile-close-button").addEventListener("click", function () {
+  document.getElementById("modal-user-profile").style.display = "none";
+});
+
+let actualPassword = '';
+
+//ASIGNAR EL VALOR DE LA IMAGEN EN VALUE O ALGO PARA DESPUES EN OTRAS FUNCIONES RECOGERLO PARA PODER BORRAR LA IMAGEN ANTERIOR
 
 function showUserModal() {
   fetch('../controller/es/es_logged_verify.php')
-  .then(res => res.json())
-  .then(result => {
+    .then(res => res.json())
+    .then(result => {
       if (result.error === "logged") {
-          document.getElementById("user-profile-info-img").src = result.foto_perfil || "../view/img/logoProvisional.jpg";
-          document.getElementById("user-profile-info-name").innerText = result.nombre_usuario;
+        // Actualizamos los campos con los datos del perfil
+        document.getElementById("user-profile-info-img").src = result.foto_perfil || "../view/img/logoProvisional.jpg";
+        document.getElementById("user-profile-info-name").innerText = result.nombre_usuario;
+        document.getElementById("modal-user-profile-content-form-container-1-username").innerText = result.nombre_usuario;
+        document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src = result.foto_perfil;
 
-          document.getElementById("modal-user-profile-content-form-container-1-username").innerText = result.nombre_usuario;
-          document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src = result.foto_perfil;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").innerText = "Nombre: "+result.nombre;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").innerText = "Primer Apellido: "+result.apellido_1;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").innerText = "Segundo Apellido: "+result.apellido_2;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").innerText = "Correo: "+result.correo;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").innerText = "Tlf: "+result.telefono;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").innerText = "Dirección: "+result.direccion;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-password").innerText = "Contrasena: "+result.contrasena;
-          document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").innerText = "Tipo usuario: "+result.tipo_usuario;
-          
+        const profileImageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
+
+// Extraer solo el nombre del archivo de la URL
+const imageUrl = result.foto_perfil;
+const imageName = imageUrl ? imageUrl.split('/').pop() : "logoProvisional.jpg"; // Si no hay imagen, usar "logoProvisional.jpg"
+
+// Asignar el nombre de la imagen como valor del atributo 'data-profile-image'
+profileImageElement.setAttribute('data-profile-image', imageName);
+
+
+        // Actualizamos los inputs con los valores de perfil
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").value = result.nombre;
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").value = result.apellido_1;
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").value = result.apellido_2;
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").value = result.correo;
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").value = result.telefono;
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").value = result.direccion;
+
+        // Actualizamos la contraseña y tipo de usuario
+        // Obtiene la contraseña real
+actualPassword = result.contrasena; 
+console.log("actualPassworddd "+actualPassword);
+
+// Encriptar la contraseña
+var encryptedPassword = CryptoJS.AES.encrypt(actualPassword, 'your-secret-key').toString(); 
+
+console.log("encryptedPasswordddd "+encryptedPassword);
+
+// Establecer la contraseña encriptada en el input
+document.getElementById("modal-user-profile-password").setAttribute('data-encrypted-password', encryptedPassword);
+
+// Establecer la contraseña real (no visible) en un atributo del input
+document.getElementById("modal-user-profile-password").setAttribute('data-original-password', actualPassword);
+
+  //SE VEN ** Y NO LA CONTRASEÑA REAL, y data-original-password="********" se ve asi, pinta estar mal
+        document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value = result.tipo_usuario;
+
+        // Asignamos el valor del ID al botón "Editar"
+        var editButton = document.getElementById("edit-profile-button");
+        editButton.setAttribute('data-id', result.id_usuario);  // Asignar el ID del usuario como atributo
+
       } else {
-          window.location.href = "../es/index.html";
+        window.location.href = "../es/index.html";
       }
+    })
+    .catch(error => {
+      console.error('Error fetching user data:', error);
+    });
+}
+
+
+
+document.getElementById('toggle-password-visibility').addEventListener('click', function () {
+  const passwordInput = document.getElementById("modal-user-profile-password");
+    const currentType = passwordInput.getAttribute('type');
+
+    if (currentType === 'password') {
+        // Obtener la contraseña encriptada
+        const encryptedPassword = passwordInput.getAttribute('data-encrypted-password');
+        
+        // Desencriptar la contraseña usando la clave secreta
+        const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+
+        // Mostrar la contraseña desencriptada
+        passwordInput.setAttribute('type', 'text');
+        passwordInput.value = decryptedPassword;
+    } else {
+        // Volver a ocultar la contraseña con asteriscos
+        passwordInput.setAttribute('type', 'password');
+        //passwordInput.value = '********';
+    }
+});
+
+
+document.getElementById('edit-profile-button').addEventListener('click', function () {
+  toggleEditMode(true);
+});
+
+document.getElementById('exit-edit-mode-button').addEventListener('click', function () {
+  toggleEditMode(false);
+});
+
+function toggleEditMode(editMode) {
+  const fields = [
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address"),
+    document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type"),
+    document.getElementById("modal-user-profile-password")
+  ];
+
+  const overlay = document.getElementById('overlay-edit');
+
+  if (editMode) {
+    fields.forEach(function (field) {
+      field.removeAttribute('readonly');
+      field.classList.add('editable');
+    });
+
+    overlay.style.display = 'flex';
+    document.getElementById('exit-edit-mode-button').style.display = 'flex';
+    document.getElementById('edit-profile-button').style.display = 'none';
+    document.getElementById('save-profile-button').style.display = 'flex'; // Mostrar botón Guardar
+
+  } else {
+    fields.forEach(function (field) {
+      field.setAttribute('readonly', true);
+      field.classList.remove('editable');
+    });
+
+    overlay.style.display = 'none'; // Ocultar overlay en modo normal
+    document.getElementById('exit-edit-mode-button').style.display = 'none';
+    document.getElementById('edit-profile-button').style.display = 'flex';
+    document.getElementById('save-profile-button').style.display = 'none'; // Ocultar botón Guardar
+  }
+}
+
+var originalValues = {}; // Para almacenar los valores originales
+var editoriginalImageSrc = ""; // Para almacenar la URL de la imagen original
+var editoriginalImageDataValue = ""; // Para almacenar el atributo data-value de la imagen original
+
+var btnEdit = document.querySelector('#edit-profile-button');
+var btnExit = document.querySelector('#exit-edit-mode-button'); // Selecciona el botón de salir
+var overlay = document.getElementById('overlay-user-profile-edit'); // Selecciona el overlay
+var profileImgWrapper = document.querySelector('.profile-img-wrapper');
+
+btnEdit.addEventListener('click', function () {
+  // Solo guardar los valores originales si no se han guardado ya
+  if (Object.keys(originalValues).length === 0) {
+    console.log("Guardando valores originales..."); // Depuración
+
+    var inputs = document.querySelectorAll('.modal-user-profile-content-form-container-2-info-column-1 input, .modal-user-profile-content-form-container-2-info-column-2 input');
+    inputs.forEach(function (input) {
+      originalValues[input.id] = input.value; // Guardar el valor original
+      console.log("Guardado:", input.id, input.value); // Depuración
+    });
+
+    // Guardar el valor original de la contraseña
+    var passwordInput = document.querySelector('#modal-user-profile-password');
+    if (passwordInput) {
+      originalValues[passwordInput.id] = passwordInput.value; // Guardar contraseña (aunque puede ser asteriscos)
+      console.log("Guardado valor de contraseña:", passwordInput.value); // Depuración
+    }
+
+    // Guardar la imagen de perfil original
+    var editProfileImage = document.querySelector('.profileImage-edit');
+    editoriginalImageSrc = editProfileImage.src; // Guardar la URL original de la imagen
+    editoriginalImageDataValue = editProfileImage.getAttribute('data-value'); // Guardar el data-value original
+    console.log("Guardada imagen de perfil original:", editoriginalImageSrc);
+  }
+
+  // Añadir los bordes a los inputs y habilitar edición
+  var inputs = document.querySelectorAll('.modal-user-profile-content-form-container-2-info-column-1 input, .modal-user-profile-content-form-container-2-info-column-2 input');
+  inputs.forEach(function (input) {
+    input.removeAttribute('readonly'); // Permitir edición
+    input.style.border = "1px solid #ccc"; // Añadir borde en modo edición
+  });
+
+  // Permitir edición de la contraseña
+  var passwordInput = document.querySelector('#modal-user-profile-password');
+  if (passwordInput) {
+    passwordInput.removeAttribute('readonly');
+    passwordInput.style.border = "1px solid #ccc"; // Añadir borde en modo edición
+  }
+
+  // Reemplazar el input de tipo de usuario por un select
+  var userTypeInput = document.querySelector('#modal-user-profile-content-form-container-2-info-column-label-user-type');
+  originalValues[userTypeInput.id] = userTypeInput.value; // Guardar el valor original
+  var userTypeSelect = document.createElement('select');
+  userTypeSelect.className = "modal-add-user-content-form-column-3-select";
+  userTypeSelect.innerHTML = `
+        <option value="Usuario" ${userTypeInput.value === 'Usuario' ? 'selected' : ''}>Usuario</option>
+        <option value="Administrador" ${userTypeInput.value === 'Administrador' ? 'selected' : ''}>Administrador</option>
+    `;
+  userTypeSelect.id = userTypeInput.id;
+  userTypeInput.replaceWith(userTypeSelect); // Reemplazar input por select
+
+  // Mostrar botones de guardar y salir
+  document.querySelector('#save-profile-button').style.display = "flex";
+  btnExit.style.display = "flex"; // Mostrar botón de salir
+
+  // Ocultar el botón de editar
+  btnEdit.style.display = "none";
+
+  // Mostrar el overlay
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '1'; // Asegúrate de que la opacidad sea visible
+});
+
+// Manejador para el botón de salir
+// btnExit.addEventListener('click', function () {
+//   // Revertir cambios y restaurar valores originales
+//   var inputs = document.querySelectorAll('.modal-user-profile-content-form-container-2-info-column-1 input, .modal-user-profile-content-form-container-2-info-column-2 input');
+//   inputs.forEach(function (input) {
+//     input.value = originalValues[input.id] || ""; // Restaurar el valor original
+//     input.setAttribute('readonly', 'readonly'); // Volver a poner readonly
+//     input.style.border = "none"; // Quitar borde
+//   });
+
+//   // Restaurar la contraseña
+//   var passwordInput = document.querySelector('#modal-user-profile-password');
+//   if (passwordInput) {
+//     passwordInput.value = originalValues[passwordInput.id] || ""; // Restaurar contraseña
+//     passwordInput.setAttribute('readonly', 'readonly');
+//     passwordInput.style.border = "none"; // Quitar borde
+//   }
+
+//   // Restaurar el input de tipo de usuario
+//   var userTypeSelect = document.querySelector('.modal-add-user-content-form-column-3-select');
+//   if (userTypeSelect) {
+//     var userTypeInput = document.createElement('input');
+//     userTypeInput.type = 'text'; // Cambia a 'text' o el tipo original que tenías
+//     userTypeInput.id = userTypeSelect.id;
+//     userTypeInput.value = originalValues[userTypeSelect.id] || ""; // Restaurar valor original
+//     userTypeSelect.replaceWith(userTypeInput); // Reemplazar select por input
+//   }
+
+//   // Ocultar los botones de guardar y salir
+//   document.querySelector('#save-profile-button').style.display = "none";
+//   btnExit.style.display = "none"; // Ocultar botón de salir
+
+//   // Mostrar el botón de editar
+//   btnEdit.style.display = "flex";
+
+//   // Ocultar el overlay
+//   overlay.style.display = 'none'; // Ocultar el overlay al salir del modo de edición
+// });
+
+
+// Función para salir del modo de edición y restaurar valores originales
+var btnExit = document.querySelector('#exit-edit-mode-button');
+btnExit.addEventListener('click', function () {
+  console.log("Saliendo del modo de edición..."); // Depuración
+
+  var overlay = document.querySelector('#overlay-edit');
+  overlay.style.display = "none";
+
+  var inputs = document.querySelectorAll('.modal-user-profile-content-form-container-2-info-column-1 input, .modal-user-profile-content-form-container-2-info-column-2 input');
+  inputs.forEach(function (input) {
+    if (originalValues[input.id] !== undefined) {
+      console.log("Restaurando:", input.id, "a", originalValues[input.id]); // Depuración
+      input.value = originalValues[input.id]; // Restaurar el valor original
+      input.setAttribute('readonly', 'readonly'); // Volver a bloquear edición
+      input.style.border = "none"; // Quitar borde en modo no edición
+    }
+  });
+
+  // Restaurar el valor original de la contraseña
+  var passwordInput = document.querySelector('#modal-user-profile-password');
+  if (passwordInput && originalValues[passwordInput.id] !== undefined) {
+    passwordInput.value = originalValues[passwordInput.id]; // Restaurar contraseña original
+    console.log("Restaurando valor de contraseña a:", originalValues[passwordInput.id]); // Depuración
+    passwordInput.setAttribute('readonly', 'readonly'); // Bloquear edición de la contraseña
+    passwordInput.style.border = "none"; // Quitar borde en modo no edición
+  }
+
+  // Restaurar el select de tipo de usuario a un input de texto con readonly
+  var userTypeSelect = document.querySelector('.modal-add-user-content-form-column-3-select');
+  if (userTypeSelect) {
+    var userTypeInput = document.createElement('input');
+    userTypeInput.id = userTypeSelect.id;
+    userTypeInput.className = 'modal-user-profile-content-form-container-2-info-column-label-user-type';
+    userTypeInput.value = originalValues[userTypeSelect.id]; // Restaurar el valor original
+    userTypeInput.setAttribute('readonly', 'readonly'); // Volver a solo lectura
+    userTypeInput.style.border = "none"; // Quitar borde para que parezca solo lectura
+    userTypeSelect.replaceWith(userTypeInput); // Reemplazar select por input
+  }
+
+  // Restaurar la imagen de perfil original solo si no ha sido cambiada
+  var editProfileImage = document.querySelector('.profileImage-edit');
+  if (editoriginalImageSrc && editProfileImage.src !== editoriginalImageSrc) {
+    editProfileImage.src = editoriginalImageSrc; // Restaurar la URL de la imagen original
+    editProfileImage.setAttribute('data-value', editoriginalImageDataValue); // Restaurar el data-value original
+    console.log("Imagen de perfil restaurada a:", editoriginalImageSrc);
+  }
+
+  // Mostrar u ocultar el icono de eliminar imagen según el estado original
+  var editRemoveImageIcon = document.querySelector('.removeImageIcon-edit');
+  if (editoriginalImageSrc.includes('perfil-de-usuario-provisional.webp')) {
+    editRemoveImageIcon.style.display = 'none';
+  } else {
+    editRemoveImageIcon.style.display = 'block';
+  }
+
+  // Destruir el cropper si estaba en uso
+  if (editcropper) {
+    editcropper.destroy();
+    editcropper = null;
+  }
+
+  resetFileInput(); // Restablecer el input de archivos
+
+  // Mostrar botón de editar y ocultar los de guardar y salir
+  btnEdit.style.display = "flex";
+  document.querySelector('#save-profile-button').style.display = "none";
+  btnExit.style.display = "none";
+});
+
+
+var userProfileUniqueFileName = ''; // Variable global para almacenar el nombre único
+
+function userProfileGenerateUniqueFileName() {
+  return fetch('../controller/user_profile_generate_unique_file_name.php', {
+    method: 'POST',
+    body: JSON.stringify({}), // Puedes enviar un cuerpo vacío o algún valor si lo necesitas
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al obtener el nombre único: ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.status === 'success') {
+      userProfileUniqueFileName = data.uniqueFileName; // Guardar el nombre en la variable global
+      return userProfileUniqueFileName; // Devolver el nombre único generado
+    } else {
+      throw new Error('Error en la respuesta del servidor: ' + data.message);
+    }
   })
   .catch(error => {
-      console.error('Error fetching user data:', error);
+    console.error('Error en la generación del nombre único:', error);
   });
 }
 
-// Cerrar el modal cuando se haga clic en el botón de cierre
-document.getElementById("modal-user-profile-close-button").addEventListener("click", function() {
-  document.getElementById("modal-user-profile").style.display = "none";
-});
+
+
+document.getElementById("save-profile-button").addEventListener('click', saveUserProfileChanges);
+
+var userProfileUniqueFileName = '';
+var foto_perfil_src;
+
+// Función para guardar los cambios en el perfil de usuario
+var previousProfileImageName = ''; // Asegúrate de tener esta variable en un alcance accesible
+
+// function saveUserProfileChanges() {
+//   // Capturar los valores de los campos del perfil
+//   var nombre = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").value;
+//   var primerApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").value;
+//   var segundoApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").value;
+//   var correo = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").value;
+//   var telefono = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").value;
+//   var direccion = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").value;
+
+//   // Capturar correctamente el valor de la contraseña
+//   const encryptedPassword = document.getElementById("modal-user-profile-password").getAttribute('data-encrypted-password');
+    
+//   // Desencriptar la contraseña justo antes de enviarla
+//   const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+
+//   // Capturar el tipo de usuario
+//   var tipoUsuario = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value;
+
+//   // Capturar el nombre de usuario
+//   var nombre_usuario = document.getElementById("modal-user-profile-content-form-container-1-username") ? document.getElementById("modal-user-profile-content-form-container-1-username").innerText : null;
+
+//   // Obtener solo el nombre del archivo de la imagen
+//   foto_perfil_src = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src;
+  
+//   // Generar un nombre único para la imagen
+//   var tipo_imagen = foto_perfil_src.split(';')[0].split('/')[1]; // Extraer el tipo de imagen (e.g., 'png')
+//   var nombre_unico = `foto_perfil_${Date.now()}.${tipo_imagen}`;
+
+//   // Llamar al controlador para obtener un nombre único para la foto de perfil
+//   fetch('../controller/user_profile_generate_unique_file_name.php', {  //CUANDO NO CAMBIO LA FOTO DE PERFIL EVITARLO DE ALGUNA FORMA
+//       method: 'POST',
+//       body: JSON.stringify({ fileName: nombre_unico }), // Enviar el nombre único
+//       headers: {
+//           'Content-Type': 'application/json'
+//       }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Error al llamar al controlador: ' + response.statusText);
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     if (data.status === 'success') {
+//       var foto_perfil = data.uniqueFileName;
+
+//       userProfileUniqueFileName = foto_perfil;
+
+//       // Recuperar el ID del usuario desde el botón "Editar"
+//       var userId = document.getElementById("edit-profile-button").getAttribute('data-id');
+
+//       // Crear objeto con los datos del perfil
+//       var userData = {
+//         'id': userId,
+//         'nombre': nombre,
+//         'primerApellido': primerApellido,
+//         'segundoApellido': segundoApellido,
+//         'correo': correo,
+//         'telefono': telefono,
+//         'direccion': direccion,
+//         'tipo': tipoUsuario,
+//         'nombre_usuario': nombre_usuario,
+//         'password': decryptedPassword,
+//         'foto_perfil': foto_perfil // Usar el nombre único de la imagen
+//       };
+
+//       // Enviar los datos al servidor usando fetch
+//       return fetch('../controller/es/es_update_user.php', {
+//         method: 'POST',
+//         body: JSON.stringify(userData),
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       });
+//     } else {
+//       throw new Error('Error al obtener el nombre único del archivo: ' + data.message);
+//     }
+//   })
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Error al actualizar el perfil: ' + response.statusText);
+//     }
+//     return response.json();
+//   })
+//   .then(result => {
+//     // if (result.success) {
+//       showNotification('Perfil actualizado correctamente', 5000);
+//       // Guardar la imagen en local después de la actualización del perfil
+//       console.log("actualizado!");
+//       userProfileSaveImage();
+      
+//       // Actualiza el nombre de la imagen anterior con el nuevo nombre
+//       var imageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
+//       previousProfileImageName = imageElement.getAttribute('data-profile-image'); // Asumiendo que este atributo se actualiza con el nuevo nombre de archivo
+
+//       var userId = document.getElementById("edit-profile-button").getAttribute('data-id');
+//       fetchUpdatedUserProfile(userId);
+
+//       //deletePreviousProfileImage(foto_perfil_src);
+//     // } else {
+//     //   showNotification('Error al actualizar el perfil', 5000);
+//     // }
+//   })
+//   .catch(error => {
+//     console.error("Error al actualizar el perfil:", error);
+//     showNotification('Error al actualizar el perfil', 5000);
+//   });
+// }
+var profileImageChanged = false; // Variable para indicar si la imagen ha sido cambiada
+
+
+function saveUserProfileChanges() {
+  // Capturar los valores de los campos del perfil
+  var nombre = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").value;
+  var primerApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").value;
+  var segundoApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").value;
+  var correo = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").value;
+  var telefono = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").value;
+  var direccion = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").value;
+
+  // Capturar correctamente el valor de la contraseña
+  const encryptedPassword = document.getElementById("modal-user-profile-password").getAttribute('data-encrypted-password');
+  const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+
+  var tipoUsuario = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value;
+  var nombre_usuario = document.getElementById("modal-user-profile-content-form-container-1-username") ? document.getElementById("modal-user-profile-content-form-container-1-username").innerText : null;
+
+  // Obtener el src actual de la imagen de perfil
+  var currentProfileImageSrc = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src;
+
+  // Obtener el nombre de archivo de la imagen actual y de la imagen original
+  var imageElement = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+  var originalProfileImageSrc = imageElement.getAttribute('data-profile-image'); // Nombre original
+  var currentProfileImageName = currentProfileImageSrc.split('/').pop(); // Nombre actual
+
+  // Verificar si la imagen ha cambiado comparando el nombre de archivo
+  // Verificar si la imagen ha cambiado comparando el nombre de archivo
+if (currentProfileImageName !== originalProfileImageSrc) {
+  profileImageChanged = true; // La imagen ha sido cambiada
+
+  // La imagen ha cambiado, generar un nuevo nombre único para la imagen
+  var tipo_imagen = currentProfileImageSrc.split(';')[0].split('/')[1]; // Extraer el tipo de imagen (e.g., 'png')
+  var nombre_unico = `foto_perfil_${Date.now()}.${tipo_imagen}`;
+
+  // Llamar al controlador para obtener un nombre único para la foto de perfil
+  fetch('../controller/user_profile_generate_unique_file_name.php', {
+    method: 'POST',
+    body: JSON.stringify({ fileName: nombre_unico }), // Enviar el nombre único
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al llamar al controlador: ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.status === 'success') {
+      // Asignar el nombre único a la variable global y continuar con la actualización
+      userProfileUniqueFileName = data.uniqueFileName;
+      guardarPerfil(userProfileUniqueFileName, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombre_usuario, decryptedPassword);
+    } else {
+      throw new Error('Error al obtener el nombre único del archivo: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error("Error al actualizar el perfil:", error);
+    showNotification('Error al actualizar el perfil', 5000);
+  });
+} else {
+  profileImageChanged = false; // La imagen no ha sido cambiada
+  // La imagen no ha cambiado, usa el nombre de la imagen existente
+  guardarPerfil(originalProfileImageSrc, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombre_usuario, decryptedPassword);
+}
+
+}
+
+function guardarPerfil(foto_perfil, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombre_usuario, decryptedPassword) {
+  var userId = document.getElementById("edit-profile-button").getAttribute('data-id');
+  var userData = {
+    'id': userId,
+    'nombre': nombre,
+    'primerApellido': primerApellido,
+    'segundoApellido': segundoApellido,
+    'correo': correo,
+    'telefono': telefono,
+    'direccion': direccion,
+    'tipo': tipoUsuario,
+    'nombre_usuario': nombre_usuario,
+    'password': decryptedPassword,
+    'foto_perfil': foto_perfil // Nombre de la imagen actual o nueva
+  };
+
+  fetch('../controller/es/es_update_user.php', {
+    method: 'POST',
+    body: JSON.stringify(userData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(result => {
+    // if (result.success) {
+      showNotification('Perfil actualizado correctamente', 5000);
+
+      // Solo guardar la imagen si cambió
+      if (profileImageChanged) {
+        userProfileSaveImage(); // Guardar la nueva imagen
+      }
+
+      fetchUpdatedUserProfile(userId); // Actualizar el perfil
+    // } else {
+    //   showNotification('Error al actualizar el perfil', 5000);
+    // }
+  })
+  .catch(error => {
+    console.error("Error al actualizar el perfil:", error);
+    showNotification('Error al actualizar el perfil', 5000);
+  });
+}
+
+
+
+function fetchUpdatedUserProfile(userId) {
+  console.log("fetchUpdatedUserProfileeee ");
+  
+  return fetch('../controller/user_profile_refresh_profile_save.php', {
+    method: 'POST',
+    body: JSON.stringify({ "id": userId }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al obtener los datos del perfil: ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.status === 'success') {
+    
+      // Actualizar la imagen de perfil y su atributo data-profile-image
+      var imageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
+      
+      // Ruta completa de la imagen (Ajusta esta ruta según sea necesario)
+      var fullImageSrc = data.foto_perfil;
+
+      console.log("fetchUpdatedUserProfileeee fullImageSrccc "+data.foto_perfil);
+      
+      // Extraer el nombre del archivo de la ruta completa
+      var imageName = data.foto_perfil.split('/').pop(); // Solo el nombre del archivo
+    
+      // Actualizar el src con la ruta completa y el atributo data-profile-image con el nombre de archivo
+      imageElement.src = fullImageSrc; // Actualiza la ruta completa de la imagen
+      imageElement.setAttribute('data-profile-image', imageName); // Actualiza solo el nombre del archivo
+    
+      // Actualizar previousProfileImageName con el nuevo nombre de imagen
+      previousProfileImageName = imageName;
+
+      // Borra la imagen anterior si existe y si se ha actualizado la imagen de perfil
+      if (data.previous_foto_perfil && data.previous_foto_perfil !== imageName) {
+        console.log("Eliminando imagen anterior: " + data.previous_foto_perfil);
+        deletePreviousImage(data.previous_foto_perfil);
+      }
+      
+      console.log("Perfil actualizado con éxito. Nombre de la imagen: " + imageName);
+    } else {
+      throw new Error('Error al obtener los datos actualizados: ' + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error al obtener los datos actualizados del perfil:', error);
+  });
+}
+
+// Función para eliminar la imagen anterior en el servidor
+function deletePreviousImage(imageName) {
+  fetch('../controller/delete_user_profile_image.php', {
+    method: 'POST',
+    body: JSON.stringify({ "image_name": imageName }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error al eliminar la imagen: ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.status === 'success') {
+      console.log("Imagen anterior eliminada con éxito: " + imageName);
+    } else {
+      console.error("Error al eliminar la imagen anterior: " + data.message);
+    }
+  })
+  .catch(error => {
+    console.error('Error al eliminar la imagen anterior:', error);
+  });
+}
+
+
+
+
+
+
+function initCropper(event) {
+  var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+  originalImageSrc = image.src;
+
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    image.src = e.target.result;
+    if (cropper) {
+      cropper.destroy();
+    }
+
+    cropper = new Cropper(image, {
+      aspectRatio: 1,
+      viewMode: 2,
+      ready: function () {
+        document.getElementById('overlay-user-profile-edit').style.display = 'none';
+        document.getElementById('cancel-button').style.display = 'inline-block';
+        document.getElementById('save-button').style.display = 'inline-block';
+      }
+    });
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+//RECOGER DE ALGUNA FORMA EL SRC Y LUEGO SOLO EL NOMBRE PARA LA FUNCION deletePreviousProfileImage
+//NO ACTUALIZA EL VALOR DEL NOMBRE DE LA FOTO ACTUAL DESPUES DE CAMBIARLO 1 VEZ
+
+var previousProfileImageName = '';
+
+function userProfileCropImage() {
+  if (cropper) {
+    // Obtener el nombre actual de la imagen de perfil desde el atributo 'data-profile-image'
+    var imageElement = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+    var currentProfileImageName = imageElement.getAttribute('data-profile-image');
+
+    // Almacenar el nombre de la imagen anterior en una variable global para su uso posterior
+    previousProfileImageName = currentProfileImageName;
+    console.log("Imagen de perfil original guardada:", previousProfileImageName);
+
+    // Obtener los datos de la imagen recortada en base64
+    var croppedImageDataURL = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+
+    // Convertir los datos de la imagen base64 a un archivo Blob
+    croppedImageBlob = dataURLtoBlob(croppedImageDataURL); // Guardar el blob en una variable global
+
+    // Mostrar la imagen recortada temporalmente usando la cadena base64
+    imageElement.src = croppedImageDataURL; // Mostrar la imagen recortada directamente
+
+    // Guardar el nombre actualizado globalmente para su uso posterior
+    saveEditOriginalImageSrc = currentProfileImageName;
+
+    // Limpiar el cropper
+    cropper.destroy();
+    cropper = null;
+
+    // Ocultar los botones de "Cancelar" y "Guardar"
+    document.getElementById('cancel-button').style.display = 'none';
+    document.getElementById('save-button').style.display = 'none';
+
+    // Asegúrate de que el overlay se mantenga visible
+    var overlayElement = document.getElementById('overlay-user-profile-edit'); // Reemplaza 'overlay-id' con el ID real de tu overlay
+    overlayElement.style.display = 'block';
+
+    // Habilitar el botón para seleccionar una nueva imagen
+    // document.getElementById('select-new-image-button').style.display = 'flex'; // Asegúrate de que este botón esté correctamente configurado
+
+    // Mostrar mensaje de éxito
+    showNotification('Imagen recortada, ahora guarda los cambios del perfil', 5000);
+  }
+}
+
+
+
+
+
+
+function userProfileSaveImage() {
+  console.log("userProfileSaveImageee1");
+
+  // Verifica si croppedImageBlob está definido
+  if (typeof croppedImageBlob !== 'undefined' && croppedImageBlob) {
+    console.log("userProfileSaveImageee2");
+
+    // Crear un objeto FormData para enviar el archivo al servidor
+    var formData = new FormData();
+    formData.append('file', croppedImageBlob, userProfileUniqueFileName); // Usa el nombre único
+
+    // Realizar la solicitud POST para subir la imagen al servidor
+    return fetch('../controller/add_user_upload_profile_photo.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        // Actualizar la imagen de perfil con la nueva imagen
+        var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+        image.src = URL.createObjectURL(croppedImageBlob); // Mostrar la imagen recortada en el perfil
+
+        deletePreviousProfileImage();
+
+        // Limpiar el cropper
+        if (cropper) {
+          cropper.destroy();
+          cropper = null;
+        }
+
+        // Mostrar el overlay y ocultar botones de guardar/cancelar
+        document.getElementById('overlay-user-profile-edit').style.display = 'flex';
+        document.getElementById('cancel-button').style.display = 'none';
+        document.getElementById('save-button').style.display = 'none';
+
+        // Reiniciar el input de imagen
+        document.getElementById('editImageInputEdit').value = null;
+
+        // Mostrar mensaje de éxito
+        showNotification('Imagen guardada correctamente', 5000);
+      } else {
+        throw new Error('Error al guardar la imagen: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error("Error al guardar la imagen:", error);
+      showNotification('Error al guardar la imagen', 5000);
+    });
+  } else {
+    // Si no hay imagen recortada, no realizar ninguna acción relacionada con la imagen
+    console.log("No se ha recortado ninguna imagen, omitiendo guardado de imagen.");
+    return Promise.resolve(); // Continuar sin realizar la acción de guardar imagen
+  }
+}
+
+
+function dataURLtoBlob(dataurl) {
+  var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  while(n--){
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {type: mime});
+}
+
+
+function deletePreviousProfileImage() {
+  // Asegurarse de que el nombre de la imagen anterior está definido
+  if (previousProfileImageName) {
+    console.log("Nombre de la imagen anterior:", previousProfileImageName);
+
+    // Hacer una solicitud al controlador para eliminar la imagen anterior
+    fetch('../controller/user_profile_delete_previous_image.php', {
+      method: 'DELETE', // Cambia esto si es necesario
+      body: JSON.stringify({ imageName: previousProfileImageName }), // Usar el nombre del archivo
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log("Imagen anterior eliminada con éxito:", data.success);
+      } else {
+        console.error("Error al eliminar la imagen anterior:", data.error);
+      }
+    })
+    .catch(error => {
+      console.error("Error en la solicitud para eliminar la imagen anterior:", error);
+    });
+  } else {
+    console.log("No hay imagen anterior para eliminar.");
+  }
+}
+
+
+
+
+
+function userProfileCancelCrop() {
+  if (cropper) {
+    // Destruir el cropper
+    cropper.destroy();
+    cropper = null;
+
+    // Ocultar los botones de guardar/cancelar y mostrar el overlay
+    document.getElementById('overlay-user-profile-edit').style.display = 'flex';
+    document.getElementById('cancel-button').style.display = 'none';
+    document.getElementById('save-button').style.display = 'none';
+
+    // Revertir la imagen al estado original (antes de cualquier recorte)
+    var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+    
+    // Siempre revertimos a la imagen original, ignorando cualquier cambio
+    if (originalImageSrc) {
+      image.src = originalImageSrc;  // Revertir a la imagen original
+    }
+
+    // Reiniciar el input de selección de archivo
+    document.getElementById('editImageInputEdit').value = null;
+
+    // Reiniciar cualquier variable relacionada con imágenes recortadas
+    croppedImageSrc = null; // Limpiar croppedImageSrc para evitar que se use accidentalmente
+    croppedImageBlob = null; // Limpiar el blob del recorte
+  }
+}
+
+
+function deleteUserProfileImage() {
+  var img = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+  img.src = "../view/img/logoProvisional.jpg";
+  originalImageSrc = img.src;
+  croppedImageSrc = '';
+
+  if (cropper) {
+    cropper.destroy();
+    cropper = null;
+  }
+  document.getElementById('cancel-button').style.display = 'none';
+  document.getElementById('save-button').style.display = 'none';
+  document.getElementById('overlay-user-profile-edit').style.display = 'flex';
+}
+
+var deletedProfileImageSrc = ''; // Variable global para almacenar la imagen eliminada
+
+function deleteProfileEditUserImage() {
+  var profileImgContainer = document.querySelector('.profile-img-container');
+  var profileImage = profileImgContainer.querySelector('#modal-user-profile-content-form-container-2-user-profile-img');
+  var removeImageIcon = profileImgContainer.querySelector('#removeImageIconEdit');
+
+  // Guardar el src actual (nombre de la imagen original) en la variable global
+  deletedProfileImageSrc = profileImage.src;
+  console.log("Imagen eliminada: " + deletedProfileImageSrc); // Mensaje de depuración
+
+  // Reemplazar con la imagen predeterminada
+  profileImage.setAttribute('data-value', 'perfil-de-usuario-provisional.webp');
+  profileImage.src = '../view/img/img-users/perfil-de-usuario-provisional.webp';
+  removeImageIcon.style.display = 'none';
+}
+
+
+
+
+
+// Variables globales para almacenar valores originales
+// Variables globales para almacenar valores originales
+var originalValues = {};
+var editoriginalImageSrc = '';
+var editoriginalImageDataValue = '';
+var originalUserTypeValue = '';  // Nueva variable para guardar el valor original del tipo de usuario
+
+function actionEnterEditUserProfile() {
+  console.log("Entrando en el modo de edición de user profile...");
+
+  var inputIds = [
+    'modal-user-profile-content-form-container-2-info-column-label-name',
+    'modal-user-profile-content-form-container-2-info-column-label-first-last-name',
+    'modal-user-profile-content-form-container-2-info-column-label-second-last-name',
+    'modal-user-profile-content-form-container-2-info-column-label-mail',
+    'modal-user-profile-content-form-container-2-info-column-label-tlf',
+    'modal-user-profile-content-form-container-2-info-column-label-address'
+  ];
+
+  inputIds.forEach(function (inputId) {
+    var input = document.getElementById(inputId);
+    if (input) {
+      originalValues[inputId] = input.value;  // Guardar el valor original
+      input.removeAttribute('readonly');
+      input.style.border = "1px solid #ccc";
+      input.style.backgroundColor = "#fff";
+    }
+  });
+
+  // Convertir input de tipo usuario a select
+  var userTypeInput = document.querySelector('#user-type-input');
+  if (userTypeInput) {
+    originalUserTypeValue = userTypeInput.value;  // Guardar el valor original del tipo de usuario
+    var selectElement = document.createElement('select');
+    selectElement.id = 'user-type-input';
+    selectElement.className = 'modal-add-user-content-form-column-3-select';
+
+    var options = ['Administrador', 'Usuario'];
+    options.forEach(function (optionValue) {
+      var optionElement = document.createElement('option');
+      optionElement.value = optionValue;
+      optionElement.textContent = optionValue;
+      if (optionValue === originalUserTypeValue) {
+        optionElement.selected = true;
+      }
+      selectElement.appendChild(optionElement);
+    });
+
+    userTypeInput.parentNode.replaceChild(selectElement, userTypeInput);
+  }
+
+
+  // Habilitar la edición de la contraseña
+  var passwordInput = document.getElementById('modal-user-profile-password');
+  if (passwordInput) {
+    passwordInput.removeAttribute('readonly');
+    passwordInput.style.border = "1px solid #ccc";
+    passwordInput.style.backgroundColor = "#fff";
+
+    // Mostrar el icono de visibilidad
+    var eyeIcon = document.querySelector('#toggle-password-visibility');
+    if (eyeIcon) {
+      eyeIcon.style.display = 'inline-block'; // Asegura que el ícono esté visible
+    }
+
+    // Asegurar que el evento para alternar la visibilidad esté funcionando
+    eyeIcon.addEventListener('click', function () {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    });
+  }
+
+  // Cambiar la visibilidad de los botones de guardar y salir
+  document.getElementById('edit-profile-button').style.display = "none";
+  document.getElementById('save-profile-button').style.display = "flex";
+  document.getElementById('exit-edit-mode-button').style.display = "flex";
+}
+
+
+function actionExitEditUserProfile() {
+  console.log("Saliendo del modo de edición de user profile...");
+
+  var overlay = document.querySelector('#overlay-user-profile-edit');
+  if (overlay) {
+    overlay.style.display = "none";
+  }
+
+  // Resto del código para restaurar otros campos...
+  var inputIds = [
+    'modal-user-profile-content-form-container-2-info-column-label-name',
+    'modal-user-profile-content-form-container-2-info-column-label-first-last-name',
+    'modal-user-profile-content-form-container-2-info-column-label-second-last-name',
+    'modal-user-profile-content-form-container-2-info-column-label-mail',
+    'modal-user-profile-content-form-container-2-info-column-label-tlf',
+    'modal-user-profile-content-form-container-2-info-column-label-user-type',
+    'modal-user-profile-content-form-container-2-info-column-label-address'
+  ];
+
+  inputIds.forEach(function (inputId) {
+    var input = document.getElementById(inputId);
+    if (input && originalValues.hasOwnProperty(inputId)) {
+      input.value = originalValues[inputId];  // Restaurar el valor original
+      input.setAttribute('readonly', 'readonly');
+      input.style.border = "none";
+      input.style.backgroundColor = "#f9f9f9";
+    }
+  });
+
+  // Restaurar el tipo de usuario a input
+  var userTypeSelect = document.querySelector('#modal-user-profile-content-form-container-2-info-column-label-user-type');
+  if (userTypeSelect) {
+    var selectedValue = userTypeSelect.value;
+    var inputElement = document.createElement('input');
+    inputElement.id = 'modal-user-profile-content-form-container-2-info-column-label-user-type';
+    inputElement.className = 'modal-add-user-content-form-column-3-input';
+    inputElement.setAttribute('readonly', 'readonly');
+    inputElement.value = selectedValue;
+    inputElement.style.width = '90%';  
+    inputElement.style.border = 'none';
+    userTypeSelect.parentNode.replaceChild(inputElement, userTypeSelect);
+  }
+
+  // Destruir el cropper solo si está inicializado
+  if (cropper) {
+    cropper.destroy();
+    cropper = null;
+
+    // Ocultar botones
+    document.getElementById('cancel-button').style.display = 'none';
+    document.getElementById('save-button').style.display = 'none';
+  }
+
+  // Ahora manejar la restauración de la imagen
+  var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+
+  // Comprobar si hay una imagen eliminada para restaurar
+  if (deletedProfileImageSrc) {
+    image.src = deletedProfileImageSrc;  // Restaurar a la imagen eliminada
+    console.log("Restaurando imagen original: " + deletedProfileImageSrc); 
+  } else {
+    console.log("No hay imagen original para restaurar.");
+  }
+
+  var removeImageIcon = document.querySelector('#removeImageIconEdit');
+  if (removeImageIcon) {
+    removeImageIcon.style.display = 'block';  // Asegurarse de que el icono sea visible
+  }
+
+  // Deshabilitar interacción con la imagen
+  var imageContainer = document.querySelector('.modal-info-user-content-form-column-1-input-file-image-container');
+  if (imageContainer) {
+    imageContainer.style.pointerEvents = 'none';
+  }
+
+  // Reiniciar el input de selección de archivo
+  document.getElementById('editImageInputEdit').value = null;
+
+  // Limpiar cualquier variable relacionada con imágenes
+  croppedImageSrc = null; 
+  croppedImageBlob = null; 
+
+  // Restablecer la contraseña al valor original
+  var passwordInput = document.getElementById('modal-user-profile-password');
+  if (passwordInput) {
+    passwordInput.value = '********'; 
+    passwordInput.setAttribute('readonly', 'readonly');
+    passwordInput.setAttribute('type', 'password'); 
+    passwordInput.style.border = "none";
+    passwordInput.style.backgroundColor = "#f9f9f9";
+  }
+
+  // Cambiar la visibilidad de los botones
+  document.getElementById('edit-profile-button').style.display = "flex";
+  document.getElementById('save-profile-button').style.display = "none";
+  document.getElementById('exit-edit-mode-button').style.display = "none";
+
+  // Restablecer el input de archivo
+  resetFileInput();
+}
+
+
+
+
+
+
+
+// Función para restablecer el input de archivo
+function resetFileInput() {
+  var fileInput = document.querySelector('#editImageInputEdit');
+  if (fileInput) {
+    fileInput.value = ""; // Limpiar el valor del input de archivo
+  }
+}
+
+
+
+
+//CUANDO ACTIVO EL MODO EDICION EN USER PROFILE SE ACTIVA TAMBIEN EN INFO USER
+
+
+function actionProfileExitEdit() {
+  console.log("Saliendo del modo de edición...");
+
+  var overlay = document.querySelector('#overlay-edit');
+  overlay.style.display = "none";
+
+  var inputs = document.querySelectorAll('.modal-user-profile-content-form-container-2-info-column-1 input, .modal-user-profile-content-form-container-2-info-column-2 input');
+  inputs.forEach(function (input) {
+    if (originalValues[input.id] !== undefined) {
+      console.log("Restaurando:", input.id, "a", originalValues[input.id]);
+      input.value = originalValues[input.id];
+      input.setAttribute('readonly', 'readonly');
+    } else {
+      console.error("No se encontró valor original para:", input.id);
+    }
+  });
+
+  var passwordInput = document.querySelector('#modal-user-profile-password');
+  if (originalValues[passwordInput.id] !== undefined) {
+    console.log("Restaurando contraseña:", passwordInput.value, "a", originalValues[passwordInput.id]);
+    passwordInput.value = originalValues[passwordInput.id];
+    passwordInput.setAttribute('readonly', 'readonly');
+  }
+
+  var confirmPasswordInput = document.querySelector('#modal-info-user-content-form-column-3-input-password-confirm');
+  confirmPasswordInput.style.display = "none";
+  confirmPasswordInput.value = "";
+
+  document.querySelector('#edit-profile-button').style.display = "flex";
+  document.querySelector('#save-profile-button').style.display = "none";
+  document.querySelector('#exit-edit-mode-button').style.display = "none";
+
+  var editProfileImage = document.querySelector('.profileImage-edit');
+  var editRemoveImageIcon = document.querySelector('.removeImageIcon-edit');
+
+  editProfileImage.src = editoriginalImageSrc;
+  editProfileImage.setAttribute('data-value', editoriginalImageDataValue);
+
+  if (editoriginalImageSrc.includes('perfil-de-usuario-provisional.webp')) {
+    editRemoveImageIcon.style.display = 'none';
+  } else {
+    editRemoveImageIcon.style.display = 'block';
+  }
+
+  if (editcropper) {
+    editcropper.destroy();
+    editcropper = null;
+  }
+  resetFileInput();
+}
 
 
 
@@ -2533,33 +3666,45 @@ function ModalBanUser() {
 }
 
 
+var currentUserIdsavechangesedit = null;
+
 function ModalUserProfile() {
 
-  
+  var btnEdit = document.querySelector('#modal-info-user-content-form-button-edit');
+  if (btnEdit) {
+  } else {
+    console.error("No se encontró el botón de edición.");
+  }
+
   var modal = document.getElementById("modal-user-profile");
-  modal.style.zIndex = "2";
+  if (modal) {
+    modal.style.zIndex = "2";
+    modal.style.display = "flex";
+  } else {
+    console.error("No se encontró el modal de perfil de usuario.");
+  }
 
   var btnModal = document.querySelector('#modal-user-profile-close-button');
+  if (btnModal) {
+    btnModal.onclick = function () {
+      modal.style.display = "none";
+      actionExitEditUserProfile();
+    };
+  } else {
+    console.error("No se encontró el botón de cierre del modal.");
+  }
 
-  // // Get the <span> element that closes the modal
-  // var span = document.getElementsByClassName("modal-close-button")[0];
-
-  modal.style.display = "flex";
-
-
-  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
+      actionExitEditUserProfile();
     }
-  }
-
-  btnModal.onclick = function () {
-    modal.style.display = "none";
-
-  }
-
+  };
 }
+
+
+
+
 
 function ModalAddUser() {
 

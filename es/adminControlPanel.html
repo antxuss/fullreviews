@@ -48,7 +48,7 @@
     <div id="user-profile-info" class="profile-container">
       <img id="user-profile-info-img" src="../view/img/logoProvisional.jpg" alt="Foto de perfil">
       <h1 id="user-profile-info-name" class="profile-name"></h1>
-  </div>
+    </div>
 
     <hr>
 
@@ -85,7 +85,8 @@
         <path
           d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
       </svg>
-      <input id="search-user-input" placeholder="Nombre de usuario" class="control-panel-content-input" oninput="filterUsers()" disabled>
+      <input id="search-user-input" placeholder="Nombre de usuario" class="control-panel-content-input"
+        oninput="filterUsers()" disabled>
 
 
     </div>
@@ -108,7 +109,7 @@
           </label><br>
           <label class="control-panel-content-checkbox-title">
             <input type="checkbox" class="control-panel-content-checkbox" id="filter-admins"> Administradores
-          </label><br>  
+          </label><br>
         </form>
 
         <!-- <form id="checkbox-form2" class="control-panel-content-filter-form">
@@ -126,231 +127,256 @@
       </div>
 
       <div id="control-panel-content-list" class="control-panel-content-list">
-            
+
         <div class='card card-loading'>
           <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
           <div class='card-info card-info-loading'>
-              <label class='card-name'>Cargando...</label>
+            <label class='card-name'>Cargando...</label>
           </div>
           <label class='card-username card-username-loading'>Cargando...</label>
           <hr class='card-hr'>
           <div class='card-icons-container card-icons-container-loading'>
-              <div class='card-icons-container-user-delete'>
-                  <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-                      <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-                  </svg>
-              </div>
-              <div class='card-icons-container-info'>
-                  <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-                      <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-                  </svg>
-              </div>
-              <div class='card-icons-container-info'>
-                  <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                      <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-                  </svg>
-              </div>
-          </div>
-      </div>
-
-      <div class='card card-loading'>
-        <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-        <div class='card-info card-info-loading'>
-            <label class='card-name'>Cargando...</label>
-        </div>
-        <label class='card-username card-username-loading'>Cargando...</label>
-        <hr class='card-hr'>
-        <div class='card-icons-container card-icons-container-loading'>
             <div class='card-icons-container-user-delete'>
-                <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-                    <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-                </svg>
-            </div>
-            <div class='card-icons-container-info'>
-                <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-                    <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-                </svg>
-            </div>
-            <div class='card-icons-container-info'>
-                <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                    <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-                </svg>
-            </div>
-        </div>
-    </div>
-
-    <div class='card card-loading'>
-      <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-      <div class='card-info card-info-loading'>
-          <label class='card-name'>Cargando...</label>
-      </div>
-      <label class='card-username card-username-loading'>Cargando...</label>
-      <hr class='card-hr'>
-      <div class='card-icons-container card-icons-container-loading'>
-          <div class='card-icons-container-user-delete'>
               <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-                  <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
               </svg>
-          </div>
-          <div class='card-icons-container-info'>
+            </div>
+            <div class='card-icons-container-info'>
               <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-                  <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
               </svg>
-          </div>
-          <div class='card-icons-container-info'>
+            </div>
+            <div class='card-icons-container-info'>
               <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                  <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
               </svg>
+            </div>
           </div>
-      </div>
-  </div>
-
-  <div class='card card-loading'>
-    <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-    <div class='card-info card-info-loading'>
-        <label class='card-name'>Cargando...</label>
-    </div>
-    <label class='card-username card-username-loading'>Cargando...</label>
-    <hr class='card-hr'>
-    <div class='card-icons-container card-icons-container-loading'>
-        <div class='card-icons-container-user-delete'>
-            <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-                <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-            </svg>
         </div>
-        <div class='card-icons-container-info'>
-            <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-                <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-            </svg>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
         </div>
-        <div class='card-icons-container-info'>
-            <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-            </svg>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
 
-<div class='card card-loading'>
-  <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-  <div class='card-info card-info-loading'>
-      <label class='card-name'>Cargando...</label>
-  </div>
-  <label class='card-username card-username-loading'>Cargando...</label>
-  <hr class='card-hr'>
-  <div class='card-icons-container card-icons-container-loading'>
-      <div class='card-icons-container-user-delete'>
-          <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-              <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-          </svg>
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class='card card-loading'>
+          <img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
+          <div class='card-info card-info-loading'>
+            <label class='card-name'>Cargando...</label>
+          </div>
+          <label class='card-username card-username-loading'>Cargando...</label>
+          <hr class='card-hr'>
+          <div class='card-icons-container card-icons-container-loading'>
+            <div class='card-icons-container-user-delete'>
+              <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
+                <path
+                  d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
+                <path
+                  d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
+              </svg>
+            </div>
+            <div class='card-icons-container-info'>
+              <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                <path id='card-info-user'
+                  d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+
+
+
       </div>
-      <div class='card-icons-container-info'>
-          <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-              <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-          </svg>
-      </div>
-      <div class='card-icons-container-info'>
-          <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-              <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-          </svg>
-      </div>
-  </div>
-</div>
+      <div id="control-panel-content-list-no-user" class="control-panel-content-list" style="display: none">
 
-<div class='card card-loading'>
-<img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-<div class='card-info card-info-loading'>
-    <label class='card-name'>Cargando...</label>
-</div>
-<label class='card-username card-username-loading'>Cargando...</label>
-<hr class='card-hr'>
-<div class='card-icons-container card-icons-container-loading'>
-    <div class='card-icons-container-user-delete'>
-        <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-            <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-        </svg>
-    </div>
-    <div class='card-icons-container-info'>
-        <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-            <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-        </svg>
-    </div>
-    <div class='card-icons-container-info'>
-        <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-            <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-        </svg>
-    </div>
-</div>
-</div>
-
-<div class='card card-loading'>
-<img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-<div class='card-info card-info-loading'>
-  <label class='card-name'>Cargando...</label>
-</div>
-<label class='card-username card-username-loading'>Cargando...</label>
-<hr class='card-hr'>
-<div class='card-icons-container card-icons-container-loading'>
-  <div class='card-icons-container-user-delete'>
-      <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-          <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-      </svg>
-  </div>
-  <div class='card-icons-container-info'>
-      <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-          <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-      </svg>
-  </div>
-  <div class='card-icons-container-info'>
-      <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-          <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-      </svg>
-  </div>
-</div>
-</div>
-
-<div class='card card-loading'>
-<img src="../view/img/img-users/perfil-de-usuario-provisional.webp">
-<div class='card-info card-info-loading'>
-<label class='card-name'>Cargando...</label>
-</div>
-<label class='card-username card-username-loading'>Cargando...</label>
-<hr class='card-hr'>
-<div class='card-icons-container card-icons-container-loading'>
-<div class='card-icons-container-user-delete'>
-    <svg id='card-delete-user' class='card-icons' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'>
-        <path d='M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM471 143c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z' />
-    </svg>
-</div>
-<div class='card-icons-container-info'>
-    <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'>
-        <path d='M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.7 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z' />
-    </svg>
-</div>
-<div class='card-icons-container-info'>
-    <svg class='card-icons card-icons-loading' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-        <path id='card-info-user' d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z' />
-    </svg>
-</div>
-</div>
-</div>
-
-      
-
-    
-    </div>
-<div id="control-panel-content-list-no-user" class="control-panel-content-list" style="display: none">
-
-  <div id='card-add-user' class='card'>
-    <div class='card-add-user-icon'>
-    <svg class='card-add-user-icon-icons' viewBox='0 0 448 512'>
-    <path d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />
-    </svg>
-  </div>
-    <div class='card-add-user-title'>
-    <label>Añadir usuario</label>
-    </div>
-    </div>
+        <div id='card-add-user' class='card'>
+          <div class='card-add-user-icon'>
+            <svg class='card-add-user-icon-icons' viewBox='0 0 448 512'>
+              <path
+                d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z' />
+            </svg>
+          </div>
+          <div class='card-add-user-title'>
+            <label>Añadir usuario</label>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -775,7 +801,9 @@
     <div class="modal-content">
 
       <svg class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+        <path
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+      </svg>
       <div class="modal-content-form">
         <label class="modal-title">¿Seguro que quieres cerrar sesión?</label>
         <div class="modal-button-content">
@@ -791,38 +819,167 @@
   <!-----MODAL USER INFO----->
   <!-- The Modal -->
   <div id="modal-user-profile" class="modal">
-    
+
     <!-- Modal content -->
     <div class="modal-user-profile-content">
 
-      <svg id="modal-user-profile-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
-       <div class="modal-user-profile-content-form">
+      <svg id="modal-user-profile-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg"
+        height="1em" viewBox="0 0 512 512">
+        <path
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+      </svg>
+      <div class="modal-user-profile-content-form">
         <div class="modal-user-profile-content-form-container-1">
           <h1 id="modal-user-profile-content-form-container-1-username"></h1>
         </div>
         <div class="modal-user-profile-content-form-container-2">
-          <img id="modal-user-profile-content-form-container-2-user-profile-img" src="../view/img/logoProvisional.jpg" class="modal-user-profile-content-form-container-2-img" alt="Foto de perfil">
+          <!-- <div class="profile-img-container">
+            <div class="modal-info-user-content-form-column-1-input-file-image-container">
+              <div class="overlay" id="overlay-edit" style="display: none; margin-top: 8%;height: 89%;">
+                <input type="file" id="editImageInputEdit" class="edit-icon" style="display: none;">
+                <label for="editImageUserProfileInputEdit">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
+                    <path fill="white" stroke="white" stroke-width="2"
+                      d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                  </svg>
+                </label>
+                <div class="icon-separator"></div>
+                <label id="removeImageIconEdit" class="removeImageIcon-edit" onclick="EditdeleteUserProfileImage()"
+                  for="removeImageInput">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 448 512">
+                    <path fill="white" stroke="white" stroke-width="2"
+                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                  </svg>
+                </label>
+              </div>
+              <img src="../view/img/logoProvisional.jpg"
+                id="modal-user-profile-content-form-container-2-user-profile-img"
+                class="modal-user-profile-content-form-container-2-img profileImage-edit" alt="Foto de perfil"
+                style="object-fit: cover; width: 100%; height: 100%;">
+            </div>
+            <button id="edit-photo-button" class="edit-photo-button" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 0 576 512">
+                <path
+                  d="M362.7 19.2c14.4-14.4 37.8-14.4 52.3 0l45.7 45.7c14.4 14.4 14.4 37.8 0 52.3l-35.4 35.4-98-98 35.4-35.4zm-57.9 57.9 98 98L196.4 382.5c-6.7 6.7-15.3 11.5-24.5 13.5l-76.6 15.3c-8.4 1.7-16.6-1.3-22.3-7-5.7-5.7-8.7-13.9-7-22.3l15.3-76.6c2-9.2 6.8-17.8 13.5-24.5L304.8 77.1z" />
+              </svg>
+            </button>
+            <button id="delete-photo-button" class="delete-photo-button" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 0 448 512">
+                <path
+                  d="M135.2 17.7c1.5-9.7 9.9-17.7 19.8-17.7h138c9.9 0 18.3 7.1 19.8 17.7L320 32H432c8.8 0 16 7.2 16 16s-7.2 16-16 16H416v32H32V64H16C7.2 64 0 56.8 0 48s7.2-16 16-16H128l7.2-14.3zM32 128H416l-23.2 336.8c-1.7 25.3-22.7 47.2-48 47.2H103.2c-25.3 0-46.3-21.9-48-47.2L32 128z" />
+              </svg>
+            </button>
+          </div> -->
+
+
+          <div class="profile-img-container">
+            <!-- Contenedor para la imagen y botones de edición -->
+            <div class="profile-img-wrapper" style="position: relative;"> <!-- Asegúrate de que tenga position: relative -->
+              <div class="overlay" id="overlay-user-profile-edit" style="display: none;">
+                <!-- Input para seleccionar nueva imagen -->
+                <input type="file" id="editImageInputEdit" style="display: none;" onchange="initCropper(event)">
+                <label for="editImageInputEdit" class="edit-label">
+                  <!-- Botón de editar -->
+                  <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
+                    <path fill="white" stroke="white" stroke-width="2"
+                      d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                  </svg>
+                </label>
+                <!-- Botón de eliminar -->
+                <div class="icon-separator"></div>
+                <label id="removeImageIconEdit" class="removeImageIcon-edit" onclick="deleteProfileEditUserImage()">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 448 512">
+                    <path fill="white" stroke="white" stroke-width="2"
+                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                  </svg>
+                </label>
+              </div>
+          
+              <!-- Imagen que será editada -->
+              <img src="../view/img/logoProvisional.jpg"
+                id="modal-user-profile-content-form-container-2-user-profile-img"
+                class="modal-user-profile-content-form-container-2-img profileImage-edit" alt="Foto de perfil"
+                style="object-fit: cover; width: 100%; height: 100%;">
+            </div>
+            <!-- Botones para cancelar y guardar cambios -->
+            <button id="cancel-button" class="edit-photo-button" style="display: none;" onclick="userProfileCancelCrop()">Cancelar</button>
+            <button id="save-button" class="edit-photo-button" style="display: none;" onclick="userProfileCropImage()">Guardar</button>
+          </div>
+          
+
+
+
+
 
           <div class="modal-user-profile-content-form-container-2-info">
             <div class="modal-user-profile-content-form-container-2-info-column-1">
-                <label id="modal-user-profile-content-form-container-2-info-column-label-name" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-                <label id="modal-user-profile-content-form-container-2-info-column-label-first-last-name" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-                <label id="modal-user-profile-content-form-container-2-info-column-label-second-last-name" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-                <label id="modal-user-profile-content-form-container-2-info-column-label-mail" class="modal-user-profile-content-form-container-2-info-column-label"></label>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Nombre:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-name"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="text" readonly>
+              </div>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Primer Apellido:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-first-last-name"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="text" readonly>
+              </div>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Segundo Apellido:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-second-last-name"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="text" readonly>
+              </div>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Correo:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-mail"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="email" readonly>
+              </div>
             </div>
 
             <div class="modal-user-profile-content-form-container-2-info-column-2">
-              <label  id="modal-user-profile-content-form-container-2-info-column-label-tlf" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-              <label  id="modal-user-profile-content-form-container-2-info-column-label-address" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-              <label id="modal-user-profile-content-form-container-2-info-column-label-password" class="modal-user-profile-content-form-container-2-info-column-label"></label>
-              <label id="modal-user-profile-content-form-container-2-info-column-label-user-type" class="modal-user-profile-content-form-container-2-info-column-label"></label>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Teléfono:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-tlf"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="tel" readonly>
+              </div>
+              <div class="info-group">
+                <label class="modal-user-profile-title">Dirección:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-address"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="text" readonly>
+              </div>
+
+              <div class="info-group">
+                <label class="modal-user-profile-title">Contraseña:</label>
+                <div class="password-container">
+                  <input id="modal-user-profile-password"
+                    class="modal-info-user-content-form-column-3-input" 
+                    type="password"
+                    placeholder="Contraseña"
+                    value="********"
+                    readonly>
+                  <button id="toggle-password-visibility" class="toggle-password-visibility">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" viewBox="0 0 576 512">
+                      <path
+                        d="M572.5 241c-54-87-153.5-145-284.5-145S57 154 3 241c-4 6-4 14 0 20 54 87 153.5 145 284.5 145S519 348 573 261c4-6 4-14 0-20zM288 368c-79.5 0-144-64.5-144-144s64.5-144 144-144 144 64.5 144 144-64.5 144-144 144z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="info-group">
+                <label class="modal-user-profile-title">Tipo de Usuario:</label>
+                <input id="modal-user-profile-content-form-container-2-info-column-label-user-type"
+                  class="modal-user-profile-content-form-container-2-info-column-label" type="text" style="width: 90%;" readonly>
+              </div>
             </div>
-            
           </div>
 
+
+
         </div>
-        
+        <button id="edit-profile-button" class="edit-profile-button">Editar</button>
+        <button id="exit-edit-mode-button" class="exit-edit-mode-button" style="display: none;">Salir</button>
+        <button id="save-profile-button" class="save-profile-button" style="display: none;">Guardar</button>
+
       </div>
 
     </div>
@@ -837,8 +994,11 @@
     <!-- Modal content -->
     <div class="modal-delete-user-content">
 
-      <svg id="modal-delete-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+      <svg id="modal-delete-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg"
+        height="1em" viewBox="0 0 512 512">
+        <path
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+      </svg>
       <div class="modal-content-form">
         <label class="modal-title">¿Seguro que quieres borrar este usuario?</label>
         <label style="color: red;" class="modal-title">SE BORRARA PERMANENTEMENTE</label>
@@ -859,8 +1019,11 @@
     <!-- Modal content -->
     <div class="modal-add-user-content">
 
-      <svg id="modal-add-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+      <svg id="modal-add-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em"
+        viewBox="0 0 512 512">
+        <path
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+      </svg>
       <div class="modal-add-user-content-form">
         <div class="modal-add-user-content-form-columns">
 
@@ -873,7 +1036,8 @@
                   <input type="file" id="editImageInput" class="edit-icon" style="display: none;">
                   <label for="editImageInput">
                     <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
-                      <path fill="white" stroke="white" stroke-width="2" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/>
+                      <path fill="white" stroke="white" stroke-width="2"
+                        d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
                     </svg>
                   </label>
 
@@ -882,40 +1046,54 @@
                   <!-- Icono para eliminar imagen -->
                   <label id="removeImageIcon" onclick="deleteUserProfileImage()" for="removeImageInput">
                     <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 448 512">
-                        <path fill="white" stroke="white" stroke-width="2" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                      <path fill="white" stroke="white" stroke-width="2"
+                        d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
                     </svg>
-                </label>
+                  </label>
                 </div>
-                <img src="../view/img/img-users/perfil-de-usuario-provisional.webp" id="profileImage" class="modal-add-user-content-form-column-1-img" alt="Foto de perfil">
+                <img src="../view/img/img-users/perfil-de-usuario-provisional.webp" id="profileImage"
+                  class="modal-add-user-content-form-column-1-img" alt="Foto de perfil">
               </div>
               <div class="modal-add-user-content-form-column-1-input-file-footer">
-                <button type="button" class="btn btn-primary" id="confirmCropButton" style="display: none;">Confirmar Recorte</button>
-                <button type="button" class="btn btn-primary" id="cancelCropButton" style="display: none;">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="confirmCropButton" style="display: none;">Confirmar
+                  Recorte</button>
+                <button type="button" class="btn btn-primary" id="cancelCropButton"
+                  style="display: none;">Cancelar</button>
               </div>
             </label>
           </div>
-  
+
           <div class="modal-add-user-content-form-column-2">
-            <input id="modal-add-user-content-form-column-2-input-name" class="modal-add-user-content-form-column-2-input" type="text" placeholder="Nombre">
-            <input id="modal-add-user-content-form-column-2-input-first-last-name" class="modal-add-user-content-form-column-2-input" type="text" placeholder="Primer apellido">
-            <input id="modal-add-user-content-form-column-2-input-second-last-name" class="modal-add-user-content-form-column-2-input" type="text" placeholder="Segundo apellido">
-            <input id="modal-add-user-content-form-column-2-input-mail" class="modal-add-user-content-form-column-2-input" type="text" placeholder="Correo">
+            <input id="modal-add-user-content-form-column-2-input-name"
+              class="modal-add-user-content-form-column-2-input" type="text" placeholder="Nombre">
+            <input id="modal-add-user-content-form-column-2-input-first-last-name"
+              class="modal-add-user-content-form-column-2-input" type="text" placeholder="Primer apellido">
+            <input id="modal-add-user-content-form-column-2-input-second-last-name"
+              class="modal-add-user-content-form-column-2-input" type="text" placeholder="Segundo apellido">
+            <input id="modal-add-user-content-form-column-2-input-mail"
+              class="modal-add-user-content-form-column-2-input" type="text" placeholder="Correo">
             <div class="modal-add-user-content-form-column-2-column-tlf">
               <select class="countryCodesSelect"></select>
-              <input id="modal-add-user-content-form-column-2-input-tlf" class="modal-add-user-content-form-column-2-input" value="" type="text" placeholder="Telefono" oninput="addUserTlfCheck(this)">
-            </div>                    
+              <input id="modal-add-user-content-form-column-2-input-tlf"
+                class="modal-add-user-content-form-column-2-input" value="" type="text" placeholder="Telefono"
+                oninput="addUserTlfCheck(this)">
+            </div>
           </div>
-          
-  
+
+
           <div class="modal-add-user-content-form-column-3">
-            <input id="modal-add-user-content-form-column-3-input-address" class="modal-add-user-content-form-column-3-input" type="text" placeholder="Dirección">
-            <input id="modal-add-user-content-form-column-3-input-username" class="modal-add-user-content-form-column-3-input" type="text" placeholder="Nombre de usuario">
-            <input id="modal-add-user-content-form-column-3-input-password" class="modal-add-user-content-form-column-3-input" type="password" placeholder="Contraseña">
-            <input id="modal-add-user-content-form-column-3-input-password-confirm" class="modal-add-user-content-form-column-3-input" type="password" placeholder="Confirmar contraseña">
+            <input id="modal-add-user-content-form-column-3-input-address"
+              class="modal-add-user-content-form-column-3-input" type="text" placeholder="Dirección">
+            <input id="modal-add-user-content-form-column-3-input-username"
+              class="modal-add-user-content-form-column-3-input" type="text" placeholder="Nombre de usuario">
+            <input id="modal-add-user-content-form-column-3-input-password"
+              class="modal-add-user-content-form-column-3-input" type="password" placeholder="Contraseña">
+            <input id="modal-add-user-content-form-column-3-input-password-confirm"
+              class="modal-add-user-content-form-column-3-input" type="password" placeholder="Confirmar contraseña">
             <select class="modal-add-user-content-form-column-3-select">
               <option value="Usuario">Usuario</option>
               <option value="Administrador">Administrador</option>
-          </select>
+            </select>
           </div>
 
         </div>
@@ -923,104 +1101,138 @@
         <div class="modal-add-user-content-form-button">
           <button id="modal-add-user-content-form-button" class="modal-button">Añadir usuario</button>
         </div>
-        
-        </div>
-      </div>
 
+      </div>
     </div>
 
-    <!-----MODAL INFO USER----->
+  </div>
+
+  <!-----MODAL INFO USER----->
   <!-- The Modal -->
   <div id="modal-info-user" class="modal">
     <!-- Modal content -->
     <div class="modal-info-user-content">
-        <svg id="modal-info-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
-        </svg>
-        <div class="modal-info-user-content-form">
-            <div class="modal-info-user-content-form-columns">
+      <svg id="modal-info-user-close-button" class="modal-close-button" xmlns="http://www.w3.org/2000/svg" height="1em"
+        viewBox="0 0 512 512">
+        <path
+          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+      </svg>
+      <div class="modal-info-user-content-form">
+        <div class="modal-info-user-content-form-columns">
 
-                <div class="modal-info-user-content-form-column-1">
-                    <input id="modal-info-user-content-form-column-1-input-file-edit" style="display: none;" type="file">
-                    <label id="fileLabel" for="modal-info-user-content-form-column-1-input-file-edit" class="file-label">
-                        <div class="modal-info-user-content-form-column-1-input-file-image-container">
-                            <div class="overlay" id="overlay-edit" style="display: none;">
-                                <!-- Icono para editar imagen -->
-                                <input type="file" id="editImageInputEdit" class="edit-icon" style="display: none;">
-                                <label for="editImageInputEdit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
-                                        <path fill="white" stroke="white" stroke-width="2" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/>
-                                    </svg>
-                                </label>
-                                <div class="icon-separator"></div>
-                                <!-- Icono para eliminar imagen -->
-                                <label id="removeImageIconEdit" class="removeImageIcon-edit" onclick="EditdeleteUserProfileImage()" for="removeImageInput">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 448 512">
-                                        <path fill="white" stroke="white" stroke-width="2" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                                    </svg>
-                                </label>
-                            </div>
-                            <img src="../view/img/img-users/perfil-de-usuario-provisional.webp" id="profileImageEdit" class="modal-info-user-content-form-column-1-img profileImage-edit" alt="Foto de perfil">
-                        </div>
-                        <div class="modal-info-user-content-form-column-1-input-file-footer">
-                            <button type="button" class="btn btn-primary" id="confirmCropButtonEdit" style="display: none;">Confirmar Recorte</button>
-                            <button type="button" class="btn btn-primary" id="cancelCropButtonEdit" style="display: none;">Cancelar</button>
-                        </div>
-                    </label>
+          <div class="modal-info-user-content-form-column-1">
+            <input id="modal-info-user-content-form-column-1-input-file-edit" style="display: none;" type="file">
+            <label id="fileLabel" for="modal-info-user-content-form-column-1-input-file-edit" class="file-label">
+              <div class="modal-info-user-content-form-column-1-input-file-image-container">
+                <div class="overlay" id="overlay-edit" style="display: none;">
+                  <!-- Icono para editar imagen -->
+                  <input type="file" id="editImageInputEdit" class="edit-icon" style="display: none;">
+                  <label for="editImageInputEdit">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 512 512">
+                      <path fill="white" stroke="white" stroke-width="2"
+                        d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                    </svg>
+                  </label>
+                  <div class="icon-separator"></div>
+                  <!-- Icono para eliminar imagen -->
+                  <label id="removeImageIconEdit" class="removeImageIcon-edit" onclick="EditdeleteUserProfileImage()"
+                    for="removeImageInput">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 448 512">
+                      <path fill="white" stroke="white" stroke-width="2"
+                        d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                    </svg>
+                  </label>
                 </div>
+                <img src="../view/img/img-users/perfil-de-usuario-provisional.webp" id="profileImageEdit"
+                  class="modal-info-user-content-form-column-1-img profileImage-edit" alt="Foto de perfil">
+              </div>
+              <div class="modal-info-user-content-form-column-1-input-file-footer">
+                <button type="button" class="btn btn-primary" id="confirmCropButtonEdit"
+                  style="display: none;">Confirmar Recorte</button>
+                <button type="button" class="btn btn-primary" id="cancelCropButtonEdit"
+                  style="display: none;">Cancelar</button>
+              </div>
+            </label>
+          </div>
 
-                <div class="modal-info-user-content-form-column-2">
-                    <input id="modal-info-user-content-form-column-2-input-name" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Nombre" value="Nombre" readonly>
-                    <input id="modal-info-user-content-form-column-2-input-first-last-name" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Primer apellido" value="Primer Apellido" readonly>
-                    <input id="modal-info-user-content-form-column-2-input-second-last-name" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Segundo apellido" value="Segundo Apellido" readonly>
-                    <input id="modal-info-user-content-form-column-2-input-mail" class="modal-info-user-content-form-column-2-input" type="text" placeholder="Correo" value="Correo" readonly>
-                    <div class="modal-info-user-content-form-column-2-column-tlf">
-                        <select class="countryCodesSelect1" style="display: none;"></select>
-                        <input id="modal-info-user-content-form-column-2-input-tlf" class="modal-info-user-content-form-column-2-input" value="Telefono" type="text" placeholder="Telefono" oninput="infoUserTlfCheck(this)" readonly>
-                    </div>
-                </div>
-
-                <div class="modal-info-user-content-form-column-3">
-                    <input id="modal-info-user-content-form-column-3-input-address" class="modal-info-user-content-form-column-3-input" type="text" placeholder="Dirección" value="Dirección" readonly>
-                    <input id="modal-info-user-content-form-column-3-input-username" class="modal-info-user-content-form-column-3-input" type="text" placeholder="Nombre de usuario" value="Usuario" readonly>
-                    <div class="modal-info-user-content-form-column-3-input-icon-password-container">
-                        <input id="modal-info-user-content-form-column-3-input-password" class="modal-info-user-content-form-column-3-input" type="password" placeholder="Contraseña" value="Contraseña" readonly>
-                        <svg id="modal-info-user-content-form-column-3-input-password-icon-id" class="modal-info-user-content-form-column-3-input-password-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                            <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/>
-                        </svg>
-                    </div>
-                    <input id="modal-info-user-content-form-column-3-input-password-confirm" class="modal-info-user-content-form-column-3-input" type="password" placeholder="Confirmar contraseña" style="display: none;">
-                    <select class="modal-info-user-content-form-column-3-select" style="display: none;">
-                        <option value="Usuario">Usuario</option>
-                        <option value="Administrador">Administrador</option>
-                    </select>
-                    <input id="modal-info-user-content-form-column-3-select-a" class="modal-info-user-content-form-column-3-input" type="text" placeholder="Tipo" value="Tipo" readonly>
-                </div>
-
+          <div class="modal-info-user-content-form-column-2">
+            <input id="modal-info-user-content-form-column-2-input-name"
+              class="modal-info-user-content-form-column-2-input" type="text" placeholder="Nombre" value="Nombre"
+              readonly>
+            <input id="modal-info-user-content-form-column-2-input-first-last-name"
+              class="modal-info-user-content-form-column-2-input" type="text" placeholder="Primer apellido"
+              value="Primer Apellido" readonly>
+            <input id="modal-info-user-content-form-column-2-input-second-last-name"
+              class="modal-info-user-content-form-column-2-input" type="text" placeholder="Segundo apellido"
+              value="Segundo Apellido" readonly>
+            <input id="modal-info-user-content-form-column-2-input-mail"
+              class="modal-info-user-content-form-column-2-input" type="text" placeholder="Correo" value="Correo"
+              readonly>
+            <div class="modal-info-user-content-form-column-2-column-tlf">
+              <select class="countryCodesSelect1" style="display: none;"></select>
+              <input id="modal-info-user-content-form-column-2-input-tlf"
+                class="modal-info-user-content-form-column-2-input" value="Telefono" type="text" placeholder="Telefono"
+                oninput="infoUserTlfCheck(this)" readonly>
             </div>
+          </div>
 
-            <div class="modal-info-user-content-form-button">
-                <button id="modal-info-user-content-form-button-edit" class="modal-button">Editar usuario</button>
-                <button id="modal-info-user-content-form-button-save" class="modal-button" style="display: none;">Guardar cambios</button>
-                <button id="modal-info-user-content-form-button-exit" class="modal-button" style="display: none;">Salir</button>
+          <div class="modal-info-user-content-form-column-3">
+            <input id="modal-info-user-content-form-column-3-input-address"
+              class="modal-info-user-content-form-column-3-input" type="text" placeholder="Dirección" value="Dirección"
+              readonly>
+            <input id="modal-info-user-content-form-column-3-input-username"
+              class="modal-info-user-content-form-column-3-input" type="text" placeholder="Nombre de usuario"
+              value="Usuario" readonly>
+            <div class="modal-info-user-content-form-column-3-input-icon-password-container">
+              <input id="modal-info-user-content-form-column-3-input-password"
+                class="modal-info-user-content-form-column-3-input" type="password" placeholder="Contraseña"
+                value="Contraseña" readonly>
+              <svg id="modal-info-user-content-form-column-3-input-password-icon-id"
+                class="modal-info-user-content-form-column-3-input-password-icon" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 576 512">
+                <path
+                  d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+              </svg>
             </div>
+            <input id="modal-info-user-content-form-column-3-input-password-confirm"
+              class="modal-info-user-content-form-column-3-input" type="password" placeholder="Confirmar contraseña"
+              style="display: none;">
+            <select class="modal-info-user-content-form-column-3-select" style="display: none;">
+              <option value="Usuario">Usuario</option>
+              <option value="Administrador">Administrador</option>
+            </select>
+            <input id="modal-info-user-content-form-column-3-select-a"
+              class="modal-info-user-content-form-column-3-input" type="text" placeholder="Tipo" value="Tipo" readonly>
+          </div>
 
         </div>
+
+        <div class="modal-info-user-content-form-button">
+          <button id="modal-info-user-content-form-button-edit" class="modal-button">Editar usuario</button>
+          <button id="modal-info-user-content-form-button-save" class="modal-button" style="display: none;">Guardar
+            cambios</button>
+          <button id="modal-info-user-content-form-button-exit" class="modal-button"
+            style="display: none;">Salir</button>
+        </div>
+
+      </div>
     </div>
-</div>
+  </div>
 
 
-    <!--MODAL ADD USER ALERT-->
-    <div id="alert" class="hidden"></div>
-    <!--MODAL INFO USER ALERT-->
-    <div id="notification" class="notification"></div>
+  <!--MODAL ADD USER ALERT-->
+  <div id="alert" class="hidden"></div>
+  <!--MODAL INFO USER ALERT-->
+  <div id="notification" class="notification"></div>
 
 
   <script src="../view/js/adminControlPanel.js"></script>
   <!-- <script src="/view/js/logout.js"></script> -->
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha384-vb52pgTbUpkZ+VRxLbvo4Ahv2UdjztsCln7hEN7/Rld5eDGOA6Qp0PzQg0dKEFfv" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js"></script>
+   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    integrity="sha384-vb52pgTbUpkZ+VRxLbvo4Ahv2UdjztsCln7hEN7/Rld5eDGOA6Qp0PzQg0dKEFfv" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js"></script>
 
 
 </body>

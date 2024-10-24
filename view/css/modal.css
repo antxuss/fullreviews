@@ -146,6 +146,24 @@
     display: inline-block; /* Ajusta según sea necesario */
   }
 
+  .modal-info-user-content-form-column-1-input-file-image-container,
+.profile-img-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Esto ajustará la imagen al ancho del contenedor */
+    max-width: 250px; /* Puedes cambiar el tamaño máximo de la imagen */
+    height: auto;
+}
+
+/* Imagen de perfil para que se ajuste completamente al contenedor */
+.modal-info-user-content-form-column-1-img,
+.profileImage-edit {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    height: auto; /* Mantiene las proporciones de la imagen */
+    display: block;
+}
+
+
   .modal-edit-user-content-form-column-1-input-file-image-container {
     width: 250px;
     position: relative;
@@ -443,8 +461,8 @@
   }
 
   .modal-add-user-content-form-column-3-select {
-    margin: 5%;
-    width: 110%;
+    /* margin: 5%; */
+    width: 95%;
     border-radius: 5px;
   }
 
@@ -617,6 +635,10 @@
     width: 100%;
   }
 
+  .profile-img-container {
+    width: 50%;
+  }
+
   .modal-user-profile-content-form-container-2-img {
     width: 35%;
     margin-right: auto;
@@ -628,6 +650,20 @@
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid black;
+  }
+
+  #modal-user-profile-content-form-container-2-user-profile-img {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 60%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid black;
+    width: 100%; /*80*/
+    height: 100%; /*75*/
   }
 
   .modal-user-profile-content-form-container-2-info {
@@ -643,6 +679,7 @@
 
   .modal-user-profile-content-form-container-2-info-column-2 {
     text-align: left;
+    margin-left: 3%;
   }
 
 
@@ -652,6 +689,101 @@
     display: flex;
     align-items: center;
   }
+
+  .no-border {
+    border: none !important;  /* Sobrescribir cualquier borde existente */
+    outline: none !important; /* Eliminar el contorno que algunos navegadores añaden al enfocarse */
+    background-color: transparent !important; /* Hacer el fondo transparente */
+    box-shadow: none !important; /* Eliminar cualquier sombra del input */
+    pointer-events: none; /* Deshabilitar cualquier interacción visual */
+  }
+  
+  
+
+  .modal-user-profile-title {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .editable-field {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 5px;
+  }
+  
+  .toggle-password-visibility {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-profile-button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  
+  .info-group {
+    margin-bottom: 10px;
+  }
+  
+  .password-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  #modal-user-profile-password {
+    border: 0;
+    margin-right: 10px;
+    height: 0%;
+  }
+  
+  .toggle-password-visibility {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-user-profile-title {
+    font-weight: bold;
+    margin-bottom: 5px; /* Añade espacio debajo del título */
+    display: block;
+  }
+  
+  
+  
+  .modal-user-profile-content-form-container-2-info-column-label {
+    display: block;
+    margin-top: 3px;
+  }
+
+  .modal-user-profile-content-form-container-2-info-column-label {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 1em;
+}
+
+.modal-user-profile-content-form-container-2-info-column-label[readonly] {
+    pointer-events: none;
+    border: none;
+    background-color: transparent;
+}
+
+.modal-user-profile-content-form-container-2-info-column-label:focus {
+    background-color: #f0f0f0; /* Un fondo suave cuando está en modo de edición */
+    border: 1px solid #007bff; /* Añadir borde azul en modo de edición */
+}
+
+  
 
   #alert {
     position: fixed;

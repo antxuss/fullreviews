@@ -521,53 +521,53 @@ class es_usersModel extends es_usersClass
     /************************************************************************************** */
 
     public function getUserProfileDetails()
-{
-    $this->OpenConnect();
+    {
+        $this->OpenConnect();
 
-    $userId = $this->getId_usuario();
+        $userId = $this->getId_usuario();
 
-    $sql = "SELECT nombre_usuario, nombre, apellido_1, apellido_2, correo, telefono, foto_perfil, tipo_usuario, contrasena, direccion, favorito, suspendido 
+        $sql = "SELECT nombre_usuario, nombre, apellido_1, apellido_2, correo, telefono, foto_perfil, tipo_usuario, contrasena, direccion, favorito, suspendido 
             FROM usuarios 
             WHERE id_usuario = ?";
 
-    $stmt = $this->link->prepare($sql);
-    if ($stmt === false) {
-        error_log("Error preparando la consulta: " . $this->link->error);
-        return false;
+        $stmt = $this->link->prepare($sql);
+        if ($stmt === false) {
+            error_log("Error preparando la consulta: " . $this->link->error);
+            return false;
+        }
+
+        $stmt->bind_param("i", $userId);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            // Se devuelven los datos del usuario
+            $userProfile = [
+                'nombre_usuario' => $row['nombre_usuario'],
+                'nombre' => $row['nombre'],
+                'apellido_1' => $row['apellido_1'],
+                'apellido_2' => $row['apellido_2'],
+                'correo' => $row['correo'],
+                'telefono' => $row['telefono'],
+                'foto_perfil' => $row['foto_perfil'],
+                'tipo_usuario' => $row['tipo_usuario'],
+                'contrasena' => $row['contrasena'],
+                'direccion' => $row['direccion'],
+                'favorito' => $row['favorito'],
+                'suspendido' => $row['suspendido'],
+            ];
+        } else {
+            $userProfile = false; // No se encontró el usuario
+        }
+
+        $stmt->close();
+        $this->CloseConnect();
+
+        return $userProfile;
     }
-
-    $stmt->bind_param("i", $userId);
-
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        // Se devuelven los datos del usuario
-        $userProfile = [
-            'nombre_usuario' => $row['nombre_usuario'],
-            'nombre' => $row['nombre'],
-            'apellido_1' => $row['apellido_1'],
-            'apellido_2' => $row['apellido_2'],
-            'correo' => $row['correo'],
-            'telefono' => $row['telefono'],
-            'foto_perfil' => $row['foto_perfil'],
-            'tipo_usuario' => $row['tipo_usuario'],
-            'contrasena' => $row['contrasena'],
-            'direccion' => $row['direccion'],
-            'favorito' => $row['favorito'],
-            'suspendido' => $row['suspendido'],
-        ];
-    } else {
-        $userProfile = false; // No se encontró el usuario
-    }
-
-    $stmt->close();
-    $this->CloseConnect();
-
-    return $userProfile;
-}
 
 
 
@@ -794,6 +794,51 @@ class es_usersModel extends es_usersClass
     }
 
     /************************************************************************************** */
+
+    public function showUserProfile()
+    {
+        $this->OpenConnect(); // Abrir conexión a la base de datos
+
+        $id = $this->getId_usuario(); // Obtener el ID del usuario
+
+        $sql = "SELECT id_usuario, nombre_usuario, contrasena, nombre, apellido_1, apellido_2, correo, telefono, foto_perfil, tipo_usuario, direccion, favorito, suspendido
+            FROM usuarios 
+            WHERE id_usuario = $id";
+
+        $result = $this->link->query($sql); // Ejecutar la consulta
+
+        if ($result) {
+            if ($row = $result->fetch_assoc()) {
+                // Asignar los valores obtenidos desde la base de datos a las propiedades del objeto
+                $this->id_usuario = $row['id_usuario'];
+                $this->nombre_usuario = $row['nombre_usuario'];
+                $this->contrasena = $row['contrasena'];
+                $this->nombre = $row['nombre'];
+                $this->apellido_1 = $row['apellido_1'];
+                $this->apellido_2 = $row['apellido_2'];
+                $this->correo = $row['correo'];
+                $this->telefono = $row['telefono'];
+                $this->foto_perfil = $row['foto_perfil'];
+                $this->tipo_usuario = $row['tipo_usuario'];
+                $this->direccion = $row['direccion'];
+                $this->favorito = $row['favorito'];
+                $this->suspendido = $row['suspendido'];
+
+                $this->CloseConnect(); // Cerrar la conexión
+                return true; // Retornar true si se encuentra el usuario
+            } else {
+                $this->CloseConnect(); // Cerrar la conexión
+                return false; // Retornar false si no se encuentra el usuario
+            }
+        } else {
+            $this->CloseConnect(); // Cerrar la conexión
+            return false; // Retornar false si hay un error en la consulta
+        }
+    }
+
+
+    /************************************************************************************** */
+
 
     public function updateUser()
     {
