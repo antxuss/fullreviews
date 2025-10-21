@@ -757,6 +757,14 @@
     display: block;
   }
   
+  #modal-user-profile-content-form-container-1-username {
+    margin-bottom: 5px; /* Añade espacio debajo del título */
+    display: flex;
+    font-size: 40px;
+    border: none; /* Eliminar el borde */
+    outline: none; /* Eliminar el contorno de enfoque */
+}
+
   
   
   .modal-user-profile-content-form-container-2-info-column-label {

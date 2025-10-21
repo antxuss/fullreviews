@@ -225,16 +225,17 @@ function showUserModal() {
         document.getElementById("user-profile-info-img").src = result.foto_perfil || "../view/img/logoProvisional.jpg";
         document.getElementById("user-profile-info-name").innerText = result.nombre_usuario;
         document.getElementById("modal-user-profile-content-form-container-1-username").innerText = result.nombre_usuario;
+        document.getElementById("modal-user-profile-content-form-container-1-username").value = result.nombre_usuario;
         document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src = result.foto_perfil;
 
         const profileImageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
 
-// Extraer solo el nombre del archivo de la URL
-const imageUrl = result.foto_perfil;
-const imageName = imageUrl ? imageUrl.split('/').pop() : "logoProvisional.jpg"; // Si no hay imagen, usar "logoProvisional.jpg"
+        // Extraer solo el nombre del archivo de la URL
+        const imageUrl = result.foto_perfil;
+        const imageName = imageUrl ? imageUrl.split('/').pop() : "logoProvisional.jpg"; // Si no hay imagen, usar "logoProvisional.jpg"
 
-// Asignar el nombre de la imagen como valor del atributo 'data-profile-image'
-profileImageElement.setAttribute('data-profile-image', imageName);
+        // Asignar el nombre de la imagen como valor del atributo 'data-profile-image'
+        profileImageElement.setAttribute('data-profile-image', imageName);
 
 
         // Actualizamos los inputs con los valores de perfil
@@ -247,21 +248,21 @@ profileImageElement.setAttribute('data-profile-image', imageName);
 
         // Actualizamos la contraseña y tipo de usuario
         // Obtiene la contraseña real
-actualPassword = result.contrasena; 
-console.log("actualPassworddd "+actualPassword);
+        actualPassword = result.contrasena;
+        console.log("actualPassworddd " + actualPassword);
 
-// Encriptar la contraseña
-var encryptedPassword = CryptoJS.AES.encrypt(actualPassword, 'your-secret-key').toString(); 
+        // Encriptar la contraseña
+        var encryptedPassword = CryptoJS.AES.encrypt(actualPassword, 'your-secret-key').toString();
 
-console.log("encryptedPasswordddd "+encryptedPassword);
+        console.log("encryptedPasswordddd " + encryptedPassword);
 
-// Establecer la contraseña encriptada en el input
-document.getElementById("modal-user-profile-password").setAttribute('data-encrypted-password', encryptedPassword);
+        // Establecer la contraseña encriptada en el input
+        document.getElementById("modal-user-profile-password").setAttribute('data-encrypted-password', encryptedPassword);
 
-// Establecer la contraseña real (no visible) en un atributo del input
-document.getElementById("modal-user-profile-password").setAttribute('data-original-password', actualPassword);
+        // Establecer la contraseña real (no visible) en un atributo del input
+        document.getElementById("modal-user-profile-password").setAttribute('data-original-password', actualPassword);
 
-  //SE VEN ** Y NO LA CONTRASEÑA REAL, y data-original-password="********" se ve asi, pinta estar mal
+        //SE VEN ** Y NO LA CONTRASEÑA REAL, y data-original-password="********" se ve asi, pinta estar mal
         document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value = result.tipo_usuario;
 
         // Asignamos el valor del ID al botón "Editar"
@@ -281,23 +282,23 @@ document.getElementById("modal-user-profile-password").setAttribute('data-origin
 
 document.getElementById('toggle-password-visibility').addEventListener('click', function () {
   const passwordInput = document.getElementById("modal-user-profile-password");
-    const currentType = passwordInput.getAttribute('type');
+  const currentType = passwordInput.getAttribute('type');
 
-    if (currentType === 'password') {
-        // Obtener la contraseña encriptada
-        const encryptedPassword = passwordInput.getAttribute('data-encrypted-password');
-        
-        // Desencriptar la contraseña usando la clave secreta
-        const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+  if (currentType === 'password') {
+    // Obtener la contraseña encriptada
+    const encryptedPassword = passwordInput.getAttribute('data-encrypted-password');
 
-        // Mostrar la contraseña desencriptada
-        passwordInput.setAttribute('type', 'text');
-        passwordInput.value = decryptedPassword;
-    } else {
-        // Volver a ocultar la contraseña con asteriscos
-        passwordInput.setAttribute('type', 'password');
-        //passwordInput.value = '********';
-    }
+    // Desencriptar la contraseña usando la clave secreta
+    const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
+
+    // Mostrar la contraseña desencriptada
+    passwordInput.setAttribute('type', 'text');
+    passwordInput.value = decryptedPassword;
+  } else {
+    // Volver a ocultar la contraseña con asteriscos
+    passwordInput.setAttribute('type', 'password');
+    //passwordInput.value = '********';
+  }
 });
 
 
@@ -388,6 +389,15 @@ btnEdit.addEventListener('click', function () {
     input.style.border = "1px solid #ccc"; // Añadir borde en modo edición
   });
 
+  // Habilitar la edición del campo de nombre de usuario manualmente
+  var usernameInput = document.getElementById('modal-user-profile-content-form-container-1-username');
+  if (usernameInput) {
+    originalValues['username'] = usernameInput.value;  // Guardar el valor original
+    usernameInput.removeAttribute('readonly');
+    usernameInput.style.border = "1px solid #ccc";
+    usernameInput.style.backgroundColor = "#fff";
+  }
+
   // Permitir edición de la contraseña
   var passwordInput = document.querySelector('#modal-user-profile-password');
   if (passwordInput) {
@@ -477,6 +487,15 @@ btnExit.addEventListener('click', function () {
     }
   });
 
+  var usernameInput = document.getElementById('modal-user-profile-content-form-container-1-username');
+  if (usernameInput) {
+    usernameInput.value = originalValues['username']; // Restaurar el valor original
+    usernameInput.setAttribute('readonly', true);
+    usernameInput.style.border = "none";
+    usernameInput.style.backgroundColor = "transparent";
+  }
+
+
   // Restaurar el valor original de la contraseña
   var passwordInput = document.querySelector('#modal-user-profile-password');
   if (passwordInput && originalValues[passwordInput.id] !== undefined) {
@@ -539,23 +558,23 @@ function userProfileGenerateUniqueFileName() {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al obtener el nombre único: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.status === 'success') {
-      userProfileUniqueFileName = data.uniqueFileName; // Guardar el nombre en la variable global
-      return userProfileUniqueFileName; // Devolver el nombre único generado
-    } else {
-      throw new Error('Error en la respuesta del servidor: ' + data.message);
-    }
-  })
-  .catch(error => {
-    console.error('Error en la generación del nombre único:', error);
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al obtener el nombre único: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.status === 'success') {
+        userProfileUniqueFileName = data.uniqueFileName; // Guardar el nombre en la variable global
+        return userProfileUniqueFileName; // Devolver el nombre único generado
+      } else {
+        throw new Error('Error en la respuesta del servidor: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error en la generación del nombre único:', error);
+    });
 }
 
 
@@ -567,121 +586,22 @@ var foto_perfil_src;
 
 // Función para guardar los cambios en el perfil de usuario
 var previousProfileImageName = ''; // Asegúrate de tener esta variable en un alcance accesible
-
-// function saveUserProfileChanges() {
-//   // Capturar los valores de los campos del perfil
-//   var nombre = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").value;
-//   var primerApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").value;
-//   var segundoApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").value;
-//   var correo = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").value;
-//   var telefono = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-tlf").value;
-//   var direccion = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-address").value;
-
-//   // Capturar correctamente el valor de la contraseña
-//   const encryptedPassword = document.getElementById("modal-user-profile-password").getAttribute('data-encrypted-password');
-    
-//   // Desencriptar la contraseña justo antes de enviarla
-//   const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
-
-//   // Capturar el tipo de usuario
-//   var tipoUsuario = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value;
-
-//   // Capturar el nombre de usuario
-//   var nombre_usuario = document.getElementById("modal-user-profile-content-form-container-1-username") ? document.getElementById("modal-user-profile-content-form-container-1-username").innerText : null;
-
-//   // Obtener solo el nombre del archivo de la imagen
-//   foto_perfil_src = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src;
-  
-//   // Generar un nombre único para la imagen
-//   var tipo_imagen = foto_perfil_src.split(';')[0].split('/')[1]; // Extraer el tipo de imagen (e.g., 'png')
-//   var nombre_unico = `foto_perfil_${Date.now()}.${tipo_imagen}`;
-
-//   // Llamar al controlador para obtener un nombre único para la foto de perfil
-//   fetch('../controller/user_profile_generate_unique_file_name.php', {  //CUANDO NO CAMBIO LA FOTO DE PERFIL EVITARLO DE ALGUNA FORMA
-//       method: 'POST',
-//       body: JSON.stringify({ fileName: nombre_unico }), // Enviar el nombre único
-//       headers: {
-//           'Content-Type': 'application/json'
-//       }
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Error al llamar al controlador: ' + response.statusText);
-//     }
-//     return response.json();
-//   })
-//   .then(data => {
-//     if (data.status === 'success') {
-//       var foto_perfil = data.uniqueFileName;
-
-//       userProfileUniqueFileName = foto_perfil;
-
-//       // Recuperar el ID del usuario desde el botón "Editar"
-//       var userId = document.getElementById("edit-profile-button").getAttribute('data-id');
-
-//       // Crear objeto con los datos del perfil
-//       var userData = {
-//         'id': userId,
-//         'nombre': nombre,
-//         'primerApellido': primerApellido,
-//         'segundoApellido': segundoApellido,
-//         'correo': correo,
-//         'telefono': telefono,
-//         'direccion': direccion,
-//         'tipo': tipoUsuario,
-//         'nombre_usuario': nombre_usuario,
-//         'password': decryptedPassword,
-//         'foto_perfil': foto_perfil // Usar el nombre único de la imagen
-//       };
-
-//       // Enviar los datos al servidor usando fetch
-//       return fetch('../controller/es/es_update_user.php', {
-//         method: 'POST',
-//         body: JSON.stringify(userData),
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       });
-//     } else {
-//       throw new Error('Error al obtener el nombre único del archivo: ' + data.message);
-//     }
-//   })
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Error al actualizar el perfil: ' + response.statusText);
-//     }
-//     return response.json();
-//   })
-//   .then(result => {
-//     // if (result.success) {
-//       showNotification('Perfil actualizado correctamente', 5000);
-//       // Guardar la imagen en local después de la actualización del perfil
-//       console.log("actualizado!");
-//       userProfileSaveImage();
-      
-//       // Actualiza el nombre de la imagen anterior con el nuevo nombre
-//       var imageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
-//       previousProfileImageName = imageElement.getAttribute('data-profile-image'); // Asumiendo que este atributo se actualiza con el nuevo nombre de archivo
-
-//       var userId = document.getElementById("edit-profile-button").getAttribute('data-id');
-//       fetchUpdatedUserProfile(userId);
-
-//       //deletePreviousProfileImage(foto_perfil_src);
-//     // } else {
-//     //   showNotification('Error al actualizar el perfil', 5000);
-//     // }
-//   })
-//   .catch(error => {
-//     console.error("Error al actualizar el perfil:", error);
-//     showNotification('Error al actualizar el perfil', 5000);
-//   });
-// }
 var profileImageChanged = false; // Variable para indicar si la imagen ha sido cambiada
-
+var nombreUsuarioGlobal = "";
 
 function saveUserProfileChanges() {
   // Capturar los valores de los campos del perfil
   var nombre = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-name").value;
+  var PerfilnombreUsuarioElement = document.getElementById("modal-user-profile-content-form-container-1-username");
+
+  if (PerfilnombreUsuarioElement) {
+    var PerfilnombreUsuario = PerfilnombreUsuarioElement.value.trim(); // Usar .value en lugar de .textContent
+    nombreUsuarioGlobal = PerfilnombreUsuario;
+    console.log("nombreUsuarioGlobal:", nombreUsuarioGlobal);
+  } else {
+    console.error("El elemento con id 'modal-user-profile-content-form-container-1-username' no se encontró.");
+  }
+
   var primerApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-first-last-name").value;
   var segundoApellido = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-second-last-name").value;
   var correo = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-mail").value;
@@ -693,7 +613,7 @@ function saveUserProfileChanges() {
   const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'your-secret-key').toString(CryptoJS.enc.Utf8);
 
   var tipoUsuario = document.getElementById("modal-user-profile-content-form-container-2-info-column-label-user-type").value;
-  var nombre_usuario = document.getElementById("modal-user-profile-content-form-container-1-username") ? document.getElementById("modal-user-profile-content-form-container-1-username").innerText : null;
+  // var nombre_usuario = document.getElementById("modal-user-profile-content-form-container-1-username") ? document.getElementById("modal-user-profile-content-form-container-1-username").innerText : null;
 
   // Obtener el src actual de la imagen de perfil
   var currentProfileImageSrc = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img").src;
@@ -705,45 +625,45 @@ function saveUserProfileChanges() {
 
   // Verificar si la imagen ha cambiado comparando el nombre de archivo
   // Verificar si la imagen ha cambiado comparando el nombre de archivo
-if (currentProfileImageName !== originalProfileImageSrc) {
-  profileImageChanged = true; // La imagen ha sido cambiada
+  if (currentProfileImageName !== originalProfileImageSrc) {
+    profileImageChanged = true; // La imagen ha sido cambiada
 
-  // La imagen ha cambiado, generar un nuevo nombre único para la imagen
-  var tipo_imagen = currentProfileImageSrc.split(';')[0].split('/')[1]; // Extraer el tipo de imagen (e.g., 'png')
-  var nombre_unico = `foto_perfil_${Date.now()}.${tipo_imagen}`;
+    // La imagen ha cambiado, generar un nuevo nombre único para la imagen
+    var tipo_imagen = currentProfileImageSrc.split(';')[0].split('/')[1]; // Extraer el tipo de imagen (e.g., 'png')
+    var nombre_unico = `foto_perfil_${Date.now()}.${tipo_imagen}`;
 
-  // Llamar al controlador para obtener un nombre único para la foto de perfil
-  fetch('../controller/user_profile_generate_unique_file_name.php', {
-    method: 'POST',
-    body: JSON.stringify({ fileName: nombre_unico }), // Enviar el nombre único
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al llamar al controlador: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.status === 'success') {
-      // Asignar el nombre único a la variable global y continuar con la actualización
-      userProfileUniqueFileName = data.uniqueFileName;
-      guardarPerfil(userProfileUniqueFileName, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombre_usuario, decryptedPassword);
-    } else {
-      throw new Error('Error al obtener el nombre único del archivo: ' + data.message);
-    }
-  })
-  .catch(error => {
-    console.error("Error al actualizar el perfil:", error);
-    showNotification('Error al actualizar el perfil', 5000);
-  });
-} else {
-  profileImageChanged = false; // La imagen no ha sido cambiada
-  // La imagen no ha cambiado, usa el nombre de la imagen existente
-  guardarPerfil(originalProfileImageSrc, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombre_usuario, decryptedPassword);
-}
+    // Llamar al controlador para obtener un nombre único para la foto de perfil
+    fetch('../controller/user_profile_generate_unique_file_name.php', {
+      method: 'POST',
+      body: JSON.stringify({ fileName: nombre_unico }), // Enviar el nombre único
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al llamar al controlador: ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          // Asignar el nombre único a la variable global y continuar con la actualización
+          userProfileUniqueFileName = data.uniqueFileName;
+          guardarPerfil(userProfileUniqueFileName, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombreUsuarioGlobal, decryptedPassword);
+        } else {
+          throw new Error('Error al obtener el nombre único del archivo: ' + data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error al actualizar el perfil:", error);
+        showNotification('Error al actualizar el perfil', 5000);
+      });
+  } else {
+    profileImageChanged = false; // La imagen no ha sido cambiada
+    // La imagen no ha cambiado, usa el nombre de la imagen existente
+    guardarPerfil(originalProfileImageSrc, nombre, primerApellido, segundoApellido, correo, telefono, direccion, tipoUsuario, nombreUsuarioGlobal, decryptedPassword);
+  }
 
 }
 
@@ -770,9 +690,9 @@ function guardarPerfil(foto_perfil, nombre, primerApellido, segundoApellido, cor
       'Content-Type': 'application/json'
     }
   })
-  .then(response => response.json())
-  .then(result => {
-    // if (result.success) {
+    .then(response => response.json())
+    .then(result => {
+      // if (result.success) {
       showNotification('Perfil actualizado correctamente', 5000);
 
       // Solo guardar la imagen si cambió
@@ -781,21 +701,90 @@ function guardarPerfil(foto_perfil, nombre, primerApellido, segundoApellido, cor
       }
 
       fetchUpdatedUserProfile(userId); // Actualizar el perfil
-    // } else {
-    //   showNotification('Error al actualizar el perfil', 5000);
-    // }
-  })
-  .catch(error => {
-    console.error("Error al actualizar el perfil:", error);
-    showNotification('Error al actualizar el perfil', 5000);
-  });
+      const inputIds = [
+        'modal-user-profile-content-form-container-1-username',
+        'modal-user-profile-content-form-container-2-info-column-label-name',
+        'modal-user-profile-content-form-container-2-info-column-label-first-last-name',
+        'modal-user-profile-content-form-container-2-info-column-label-second-last-name',
+        'modal-user-profile-content-form-container-2-info-column-label-mail',
+        'modal-user-profile-content-form-container-2-info-column-label-tlf',
+        'modal-user-profile-content-form-container-2-info-column-label-address'
+      ];
+
+      // Hacer todos los campos de entrada solo lectura y sin borde
+      inputIds.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+          input.readOnly = true;
+          input.style.border = "none";
+          input.style.backgroundColor = "transparent";
+        }
+      });
+
+      // Configuración específica para la contraseña
+      const passwordInput = document.getElementById('modal-user-profile-password');
+      if (passwordInput) {
+        passwordInput.readOnly = true;
+        passwordInput.style.border = "none";
+        passwordInput.style.backgroundColor = "transparent";
+      }
+
+      // Convertir el tipo de usuario a solo lectura y sin borde visual al hacer clic
+      const userTypeInput = document.getElementById('modal-user-profile-content-form-container-2-info-column-label-user-type');
+      if (userTypeInput && userTypeInput.tagName === 'SELECT') {
+        const selectedUserType = userTypeInput.value;
+        const textUserType = document.createElement('input');
+        textUserType.type = 'text';
+        textUserType.id = 'modal-user-profile-content-form-container-2-info-column-label-user-type';
+        textUserType.value = selectedUserType;
+        textUserType.readOnly = true;
+        textUserType.style.border = "none";
+        textUserType.style.backgroundColor = "transparent";
+        textUserType.style.outline = "none"; // Evita borde de foco
+        userTypeInput.parentNode.replaceChild(textUserType, userTypeInput);
+      } else if (userTypeInput) {
+        userTypeInput.readOnly = true;
+        userTypeInput.style.border = "none";
+        userTypeInput.style.backgroundColor = "transparent";
+        userTypeInput.style.outline = "none"; // Evita borde de foco
+      }
+
+      // Deshabilitar y ocultar iconos de overlay en la foto de perfil
+      const editIcon = document.getElementById('edit-profile-image-icon');
+      const deleteIcon = document.getElementById('delete-profile-image-icon');
+      if (editIcon) editIcon.style.display = "none";
+      if (deleteIcon) deleteIcon.style.display = "none";
+
+      // Ocultar los botones "Guardar" y "Salir", mostrar solo el botón "Editar"
+      document.getElementById('save-profile-button').style.display = "none";
+      document.getElementById('exit-edit-mode-button').style.display = "none";
+      document.getElementById('edit-profile-button').style.display = "flex";
+
+      const profileImageOverlay = document.getElementById('overlay-user-profile-edit');
+      if (profileImageOverlay) {
+        profileImageOverlay.style.display = "none";
+      }
+
+      //FALTA QUE NO SE VEA EL OVERLAY
+
+      // } else {
+      //   showNotification('Error al actualizar el perfil', 5000);
+      // }
+    })
+    .catch(error => {
+      console.error("Error al actualizar el perfil:", error);
+      showNotification('Error al actualizar el perfil', 5000);
+    });
 }
 
-
+//TODO PARECE QUE FUNCIONA BIEN, AL CAMBIAR LA FOTO DE PERFIL SIEMPRE SE BORRA LA ANTERIOR,CREA NUEVA IMAGENES Y SE ACTUALIZA EL DB, Y CUANDO NO CAMBIO LA FOTO SE QUEDA IGUAL, AHORA HASTA DE ACTUALIZA EL USERLIST Y MENU USER
+//DESPUES DE GUARDAR CAMBIOS, (((CREO))) QUE NO ENSEÑA BIEN LOS CAMBIOS, AL DARLE EDITAR Y SALIR, CHECKEAR
+//FALTA QUE AL GUARDAR CAMBIOS SE CIERRE EL MODO EDICION AUTOMATICAMENTE Y QUE CUANDO ESTE RECORTANDO UNA FOTO NO ENSEÑE LOS BOTONES DE GUARDAR Y SALIR DE LA PARTE DEL PERFIL, SOLO LOS BOTONES DE LA PARTE DE RECORTAR
+//SI ESO CHECKEAR Y EMPEZAR PAGINA INICIO(HTML) PARA RELAX
 
 function fetchUpdatedUserProfile(userId) {
-  console.log("fetchUpdatedUserProfileeee ");
-  
+  console.log("Ejecutando fetchUpdatedUserProfile");
+
   return fetch('../controller/user_profile_refresh_profile_save.php', {
     method: 'POST',
     body: JSON.stringify({ "id": userId }),
@@ -803,48 +792,67 @@ function fetchUpdatedUserProfile(userId) {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al obtener los datos del perfil: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.status === 'success') {
-    
-      // Actualizar la imagen de perfil y su atributo data-profile-image
-      var imageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
-      
-      // Ruta completa de la imagen (Ajusta esta ruta según sea necesario)
-      var fullImageSrc = data.foto_perfil;
-
-      console.log("fetchUpdatedUserProfileeee fullImageSrccc "+data.foto_perfil);
-      
-      // Extraer el nombre del archivo de la ruta completa
-      var imageName = data.foto_perfil.split('/').pop(); // Solo el nombre del archivo
-    
-      // Actualizar el src con la ruta completa y el atributo data-profile-image con el nombre de archivo
-      imageElement.src = fullImageSrc; // Actualiza la ruta completa de la imagen
-      imageElement.setAttribute('data-profile-image', imageName); // Actualiza solo el nombre del archivo
-    
-      // Actualizar previousProfileImageName con el nuevo nombre de imagen
-      previousProfileImageName = imageName;
-
-      // Borra la imagen anterior si existe y si se ha actualizado la imagen de perfil
-      if (data.previous_foto_perfil && data.previous_foto_perfil !== imageName) {
-        console.log("Eliminando imagen anterior: " + data.previous_foto_perfil);
-        deletePreviousImage(data.previous_foto_perfil);
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al obtener los datos del perfil: ' + response.statusText);
       }
-      
-      console.log("Perfil actualizado con éxito. Nombre de la imagen: " + imageName);
-    } else {
-      throw new Error('Error al obtener los datos actualizados: ' + data.message);
-    }
-  })
-  .catch(error => {
-    console.error('Error al obtener los datos actualizados del perfil:', error);
-  });
+      return response.json();
+    })
+    .then(data => {
+      if (data.status === 'success') {
+
+        // Actualizar la imagen de perfil en el modal
+        var imageElement = document.getElementById("modal-user-profile-content-form-container-2-user-profile-img");
+        var fullImageSrc = data.foto_perfil;
+        var imageName = data.foto_perfil.split('/').pop();
+
+        imageElement.src = fullImageSrc;
+        imageElement.setAttribute('data-profile-image', imageName);
+        previousProfileImageName = imageName;
+
+        // Actualizar el "menu user"
+        var menuUserImage = document.querySelector("#user-profile-info-img");
+        var menuUserName = document.querySelector("#user-profile-info-name");
+        console.log("nombreUsuarioGloball2 " + nombreUsuarioGlobal);
+
+        if (menuUserImage) {
+          menuUserImage.src = fullImageSrc;
+          console.log("Imagen de 'user profile info' actualizada.");
+        }
+        if (menuUserName) {
+          menuUserName.textContent = nombreUsuarioGlobal || "Usuario";
+          console.log("Nombre de 'user profile info' actualizado.");
+        }
+
+        console.log("Perfil, menú y lista de usuarios actualizados correctamente.");
+
+        // Borra la imagen anterior si existe y si se ha actualizado
+        if (data.previous_foto_perfil && data.previous_foto_perfil !== imageName) {
+          console.log("Eliminando imagen anterior: " + data.previous_foto_perfil);
+          deletePreviousImage(data.previous_foto_perfil);
+        }
+
+        // Vaciar el contenido del div con id "control-panel-content-list"
+        var userListContainer = document.getElementById("control-panel-content-list");
+        if (userListContainer) {
+          userListContainer.innerHTML = ""; // Vacía el contenido
+          console.log("Contenido del 'control-panel-content-list' vaciado.");
+        } else {
+          console.error("El elemento con id 'control-panel-content-list' no se encontró.");
+        }
+
+        // Llamar a la función que recarga la lista
+        usersList();
+
+      } else {
+        throw new Error('Error al obtener los datos actualizados: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error al obtener los datos actualizados del perfil:', error);
+    });
 }
+
 
 // Función para eliminar la imagen anterior en el servidor
 function deletePreviousImage(imageName) {
@@ -855,22 +863,22 @@ function deletePreviousImage(imageName) {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al eliminar la imagen: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    if (data.status === 'success') {
-      console.log("Imagen anterior eliminada con éxito: " + imageName);
-    } else {
-      console.error("Error al eliminar la imagen anterior: " + data.message);
-    }
-  })
-  .catch(error => {
-    console.error('Error al eliminar la imagen anterior:', error);
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Error al eliminar la imagen: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.status === 'success') {
+        console.log("Imagen anterior eliminada con éxito: " + imageName);
+      } else {
+        console.error("Error al eliminar la imagen anterior: " + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error al eliminar la imagen anterior:', error);
+    });
 }
 
 
@@ -894,8 +902,8 @@ function initCropper(event) {
       viewMode: 2,
       ready: function () {
         document.getElementById('overlay-user-profile-edit').style.display = 'none';
-        document.getElementById('cancel-button').style.display = 'inline-block';
-        document.getElementById('save-button').style.display = 'inline-block';
+        document.getElementById('cancel-button').style.display = 'flex';
+        document.getElementById('save-button').style.display = 'flex';
       }
     });
   };
@@ -970,39 +978,39 @@ function userProfileSaveImage() {
       method: 'POST',
       body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        // Actualizar la imagen de perfil con la nueva imagen
-        var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
-        image.src = URL.createObjectURL(croppedImageBlob); // Mostrar la imagen recortada en el perfil
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Actualizar la imagen de perfil con la nueva imagen
+          var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
+          image.src = URL.createObjectURL(croppedImageBlob); // Mostrar la imagen recortada en el perfil
 
-        deletePreviousProfileImage();
+          deletePreviousProfileImage();
 
-        // Limpiar el cropper
-        if (cropper) {
-          cropper.destroy();
-          cropper = null;
+          // Limpiar el cropper
+          if (cropper) {
+            cropper.destroy();
+            cropper = null;
+          }
+
+          // Mostrar el overlay y ocultar botones de guardar/cancelar
+          document.getElementById('overlay-user-profile-edit').style.display = 'flex';
+          document.getElementById('cancel-button').style.display = 'none';
+          document.getElementById('save-button').style.display = 'none';
+
+          // Reiniciar el input de imagen
+          document.getElementById('editImageInputEdit').value = null;
+
+          // Mostrar mensaje de éxito
+          showNotification('Imagen guardada correctamente', 5000);
+        } else {
+          throw new Error('Error al guardar la imagen: ' + data.message);
         }
-
-        // Mostrar el overlay y ocultar botones de guardar/cancelar
-        document.getElementById('overlay-user-profile-edit').style.display = 'flex';
-        document.getElementById('cancel-button').style.display = 'none';
-        document.getElementById('save-button').style.display = 'none';
-
-        // Reiniciar el input de imagen
-        document.getElementById('editImageInputEdit').value = null;
-
-        // Mostrar mensaje de éxito
-        showNotification('Imagen guardada correctamente', 5000);
-      } else {
-        throw new Error('Error al guardar la imagen: ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error("Error al guardar la imagen:", error);
-      showNotification('Error al guardar la imagen', 5000);
-    });
+      })
+      .catch(error => {
+        console.error("Error al guardar la imagen:", error);
+        showNotification('Error al guardar la imagen', 5000);
+      });
   } else {
     // Si no hay imagen recortada, no realizar ninguna acción relacionada con la imagen
     console.log("No se ha recortado ninguna imagen, omitiendo guardado de imagen.");
@@ -1014,10 +1022,10 @@ function userProfileSaveImage() {
 function dataURLtoBlob(dataurl) {
   var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-  while(n--){
+  while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
   }
-  return new Blob([u8arr], {type: mime});
+  return new Blob([u8arr], { type: mime });
 }
 
 
@@ -1034,17 +1042,17 @@ function deletePreviousProfileImage() {
         'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        console.log("Imagen anterior eliminada con éxito:", data.success);
-      } else {
-        console.error("Error al eliminar la imagen anterior:", data.error);
-      }
-    })
-    .catch(error => {
-      console.error("Error en la solicitud para eliminar la imagen anterior:", error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log("Imagen anterior eliminada con éxito:", data.success);
+        } else {
+          console.error("Error al eliminar la imagen anterior:", data.error);
+        }
+      })
+      .catch(error => {
+        console.error("Error en la solicitud para eliminar la imagen anterior:", error);
+      });
   } else {
     console.log("No hay imagen anterior para eliminar.");
   }
@@ -1067,7 +1075,7 @@ function userProfileCancelCrop() {
 
     // Revertir la imagen al estado original (antes de cualquier recorte)
     var image = document.getElementById('modal-user-profile-content-form-container-2-user-profile-img');
-    
+
     // Siempre revertimos a la imagen original, ignorando cualquier cambio
     if (originalImageSrc) {
       image.src = originalImageSrc;  // Revertir a la imagen original
@@ -1216,8 +1224,8 @@ function actionExitEditUserProfile() {
     'modal-user-profile-content-form-container-2-info-column-label-second-last-name',
     'modal-user-profile-content-form-container-2-info-column-label-mail',
     'modal-user-profile-content-form-container-2-info-column-label-tlf',
-    'modal-user-profile-content-form-container-2-info-column-label-user-type',
-    'modal-user-profile-content-form-container-2-info-column-label-address'
+    'modal-user-profile-content-form-container-2-info-column-label-address',
+    'modal-user-profile-content-form-container-1-username'
   ];
 
   inputIds.forEach(function (inputId) {
@@ -1239,7 +1247,7 @@ function actionExitEditUserProfile() {
     inputElement.className = 'modal-add-user-content-form-column-3-input';
     inputElement.setAttribute('readonly', 'readonly');
     inputElement.value = selectedValue;
-    inputElement.style.width = '90%';  
+    inputElement.style.width = '90%';
     inputElement.style.border = 'none';
     userTypeSelect.parentNode.replaceChild(inputElement, userTypeSelect);
   }
@@ -1260,7 +1268,7 @@ function actionExitEditUserProfile() {
   // Comprobar si hay una imagen eliminada para restaurar
   if (deletedProfileImageSrc) {
     image.src = deletedProfileImageSrc;  // Restaurar a la imagen eliminada
-    console.log("Restaurando imagen original: " + deletedProfileImageSrc); 
+    console.log("Restaurando imagen original: " + deletedProfileImageSrc);
   } else {
     console.log("No hay imagen original para restaurar.");
   }
@@ -1280,15 +1288,15 @@ function actionExitEditUserProfile() {
   document.getElementById('editImageInputEdit').value = null;
 
   // Limpiar cualquier variable relacionada con imágenes
-  croppedImageSrc = null; 
-  croppedImageBlob = null; 
+  croppedImageSrc = null;
+  croppedImageBlob = null;
 
   // Restablecer la contraseña al valor original
   var passwordInput = document.getElementById('modal-user-profile-password');
   if (passwordInput) {
-    passwordInput.value = '********'; 
+    passwordInput.value = '********';
     passwordInput.setAttribute('readonly', 'readonly');
-    passwordInput.setAttribute('type', 'password'); 
+    passwordInput.setAttribute('type', 'password');
     passwordInput.style.border = "none";
     passwordInput.style.backgroundColor = "#f9f9f9";
   }
